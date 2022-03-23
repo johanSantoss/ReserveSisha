@@ -8,24 +8,24 @@ import android.view.View
 import android.view.ViewGroup
 import johan.santos.reservesisha.R
 
-class ReservaFragment : Fragment() {
+class BookingFragment : Fragment() {
 
     companion object {
-        fun newInstance() = ReservaFragment()
+        fun newInstance() = BookingFragment()
     }
 
-    private lateinit var viewModel: ReservaViewModel
+    private lateinit var viewModel: BookingViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.reserva_fragment, container, false)
+        return inflater.inflate(R.layout.booking_fragment, container, false)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProvider(this).get(ReservaViewModel::class.java)
+        viewModel = ViewModelProvider(this).get(BookingViewModel::class.java)
         // TODO: Use the ViewModel
     }
 

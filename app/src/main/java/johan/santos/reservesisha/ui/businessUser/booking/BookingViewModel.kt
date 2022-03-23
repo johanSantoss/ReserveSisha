@@ -2,6 +2,6 @@ package johan.santos.reservesisha.ui.businessUser.booking
 
 import androidx.lifecycle.ViewModel
 
-class ReservaViewModel : ViewModel() {
+class BookingViewModel : ViewModel() {
     // TODO: Implement the ViewModel
 }

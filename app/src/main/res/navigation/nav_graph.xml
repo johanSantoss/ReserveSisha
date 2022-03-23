@@ -9,5 +9,157 @@
         android:id="@+id/loginFragment"
         android:name="johan.santos.reservesisha.ui.access.LoginFragment"
         android:label="login_fragment"
-        tools:layout="@layout/login_fragment" />
+        tools:layout="@layout/login_fragment" >
+        <action
+            android:id="@+id/action_loginFragment_to_registreFragment"
+            app:destination="@id/registreFragment" />
+        <action
+            android:id="@+id/action_loginFragment_to_adminMainFragment"
+            app:destination="@id/adminMainFragment" />
+        <action
+            android:id="@+id/action_loginFragment_to_businessMainFragment"
+            app:destination="@id/businessMainFragment" />
+        <action
+            android:id="@+id/action_loginFragment_to_userMainFragment"
+            app:destination="@id/userMainFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/registreFragment"
+        android:name="johan.santos.reservesisha.ui.access.RegistreFragment"
+        android:label="registre_fragment"
+        tools:layout="@layout/registre_fragment" >
+        <action
+            android:id="@+id/action_registreFragment_to_loginFragment"
+            app:destination="@id/loginFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/userMainFragment"
+        android:name="johan.santos.reservesisha.ui.usuallyUser.userMainFragment"
+        android:label="user_main_fragment"
+        tools:layout="@layout/user_main_fragment" >
+        <action
+            android:id="@+id/action_userMainFragment_to_businessFragment"
+            app:destination="@id/businessFragment" />
+        <action
+            android:id="@+id/action_userMainFragment_to_manageBookingFragment"
+            app:destination="@id/manageBookingFragment" />
+        <action
+            android:id="@+id/action_userMainFragment_to_configUserFragment"
+            app:destination="@id/configUserFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/adminMainFragment"
+        android:name="johan.santos.reservesisha.ui.adminUser.AdminMainFragment"
+        android:label="admin_main_fragment"
+        tools:layout="@layout/admin_main_fragment" >
+        <action
+            android:id="@+id/action_adminMainFragment_to_manageUsersFragment"
+            app:destination="@id/manageUsersFragment" />
+        <action
+            android:id="@+id/action_adminMainFragment_to_configAdminFragment"
+            app:destination="@id/configAdminFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/businessMainFragment"
+        android:name="johan.santos.reservesisha.ui.businessUser.BusinessMainFragment"
+        android:label="business_main_fragment"
+        tools:layout="@layout/business_main_fragment" >
+        <action
+            android:id="@+id/action_businessMainFragment_to_bookingFragment"
+            app:destination="@id/bookingFragment" />
+        <action
+            android:id="@+id/action_businessMainFragment_to_configBusinessFragment"
+            app:destination="@id/configBusinessFragment" />
+        <action
+            android:id="@+id/action_businessMainFragment_to_manageRatesFragment"
+            app:destination="@id/manageRatesFragment" />
+        <action
+            android:id="@+id/action_businessMainFragment_to_manageTablesFragment"
+            app:destination="@id/manageTablesFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/configAdminFragment"
+        android:name="johan.santos.reservesisha.ui.adminUser.configAdmin.ConfigAdminFragment"
+        android:label="config_admin_fragment"
+        tools:layout="@layout/config_admin_fragment" />
+    <fragment
+        android:id="@+id/manageUsersFragment"
+        android:name="johan.santos.reservesisha.ui.adminUser.manageUsers.ManageUsersFragment"
+        android:label="manage_users_fragment"
+        tools:layout="@layout/manage_users_fragment" >
+        <action
+            android:id="@+id/action_manageUsersFragment_to_configUsersFragment"
+            app:destination="@id/configUsersFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/configUsersFragment"
+        android:name="johan.santos.reservesisha.ui.adminUser.manageUsers.configUser.ConfigUsersFragment"
+        android:label="config_users_fragment"
+        tools:layout="@layout/config_users_fragment" />
+    <fragment
+        android:id="@+id/bookingFragment"
+        android:name="johan.santos.reservesisha.ui.businessUser.booking.BookingFragment"
+        android:label="booking_fragment"
+        tools:layout="@layout/booking_fragment" />
+    <fragment
+        android:id="@+id/configBusinessFragment"
+        android:name="johan.santos.reservesisha.ui.businessUser.configBusiness.ConfigBusinessFragment"
+        android:label="config_business_fragment"
+        tools:layout="@layout/config_business_fragment" />
+    <fragment
+        android:id="@+id/manageRatesFragment"
+        android:name="johan.santos.reservesisha.ui.businessUser.manageRates.ManageRatesFragment"
+        android:label="manage_rates_fragment"
+        tools:layout="@layout/manage_rates_fragment" >
+        <action
+            android:id="@+id/action_manageRatesFragment_to_configRateFragment"
+            app:destination="@id/configRateFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/manageTablesFragment"
+        android:name="johan.santos.reservesisha.ui.businessUser.manageTables.ManageTablesFragment"
+        android:label="manage_tables_fragment"
+        tools:layout="@layout/manage_tables_fragment" >
+        <action
+            android:id="@+id/action_manageTablesFragment_to_configTableFragment"
+            app:destination="@id/configTableFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/configRateFragment"
+        android:name="johan.santos.reservesisha.ui.businessUser.manageRates.configRate.ConfigRateFragment"
+        android:label="config_rate_fragment"
+        tools:layout="@layout/config_rate_fragment" />
+    <fragment
+        android:id="@+id/configTableFragment"
+        android:name="johan.santos.reservesisha.ui.businessUser.manageTables.configTable.ConfigTableFragment"
+        android:label="config_table_fragment"
+        tools:layout="@layout/config_table_fragment" />
+    <fragment
+        android:id="@+id/businessFragment"
+        android:name="johan.santos.reservesisha.ui.usuallyUser.business.BusinessFragment"
+        android:label="business_fragment"
+        tools:layout="@layout/business_fragment" >
+        <action
+            android:id="@+id/action_businessFragment_to_configBookingFragment"
+            app:destination="@id/configBookingFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/configUserFragment"
+        android:name="johan.santos.reservesisha.ui.usuallyUser.config.ConfigUserFragment"
+        android:label="config_user_fragment"
+        tools:layout="@layout/config_user_fragment" />
+    <fragment
+        android:id="@+id/manageBookingFragment"
+        android:name="johan.santos.reservesisha.ui.usuallyUser.manageBooking.ManageBookingFragment"
+        android:label="manage_booking_fragment"
+        tools:layout="@layout/manage_booking_fragment" >
+        <action
+            android:id="@+id/action_manageBookingFragment_to_configBookingFragment"
+            app:destination="@id/configBookingFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/configBookingFragment"
+        android:name="johan.santos.reservesisha.ui.usuallyUser.manageBooking.configBooking.ConfigBookingFragment"
+        android:label="config_booking_fragment"
+        tools:layout="@layout/config_booking_fragment" />
 </navigation>
