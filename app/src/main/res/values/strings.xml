@@ -1,3 +1,26 @@
 <resources>
     <string name="app_name">ReserveSisha</string>
+
+
+    <!-- Sync contents -->
+    <string name="emailLogin">Email</string>
+    <string name="passwordLogin">Password</string>
+    <string name="passwordLogin2">Repeat Password</string>
+    <string name="clearRegister">Clear Text</string>
+    <string name="register">Registra</string>
+    <string name="loginButton">INICIAR SESIÓN</string>
+    <string name="registerText">¿TODAVÍA NO ERES USUARIO?</string>
+    <!-- Registre -->
+    <string name="noms">Nom amb cognoms</string>
+    <string name="edat">Inserir edat</string>
+    <string name="sexe1">Dona</string>
+    <string name="sexe2">Home</string>
+    <string name="ciutat">Inserir la vostra ciutat</string>
+    <string name="emailRegister">Inserir un email…</string>
+    <string name="passwordRegister">Password…</string>
+    <string name="passwordRegister2">Torna a repetir el password!</string>
+
+
+
+
 </resources>
