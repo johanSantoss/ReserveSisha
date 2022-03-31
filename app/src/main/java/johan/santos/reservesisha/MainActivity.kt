@@ -26,11 +26,6 @@ class MainActivity : AppCompatActivity() {
 
         auth = Firebase.auth
 
-        if (savedInstanceState == null) {
-            supportFragmentManager.beginTransaction()
-                .replace(R.id.container, LoginFragment.newInstance())
-                .commitNow()
-        }
 
 
     }
