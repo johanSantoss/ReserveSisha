@@ -1,7 +1,9 @@
 package johan.santos.reservesisha
 
+import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.Toast
 import androidx.navigation.ui.AppBarConfiguration
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
@@ -23,6 +25,10 @@ class MainActivity : AppCompatActivity() {
         auth = Firebase.auth
 
 
+    }
+
+    fun toastView(message : CharSequence){
+        Toast.makeText(applicationContext, message, Toast.LENGTH_LONG).show()
     }
 
     fun disableMenus() {

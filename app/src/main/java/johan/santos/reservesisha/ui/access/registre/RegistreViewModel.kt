@@ -13,8 +13,15 @@ class RegistreViewModel : ViewModel() {
         _nom.value = userName
     }
 
+    // cognom
+    private val _cognom = MutableLiveData<String>("")
+    val cognom: LiveData<String> get() = _cognom
+    fun setCognom (userCognoms : String){
+        _cognom.value = userCognoms
+    }
+
     // edat
-    private val _edat = MutableLiveData<String>("")
+    private val _edat = MutableLiveData<String>()
     val edat: LiveData<String> get() = _edat
     fun setEdatUser (edatUser : String){
         _edat.value = edatUser
@@ -32,6 +39,20 @@ class RegistreViewModel : ViewModel() {
     val ciutat: LiveData<String> get() = _ciutat
     fun setCiutatUser (ciutatUser : String){
         _ciutat.value = ciutatUser
+    }
+
+    // data de naixement
+    private val _dataNaixement = MutableLiveData<String>("")
+    val dataNaixement: LiveData<String> get() = _dataNaixement
+    fun setDataNaixement (dataNaixement : String){
+        _dataNaixement.value = dataNaixement
+    }
+
+    // nom d'usuari
+    private val _nomUsuari = MutableLiveData<String>("")
+    val nomUsuari: LiveData<String> get() = _nomUsuari
+    fun setNomUsuari (nomUsuari : String){
+        _nomUsuari.value = nomUsuari
     }
 
     // mail

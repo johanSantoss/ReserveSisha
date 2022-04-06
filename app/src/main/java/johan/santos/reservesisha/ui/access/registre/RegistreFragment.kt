@@ -17,6 +17,7 @@ import com.google.firebase.ktx.Firebase
 import johan.santos.reservesisha.MainActivity
 import johan.santos.reservesisha.R
 import johan.santos.reservesisha.databinding.RegistreFragmentBinding
+import johan.santos.reservesisha.ui.access.models.User_Current
 
 class RegistreFragment : Fragment() {
 
@@ -47,22 +48,10 @@ class RegistreFragment : Fragment() {
         database = FirebaseDatabase.getInstance("https://reservesisha96-default-rtdb.europe-west1.firebasedatabase.app/")
 
         binding.btnNewRegister.setOnClickListener {
-
-            if (binding.editTextName.text == null ) {
-                Toast.makeText(activity, "Falta nombre!", Toast.LENGTH_SHORT).show()
-            } else if (binding.editTextEdat.text == null) {
-                Toast.makeText(activity, "Falta la edat!", Toast.LENGTH_SHORT).show()
-            } else if (binding.radioGroupRegistre.checkedRadioButtonId == null ){
-                Toast.makeText(activity, "Falta sexo!", Toast.LENGTH_SHORT).show()
-            } else if (binding.editTextCiutat.text == null ){
-                Toast.makeText(activity, "Falta la ciudad!", Toast.LENGTH_SHORT).show()
-            } else if (binding.editTextEmailRegister.text == null){
-                Toast.makeText(activity, "Falta la cuidad!", Toast.LENGTH_SHORT).show()
-            } else if (binding.editTextPassword.text == null ){
-                Toast.makeText(activity, "Falta introducir la contraseña", Toast.LENGTH_SHORT).show()
-            } else if (binding.editTextPassword2.text == null ){
-                Toast.makeText(activity, "Falta repetir la contraseña", Toast.LENGTH_SHORT).show()
-            } else {
+            val missatge = controlDadesRegistre()
+            if (missatge != null)
+                (activity as MainActivity).toastView(missatge)
+            else {
                 saveDatesUserViewModel()
                 viewModel.setEstadoRegistro(1)
                 createAccount(viewModel.email.value.toString(), viewModel.password.value.toString(), viewModel.password2.value.toString())
@@ -96,7 +85,7 @@ class RegistreFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProvider(this).get(RegisterViewModel::class.java)
+        viewModel = ViewModelProvider(this).get(RegistreViewModel::class.java)
         // TODO: Use the ViewModel
     }
 
@@ -110,21 +99,21 @@ class RegistreFragment : Fragment() {
                         // Sign in success, update UI with the signed-in user's information
                         Log.d(TAG, "createUserWithEmail:success")
 //                        val user = (activity as MainActivity).getAuth().currentUser
-                        Toast.makeText(activity, "Register success!", Toast.LENGTH_SHORT).show()
+                        (activity as MainActivity).toastView("Success Registre!")
                         // guardar los datos en la DDBB
                         saveDatesUserDataBase()
                         // go to login fragment
-                        val action = RegisterDirections.actionRegisterToLogin()
+                        val action = RegistreFragmentDirections.actionRegistreFragmentToLoginFragment()
                         NavHostFragment.findNavController(this).navigate(action)
                     } else {
                         // If sign in fails, display a message to the user.
                         Log.w(TAG, "createUserWithEmail:failure", task.exception)
-                        Toast.makeText(activity, "Register failed.", Toast.LENGTH_SHORT).show()
+                        (activity as MainActivity).toastView("Failed Registre!")
                     }
                 }
             // [END create_user_with_email]
         } else {
-            Toast.makeText(activity, "Passwords not equals .", Toast.LENGTH_SHORT).show()
+            (activity as MainActivity).toastView("Passwords not equals!")
         }
     }
     private fun restaurarDatos(){
@@ -147,16 +136,12 @@ class RegistreFragment : Fragment() {
         binding.editTextPassword2.text.clear()
     }
 
-    data class DatosUsuari(
-        var nom: String,
-        var edat: String,
-        var sexe: String,
-        var ciutat: String,
-        var email: String,
-    )
     private fun saveDatesUserViewModel(){
         if (binding.editTextName.text != null){
             viewModel.setNom(binding.editTextName.text.toString().trim())
+        }
+        if (binding.editTextCognom.text != null){
+            viewModel.setCognom(binding.editTextCognom.text.toString().trim())
         }
         if (binding.editTextEdat.text != null){
             viewModel.setEdatUser(binding.editTextEdat.text.toString().trim())
@@ -166,6 +151,12 @@ class RegistreFragment : Fragment() {
         }
         if (binding.editTextCiutat.text != null){
             viewModel.setCiutatUser(binding.editTextCiutat.text.toString().trim())
+        }
+        if (binding.editTextDataNaixement.text != null){
+            viewModel.setDataNaixement(binding.editTextDataNaixement.text.toString().trim())
+        }
+        if (binding.editTextNomUsuari.text != null){
+            viewModel.setNomUsuari(binding.editTextNomUsuari.text.toString().trim())
         }
         if (binding.editTextEmailRegister.text != null){
             viewModel.setEmail(binding.editTextEmailRegister.text.toString().trim())
@@ -183,11 +174,51 @@ class RegistreFragment : Fragment() {
         // se setea el sexe
         if (viewModel.sexe.value == binding.radioBtn1.id) sexe = "Dona" else sexe = "Home"
         // se genera una clase de USER con todos los datos del usuario
-        val user = DatosUsuari(viewModel.nom.value.toString(), viewModel.edat.value.toString(),  sexe, viewModel.ciutat.value.toString(), auth.currentUser?.email.toString())
+        val user = User_Current(
+            auth.currentUser!!.uid,
+            viewModel.nomUsuari.value.toString(),
+            viewModel.email.value.toString(),
+            "CurrentUser",
+            viewModel.nom.value.toString(),
+            viewModel.cognom.value.toString(),
+            viewModel.edat.value.toString(),
+            sexe,
+            viewModel.dataNaixement.value.toString(),
+            viewModel.ciutat.value.toString(),
+            ""
+        )
         // Se genera el acceso a la DDBB
-        val myRef = database.getReference("AllUsers/${auth.currentUser?.uid}/userDates")
+        val myRef = database.getReference("AllUsers/CurrentUsers/${auth.currentUser?.uid}/userDates")
         // Se settean y suben los datos del nuevo usuario
         myRef.setValue(user)
+    }
+
+    private fun controlDadesRegistre() : String? {
+        var missatgeSortida : String? = null
+
+        if (binding.editTextName.text.isEmpty() ) {
+            missatgeSortida = "Falta el nombre!"
+        } else if (binding.editTextCognom.text.isEmpty()) {
+            missatgeSortida = "Faltan els cognoms!"
+        } else if (binding.editTextEdat.text.isEmpty()) {
+            missatgeSortida = "Falta la edat!"
+        } else if (binding.radioGroupRegistre.checkedRadioButtonId == null ){
+            missatgeSortida = "Falta el sexe!"
+        } else if (binding.editTextCiutat.text.isEmpty()){
+            missatgeSortida = "Falta la ciutat!"
+        } else if (binding.editTextDataNaixement.text.isEmpty()){
+            missatgeSortida = "Falta la data de naixement!"
+        } else if (binding.editTextNomUsuari.text.isEmpty()){
+            missatgeSortida = "Falta el nom d'usuari!"
+        } else if (binding.editTextEmailRegister.text.isEmpty()){
+            missatgeSortida = "Falta el email!"
+        } else if (binding.editTextPassword.text == null ){
+            missatgeSortida = "Falta introduir el password"
+        } else if (binding.editTextPassword2.text == null ){
+            missatgeSortida = "Falta repetir la el password"
+        }
+
+        return missatgeSortida
     }
 
 }

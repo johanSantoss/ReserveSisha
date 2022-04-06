@@ -109,15 +109,15 @@ class LoginFragment : Fragment() {
 
     private fun setInitFragment(user: FirebaseUser){
         // get type of user--------------------------------------------------------------------------------------------
-        var typeUser = "currentUser"
+        var typeUser = "CurrentUser"
         // generar action al directions to Main Fragment
         //var action: NavDirections? = null
         var action: NavDirections? = LoginFragmentDirections.actionLoginFragmentToAdminMainFragment()
         // set action según el tipo de usuario que ha realizado "Login"
         when (typeUser) {
-            "admin"         -> action = LoginFragmentDirections.actionLoginFragmentToAdminMainFragment()
-            "business"      -> action = LoginFragmentDirections.actionLoginFragmentToBusinessMainFragment()
-            "currentUser"   -> action = LoginFragmentDirections.actionLoginFragmentToUserMainFragment()
+            "Admin"         -> action = LoginFragmentDirections.actionLoginFragmentToAdminMainFragment()
+            "Business"      -> action = LoginFragmentDirections.actionLoginFragmentToBusinessMainFragment()
+            "CurrentUser"   -> action = LoginFragmentDirections.actionLoginFragmentToUserMainFragment()
         }
         NavHostFragment.findNavController(this).navigate(action!!)
     }
