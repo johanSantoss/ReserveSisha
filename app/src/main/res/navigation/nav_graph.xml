@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/loginFragment"
-        android:name="johan.santos.reservesisha.ui.access.LoginFragment"
+        android:name="johan.santos.reservesisha.ui.access.login.LoginFragment"
         android:label="login_fragment"
         tools:layout="@layout/login_fragment" >
         <action
@@ -15,17 +15,23 @@
             app:destination="@id/registreFragment" />
         <action
             android:id="@+id/action_loginFragment_to_adminMainFragment"
-            app:destination="@id/adminMainFragment" />
+            app:destination="@id/adminMainFragment"
+            app:popUpTo="@id/loginFragment"
+            app:popUpToInclusive="true" />
         <action
             android:id="@+id/action_loginFragment_to_businessMainFragment"
-            app:destination="@id/businessMainFragment" />
+            app:destination="@id/businessMainFragment"
+            app:popUpTo="@id/loginFragment"
+            app:popUpToInclusive="true" />
         <action
             android:id="@+id/action_loginFragment_to_userMainFragment"
-            app:destination="@id/userMainFragment" />
+            app:destination="@id/userMainFragment"
+            app:popUpTo="@id/loginFragment"
+            app:popUpToInclusive="true" />
     </fragment>
     <fragment
         android:id="@+id/registreFragment"
-        android:name="johan.santos.reservesisha.ui.access.RegistreFragment"
+        android:name="johan.santos.reservesisha.ui.access.registre.RegistreFragment"
         android:label="registre_fragment"
         tools:layout="@layout/registre_fragment" >
         <action
@@ -36,7 +42,7 @@
         android:id="@+id/userMainFragment"
         android:name="johan.santos.reservesisha.ui.usuallyUser.userMainFragment"
         android:label="user_main_fragment"
-        tools:layout="@layout/user_main_fragment" >
+        tools:layout="@layout/current_user_main_fragment" >
         <action
             android:id="@+id/action_userMainFragment_to_businessFragment"
             app:destination="@id/businessFragment" />

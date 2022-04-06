@@ -1,4 +1,4 @@
-package johan.santos.reservesisha.ui.access
+package johan.santos.reservesisha.ui.access.login
 
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
@@ -13,6 +13,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.navigation.NavDirections
 import androidx.navigation.fragment.NavHostFragment
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
 import johan.santos.reservesisha.MainActivity
 import johan.santos.reservesisha.R
 import johan.santos.reservesisha.databinding.LoginFragmentBinding
@@ -42,6 +43,8 @@ class LoginFragment : Fragment() {
 
         auth = (activity as MainActivity).getAuth()
 
+        if (auth.currentUser != null) setInitFragment(auth.currentUser!!)
+
         // Get the viewModel
         viewModel = ViewModelProvider(this).get(LoginViewModel::class.java)
 
@@ -57,7 +60,7 @@ class LoginFragment : Fragment() {
 
         binding.textBtnRegister.setOnClickListener {
             // generar action al directions to Registre Fragment
-            val action =  LoginFragmentDirections.actionLoginFragmentToRegistreFragment()
+            val action = LoginFragmentDirections.actionLoginFragmentToRegistreFragment()
             // ejecutar navigate to registre con el "action" generado en la parte superior
             NavHostFragment.findNavController(this).navigate(action)
         }
@@ -67,29 +70,21 @@ class LoginFragment : Fragment() {
 
 
     private fun signIn(email: String, password: String) {
-        //if (auth != null){
+        if (auth != null){
             // [START sign_in_with_email]
             try {
-                auth.signInWithEmailAndPassword(email, password).addOnCompleteListener(requireActivity())
-                    { task ->
+                auth.signInWithEmailAndPassword(email, password)
+                    .addOnCompleteListener(requireActivity()) { task ->
                         if (task.isSuccessful) {
                             // Sign in success, update UI with the signed-in user's information
                             Log.d(TAG, "signInWithEmail:success")
                             // toast para informar el "success" del login
                             Toast.makeText(activity, "Authentication success.", Toast.LENGTH_SHORT).show()
                             // get user
-                            val user = auth.currentUser
-                            // get type of user--------------------------------------------------------------------------------------------
-                            typeUser = "holaa"
-                            // generar action al directions to Main Fragment
-                            var action: NavDirections = LoginFragmentDirections.actionLoginFragmentToAdminMainFragment()
-                            // set action según el tipo de usuario que ha realizado "Login"
-                            when (typeUser) {
-                                "admin"         -> action = LoginFragmentDirections.actionLoginFragmentToAdminMainFragment()
-                                "business"      -> action = LoginFragmentDirections.actionLoginFragmentToBusinessMainFragment()
-                                "currentUser"   -> action = LoginFragmentDirections.actionLoginFragmentToUserMainFragment()
+                            auth.currentUser.apply {
+                                // set directions to fragment
+                                this?.let { setInitFragment(it) }
                             }
-                            NavHostFragment.findNavController(this).navigate(action)
                         } else {
                             // If sign in fails, display a message to the user.
                             Log.w(TAG, "signInWithEmail:failure", task.exception)
@@ -101,7 +96,7 @@ class LoginFragment : Fragment() {
                 Toast.makeText(activity, "Authentication failed.",
                     Toast.LENGTH_SHORT).show()
             }
-        //}
+        }
 
     }
 
@@ -110,6 +105,21 @@ class LoginFragment : Fragment() {
         binding.editTextMailAuth.editableText.clear()
         // nateja text "PassBox"
         binding.editTextPassAuth.editableText.clear()
+    }
+
+    private fun setInitFragment(user: FirebaseUser){
+        // get type of user--------------------------------------------------------------------------------------------
+        var typeUser = "currentUser"
+        // generar action al directions to Main Fragment
+        //var action: NavDirections? = null
+        var action: NavDirections? = LoginFragmentDirections.actionLoginFragmentToAdminMainFragment()
+        // set action según el tipo de usuario que ha realizado "Login"
+        when (typeUser) {
+            "admin"         -> action = LoginFragmentDirections.actionLoginFragmentToAdminMainFragment()
+            "business"      -> action = LoginFragmentDirections.actionLoginFragmentToBusinessMainFragment()
+            "currentUser"   -> action = LoginFragmentDirections.actionLoginFragmentToUserMainFragment()
+        }
+        NavHostFragment.findNavController(this).navigate(action!!)
     }
 
     override fun onResume() {

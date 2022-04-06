@@ -20,7 +20,7 @@ class userMainFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.user_main_fragment, container, false)
+        return inflater.inflate(R.layout.current_user_main_fragment, container, false)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {

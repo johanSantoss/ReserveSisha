@@ -12,7 +12,7 @@
         android:id="@+id/frameLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".ui.access.LoginFragment">
+        tools:context=".ui.access.login.LoginFragment">
 
         <ImageView
             android:id="@+id/imageLogo"

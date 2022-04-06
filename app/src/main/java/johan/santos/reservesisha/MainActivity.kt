@@ -2,14 +2,10 @@ package johan.santos.reservesisha
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.View
-import androidx.drawerlayout.widget.DrawerLayout
 import androidx.navigation.ui.AppBarConfiguration
-import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
-import johan.santos.reservesisha.ui.access.LoginFragment
 
 class MainActivity : AppCompatActivity() {
 
@@ -25,7 +21,6 @@ class MainActivity : AppCompatActivity() {
         // setContentView(binding.root)
 
         auth = Firebase.auth
-
 
 
     }
