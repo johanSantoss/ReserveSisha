@@ -108,8 +108,8 @@ class LoginFragment : Fragment() {
     }
 
     private fun setInitFragment(user: FirebaseUser){
-        // get type of user--------------------------------------------------------------------------------------------
-        var typeUser = "CurrentUser"
+        // get type of user------------------------------------------------------------------------------------------------------------
+        var typeUser = "Admin"
         // generar action al directions to Main Fragment
         //var action: NavDirections? = null
         var action: NavDirections? = LoginFragmentDirections.actionLoginFragmentToAdminMainFragment()

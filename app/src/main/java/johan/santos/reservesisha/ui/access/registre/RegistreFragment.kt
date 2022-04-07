@@ -27,7 +27,7 @@ class RegistreFragment : Fragment() {
 
     companion object {
         fun newInstance() = RegistreFragment()
-        private const val TAG = "EmailPassword"
+        private const val TAG = "RegistreFragment"
     }
 
     override fun onCreateView(
@@ -49,11 +49,14 @@ class RegistreFragment : Fragment() {
 
         binding.btnNewRegister.setOnClickListener {
             val missatge = controlDadesRegistre()
+            //val missatge :String? = null
             if (missatge != null)
                 (activity as MainActivity).toastView(missatge)
             else {
                 saveDatesUserViewModel()
+                Log.d(TAG, "saveDatesUserViewModel: success")
                 createAccount(viewModel.email.value.toString(), viewModel.password.value.toString(), viewModel.password2.value.toString())
+                Log.d(TAG, "createAccount: success")
             }
         }
 
@@ -80,6 +83,8 @@ class RegistreFragment : Fragment() {
         val supportActionBar = (requireActivity() as AppCompatActivity).supportActionBar
         saveDatesUserViewModel()
         supportActionBar?.show()
+
+        (activity as MainActivity).logut()
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -91,19 +96,22 @@ class RegistreFragment : Fragment() {
     private fun createAccount(email: String, password: String, password2: String) {
 
         if (password == password2){
+            Log.d(TAG, "equalsPasswords: success")
             // [START create_user_with_email]
             (activity as MainActivity).getAuth().createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(requireActivity()) { task ->
                     if (task.isSuccessful) {
                         // Sign in success, update UI with the signed-in user's information
-                        Log.d(TAG, "createUserWithEmail:success")
+                        Log.d(TAG, "createUserWithEmail: success")
                         // missatge de "DONE"
                         (activity as MainActivity).toastView("Success Registre!")
                         // guardar los datos en la DDBB
                         saveDatesUserDataBase()
+                        Log.d(TAG, "saveDatesUserDataBase: success")
                         // go to login fragment
                         val action = RegistreFragmentDirections.actionRegistreFragmentToLoginFragment()
                         NavHostFragment.findNavController(this).navigate(action)
+                        Log.d(TAG, "navigate(action): success")
                     } else {
                         // If sign in fails, display a message to the user.
                         Log.w(TAG, "createUserWithEmail:failure", task.exception)
@@ -162,11 +170,14 @@ class RegistreFragment : Fragment() {
         // indica que los datos sehan guardado y por lo tanto se han de restaurar
         viewModel.setEstadoRegistro(1)
     }
-    private fun saveDatesUserDataBase(){
+    private fun saveDatesUserDataBase() {
+        Log.d(TAG, "saveDatesUserDataBase: start")
         val auth = (activity as MainActivity).getAuth()
-        var sexe : String
+        Log.d(TAG, "getAuth - success")
+        var sexe: String
         // se setea el sexe
         if (viewModel.sexe.value == binding.radioBtn1.id) sexe = "Dona" else sexe = "Home"
+        Log.d(TAG, "setSexe - success")
         // se genera una clase de USER con todos los datos del usuario
         val user = User_Current(
             auth.currentUser!!.uid,
@@ -181,19 +192,31 @@ class RegistreFragment : Fragment() {
             viewModel.ciutat.value.toString(),
             viewModel.identificadorPersonal.value.toString()
         )
+        Log.d(TAG, "create_DataClass - success")
         // Se genera el acceso a la DDBB al nodo de cada usuari
-        val myRefDadesUser = database.getReference("AllUsers/CurrentUsers/${auth.currentUser!!.uid}/userDates")
+        val myRefDadesUser =
+            database.getReference("AllUsers/CurrentUsers/${auth.currentUser!!.uid}/userDates")
+        Log.d(TAG, "connect_saveDataClass - success")
         // Se settean y suben los datos del nuevo usuario
         myRefDadesUser.setValue(user)
+        Log.d(TAG, "saveDataClass - success")
 
         // revisar si se guarda bien en la lista--------------------------------------------------------------------------------------------------
         // Se genera el acceso a la DDBB a la llista amb els noms de usuaris disponibles
-        val myRefNameUser =
-            database.getReference("AllUsers/LlistatUsersName/${viewModel.nomUsuari.toString().lowercase()}")
+        val myRefNameUser = database.getReference(
+            "AllUsers/LlistatUsersName/${
+                viewModel.nomUsuari.value.toString().lowercase()
+            }"
+        )
+        Log.d(TAG, "connect_saveNameUser_to_llista - success")
         // Se settean y suben el nou nom d'usuari a la llista que els compte tots
         myRefNameUser.setValue(auth.currentUser!!.uid)
 
+        Log.d(TAG, "saveNameUser_to_llista - success")
+
+        Log.d(TAG, "saveDatesUserDataBase: end")
     }
+
 
     private fun controlDadesRegistre() : String? {
         var missatgeSortida : String? = null
@@ -204,7 +227,7 @@ class RegistreFragment : Fragment() {
             missatgeSortida = "Faltan els cognoms!"
         } else if (binding.editTextEdat.text.isEmpty()) {
             missatgeSortida = "Falta la edat!"
-        } else if (binding.radioGroupRegistre.checkedRadioButtonId == null ){
+        } else if (binding.radioGroupRegistre.checkedRadioButtonId == -1){
             missatgeSortida = "Falta el sexe!"
         } else if (binding.editTextCiutat.text.isEmpty()){
             missatgeSortida = "Falta la ciutat!"
@@ -229,10 +252,16 @@ class RegistreFragment : Fragment() {
     // hay que verificar que el 'NameUser' no existeixi --------------------------------------------------------------------------------------------
     private fun controlNameUser() : Boolean{
         var existeix = false
+/*
         // Se genera el acceso a la DDBB a la llista amb els noms de usuaris disponibles
-        val myRefNameUser = database.getReference("AllUsers/LlistatUsersName/${viewModel.nomUsuari.toString().lowercase()}")
+        val myRefNameUser = database.getReference("/AllUsers/LlistatUsersName/${viewModel.nomUsuari.toString().lowercase()}")
         // Se settean y suben el nou nom d'usuari a la llista que els compte tots
-        //myRefNameUser.parent
+        if (myRefNameUser.key != null) {
+            existeix = true
+            (activity as MainActivity).toastView(myRefNameUser.key!!)
+        }
+        myRefNameUser.
+*/
 
 
         return existeix

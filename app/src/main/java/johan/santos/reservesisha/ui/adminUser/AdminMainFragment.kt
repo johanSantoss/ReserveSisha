@@ -6,21 +6,39 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.databinding.DataBindingUtil
+import com.google.firebase.auth.FirebaseAuth
+import johan.santos.reservesisha.MainActivity
 import johan.santos.reservesisha.R
+import johan.santos.reservesisha.databinding.AdminMainFragmentBinding
+import johan.santos.reservesisha.databinding.LoginFragmentBinding
+
 
 class AdminMainFragment : Fragment() {
+
+    private lateinit var binding : AdminMainFragmentBinding
+    private lateinit var viewModel: AdminMainViewModel
+    private lateinit var auth: FirebaseAuth
 
     companion object {
         fun newInstance() = AdminMainFragment()
     }
 
-    private lateinit var viewModel: AdminMainViewModel
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?): View {
+        binding = DataBindingUtil.inflate(
+            inflater,
+            R.layout.admin_main_fragment,
+            container,
+            false
+        )
+        auth = (activity as MainActivity).getAuth()
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.admin_main_fragment, container, false)
+        binding.btnLogut.setOnClickListener {
+            (activity as MainActivity).logut()
+        }
+
+        return binding.root
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
