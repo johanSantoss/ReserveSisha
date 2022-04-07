@@ -151,6 +151,20 @@
                     app:layout_constraintTop_toBottomOf="@+id/editTextCiutat"
                     tools:ignore="TextContrastCheck" />
 
+                <EditText
+                    android:id="@+id/editTextIdentificadorPersonal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:hint="DNI/NIE"
+                    android:inputType="date"
+                    android:minHeight="48dp"
+                    android:textAlignment="center"
+                    app:layout_constraintEnd_toEndOf="@+id/editTextDataNaixement"
+                    app:layout_constraintStart_toStartOf="@+id/editTextDataNaixement"
+                    app:layout_constraintTop_toBottomOf="@+id/editTextDataNaixement"
+                    tools:ignore="TextContrastCheck" />
+
                 <TextView
                     android:id="@+id/tvDadesUsuari"
                     android:layout_width="wrap_content"
@@ -161,9 +175,9 @@
                     android:textSize="18dp"
                     android:textStyle="bold"
                     android:layout_marginTop="15dp"
-                    app:layout_constraintEnd_toEndOf="@+id/editTextDataNaixement"
-                    app:layout_constraintStart_toStartOf="@+id/editTextDataNaixement"
-                    app:layout_constraintTop_toBottomOf="@+id/editTextDataNaixement" />
+                    app:layout_constraintEnd_toEndOf="@+id/editTextIdentificadorPersonal"
+                    app:layout_constraintStart_toStartOf="@+id/editTextIdentificadorPersonal"
+                    app:layout_constraintTop_toBottomOf="@+id/editTextIdentificadorPersonal" />
 
                 <ImageView
                     android:id="@+id/imvUsuari"

@@ -53,7 +53,6 @@ class RegistreFragment : Fragment() {
                 (activity as MainActivity).toastView(missatge)
             else {
                 saveDatesUserViewModel()
-                viewModel.setEstadoRegistro(1)
                 createAccount(viewModel.email.value.toString(), viewModel.password.value.toString(), viewModel.password2.value.toString())
             }
         }
@@ -98,7 +97,7 @@ class RegistreFragment : Fragment() {
                     if (task.isSuccessful) {
                         // Sign in success, update UI with the signed-in user's information
                         Log.d(TAG, "createUserWithEmail:success")
-//                        val user = (activity as MainActivity).getAuth().currentUser
+                        // missatge de "DONE"
                         (activity as MainActivity).toastView("Success Registre!")
                         // guardar los datos en la DDBB
                         saveDatesUserDataBase()
@@ -117,59 +116,54 @@ class RegistreFragment : Fragment() {
         }
     }
     private fun restaurarDatos(){
-        if (viewModel.nom.value != "") binding.editTextName.setText(viewModel.nom.value)
-        if (viewModel.edat.value != "") binding.editTextEdat.setText(viewModel.edat.value)
+        binding.editTextName.setText(viewModel.nom.value)
+        binding.editTextCognom.setText(viewModel.cognom.value)
+        binding.editTextEdat.setText(viewModel.edat.value)
         if (viewModel.sexe.value != null) binding.radioGroupRegistre.check(viewModel.sexe.value!!)
-        if (viewModel.ciutat.value != "") binding.editTextCiutat.setText(viewModel.ciutat.value)
-        if(viewModel.email.value != "") binding.editTextEmailRegister.setText(viewModel.email.value)
-        if (viewModel.password.value != "" ) binding.editTextPassword.setText(viewModel.password.value)
-        if (viewModel.password2.value != "") binding.editTextPassword2.setText(viewModel.password2.value)
+        binding.editTextCiutat.setText(viewModel.ciutat.value)
+        binding.editTextDataNaixement.setText(viewModel.dataNaixement.value)
+        binding.editTextIdentificadorPersonal.setText(viewModel.identificadorPersonal.value)
+        binding.editTextNomUsuari.setText(viewModel.nomUsuari.value)
+        binding.editTextEmailRegister.setText(viewModel.email.value)
+        binding.editTextPassword.setText(viewModel.password.value)
+        binding.editTextPassword2.setText(viewModel.password2.value)
     }
 
     private fun clearDates(){
         binding.editTextName.text.clear()
+        binding.editTextCognom.text.clear()
         binding.editTextEdat.text.clear()
         binding.radioGroupRegistre.clearCheck()
         binding.editTextCiutat.text.clear()
+        binding.editTextDataNaixement.text.clear()
+        binding.editTextIdentificadorPersonal.text.clear()
+        binding.editTextNomUsuari.text.clear()
         binding.editTextEmailRegister.text.clear()
         binding.editTextPassword.text.clear()
         binding.editTextPassword2.text.clear()
     }
 
+    // generar/implementar datapicker para obtener fecha -----------------------------------------------------------------
+    //--------------------------------------------------------------------------------------------------------------------
+    //--------------------------------------------------------------------------------------------------------------------
+
     private fun saveDatesUserViewModel(){
-        if (binding.editTextName.text != null){
-            viewModel.setNom(binding.editTextName.text.toString().trim())
-        }
-        if (binding.editTextCognom.text != null){
-            viewModel.setCognom(binding.editTextCognom.text.toString().trim())
-        }
-        if (binding.editTextEdat.text != null){
-            viewModel.setEdatUser(binding.editTextEdat.text.toString().trim())
-        }
-        if (binding.radioGroupRegistre.checkedRadioButtonId != null){
-            viewModel.setSexeUser(binding.radioGroupRegistre.checkedRadioButtonId)
-        }
-        if (binding.editTextCiutat.text != null){
-            viewModel.setCiutatUser(binding.editTextCiutat.text.toString().trim())
-        }
-        if (binding.editTextDataNaixement.text != null){
-            viewModel.setDataNaixement(binding.editTextDataNaixement.text.toString().trim())
-        }
-        if (binding.editTextNomUsuari.text != null){
-            viewModel.setNomUsuari(binding.editTextNomUsuari.text.toString().trim())
-        }
-        if (binding.editTextEmailRegister.text != null){
-            viewModel.setEmail(binding.editTextEmailRegister.text.toString().trim())
-        }
-        if (binding.editTextPassword.text != null){
-            viewModel.setPassword(binding.editTextPassword.text.toString().trim())
-        }
-        if (binding.editTextPassword2.text != null){
-            viewModel.setPassword2(binding.editTextPassword2.text.toString().trim())
-        }
+        viewModel.setNom(binding.editTextName.text.toString().trim())
+        viewModel.setCognom(binding.editTextCognom.text.toString().trim())
+        viewModel.setEdatUser(binding.editTextEdat.text.toString().trim())
+        viewModel.setSexeUser(binding.radioGroupRegistre.checkedRadioButtonId)
+        viewModel.setCiutatUser(binding.editTextCiutat.text.toString().trim())
+        viewModel.setDataNaixement(binding.editTextDataNaixement.text.toString().trim())
+        viewModel.setIdentificadorPersonal(binding.editTextIdentificadorPersonal.text.toString().trim())
+        viewModel.setNomUsuari(binding.editTextNomUsuari.text.toString().trim())
+        viewModel.setEmail(binding.editTextEmailRegister.text.toString().trim())
+        viewModel.setPassword(binding.editTextPassword.text.toString().trim())
+        viewModel.setPassword2(binding.editTextPassword2.text.toString().trim())
+        // indica que los datos sehan guardado y por lo tanto se han de restaurar
+        viewModel.setEstadoRegistro(1)
     }
     private fun saveDatesUserDataBase(){
-        val auth = Firebase.auth
+        val auth = (activity as MainActivity).getAuth()
         var sexe : String
         // se setea el sexe
         if (viewModel.sexe.value == binding.radioBtn1.id) sexe = "Dona" else sexe = "Home"
@@ -185,12 +179,20 @@ class RegistreFragment : Fragment() {
             sexe,
             viewModel.dataNaixement.value.toString(),
             viewModel.ciutat.value.toString(),
-            ""
+            viewModel.identificadorPersonal.value.toString()
         )
-        // Se genera el acceso a la DDBB
-        val myRef = database.getReference("AllUsers/CurrentUsers/${auth.currentUser?.uid}/userDates")
+        // Se genera el acceso a la DDBB al nodo de cada usuari
+        val myRefDadesUser = database.getReference("AllUsers/CurrentUsers/${auth.currentUser!!.uid}/userDates")
         // Se settean y suben los datos del nuevo usuario
-        myRef.setValue(user)
+        myRefDadesUser.setValue(user)
+
+        // revisar si se guarda bien en la lista--------------------------------------------------------------------------------------------------
+        // Se genera el acceso a la DDBB a la llista amb els noms de usuaris disponibles
+        val myRefNameUser =
+            database.getReference("AllUsers/LlistatUsersName/${viewModel.nomUsuari.toString().lowercase()}")
+        // Se settean y suben el nou nom d'usuari a la llista que els compte tots
+        myRefNameUser.setValue(auth.currentUser!!.uid)
+
     }
 
     private fun controlDadesRegistre() : String? {
@@ -208,17 +210,32 @@ class RegistreFragment : Fragment() {
             missatgeSortida = "Falta la ciutat!"
         } else if (binding.editTextDataNaixement.text.isEmpty()){
             missatgeSortida = "Falta la data de naixement!"
+        } else if (binding.editTextIdentificadorPersonal.text.isEmpty()){
+            missatgeSortida = "Falta el DNI/NIE!"
+        } else if (controlNameUser()){
+            missatgeSortida = "El nom d'usuari ja existeix!"
         } else if (binding.editTextNomUsuari.text.isEmpty()){
             missatgeSortida = "Falta el nom d'usuari!"
         } else if (binding.editTextEmailRegister.text.isEmpty()){
             missatgeSortida = "Falta el email!"
-        } else if (binding.editTextPassword.text == null ){
+        } else if (binding.editTextPassword.text.isEmpty() ){
             missatgeSortida = "Falta introduir el password"
-        } else if (binding.editTextPassword2.text == null ){
+        } else if (binding.editTextPassword2.text.isEmpty()){
             missatgeSortida = "Falta repetir la el password"
         }
 
         return missatgeSortida
+    }
+    // hay que verificar que el 'NameUser' no existeixi --------------------------------------------------------------------------------------------
+    private fun controlNameUser() : Boolean{
+        var existeix = false
+        // Se genera el acceso a la DDBB a la llista amb els noms de usuaris disponibles
+        val myRefNameUser = database.getReference("AllUsers/LlistatUsersName/${viewModel.nomUsuari.toString().lowercase()}")
+        // Se settean y suben el nou nom d'usuari a la llista que els compte tots
+        //myRefNameUser.parent
+
+
+        return existeix
     }
 
 }

@@ -21,7 +21,7 @@ class RegistreViewModel : ViewModel() {
     }
 
     // edat
-    private val _edat = MutableLiveData<String>()
+    private val _edat = MutableLiveData<String>("")
     val edat: LiveData<String> get() = _edat
     fun setEdatUser (edatUser : String){
         _edat.value = edatUser
@@ -46,6 +46,13 @@ class RegistreViewModel : ViewModel() {
     val dataNaixement: LiveData<String> get() = _dataNaixement
     fun setDataNaixement (dataNaixement : String){
         _dataNaixement.value = dataNaixement
+    }
+
+    // Document d'identitat
+    private val _identificardorPersonal = MutableLiveData<String>("")
+    val identificadorPersonal: LiveData<String> get() = _identificardorPersonal
+    fun setIdentificadorPersonal (identificadorPersonal : String){
+        _identificardorPersonal.value = identificadorPersonal
     }
 
     // nom d'usuari
