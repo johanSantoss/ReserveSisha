@@ -59,12 +59,13 @@
 
                 <EditText
                     android:id="@+id/editTextName"
-                    android:layout_width="wrap_content"
+                    android:layout_width="240dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="2dp"
                     android:ems="10"
                     android:hint="Nom"
                     android:inputType="textPersonName"
+                    android:minHeight="48dp"
                     android:textAlignment="center"
                     app:layout_constraintEnd_toEndOf="@+id/tvDadesPersonals"
                     app:layout_constraintStart_toStartOf="@+id/tvDadesPersonals"
@@ -73,8 +74,8 @@
 
                 <EditText
                     android:id="@+id/editTextCognom"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="240dp"
+                    android:layout_height="48dp"
                     android:ems="10"
                     android:hint="Cognoms"
                     android:inputType="textPersonName"
@@ -86,7 +87,7 @@
 
                 <EditText
                     android:id="@+id/editTextEdat"
-                    android:layout_width="wrap_content"
+                    android:layout_width="240dp"
                     android:layout_height="wrap_content"
                     android:ems="10"
                     android:hint="@string/edat"
@@ -102,14 +103,14 @@
                     android:id="@+id/radioGroupRegistre"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
+                    android:orientation="vertical"
                     app:layout_constraintEnd_toEndOf="@+id/editTextEdat"
                     app:layout_constraintStart_toStartOf="@+id/editTextEdat"
                     app:layout_constraintTop_toBottomOf="@+id/editTextEdat">
 
                     <RadioButton
                         android:id="@+id/radioBtn1"
-                        android:layout_width="105dp"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="@string/sexe1"
                         android:textAlignment="center" />
@@ -118,12 +119,13 @@
                         android:id="@+id/radioBtn2"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="@string/sexe2" />
+                        android:text="@string/sexe2"
+                        android:textAlignment="center" />
                 </RadioGroup>
 
                 <EditText
                     android:id="@+id/editTextCiutat"
-                    android:layout_width="wrap_content"
+                    android:layout_width="240dp"
                     android:layout_height="wrap_content"
                     android:ems="10"
                     android:hint="@string/ciutat"
@@ -133,17 +135,18 @@
                     app:layout_constraintEnd_toEndOf="@+id/radioGroupRegistre"
                     app:layout_constraintStart_toStartOf="@+id/radioGroupRegistre"
                     app:layout_constraintTop_toBottomOf="@+id/radioGroupRegistre"
-                    tools:ignore="TextContrastCheck"
-                    tools:layout_editor_absoluteX="101dp"
-                    tools:layout_editor_absoluteY="186dp" />
+                    tools:ignore="TextContrastCheck" />
 
                 <EditText
                     android:id="@+id/editTextDataNaixement"
-                    android:layout_width="wrap_content"
+                    android:layout_width="240dp"
                     android:layout_height="wrap_content"
                     android:ems="10"
                     android:hint="Data de Naixement"
-                    android:inputType="text"
+                    android:inputType="date"
+                    android:focusable="false"
+                    android:clickable="false"
+                    android:maxLines="1"
                     android:minHeight="48dp"
                     android:textAlignment="center"
                     app:layout_constraintEnd_toEndOf="@+id/editTextCiutat"
@@ -153,7 +156,7 @@
 
                 <EditText
                     android:id="@+id/editTextIdentificadorPersonal"
-                    android:layout_width="wrap_content"
+                    android:layout_width="240dp"
                     android:layout_height="wrap_content"
                     android:ems="10"
                     android:hint="DNI/NIE"
@@ -190,7 +193,7 @@
 
                 <EditText
                     android:id="@+id/editTextNomUsuari"
-                    android:layout_width="wrap_content"
+                    android:layout_width="240dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="2dp"
                     android:ems="10"
@@ -215,8 +218,8 @@
 
                 <EditText
                     android:id="@+id/editTextEmailRegister"
-                    android:layout_width="210dp"
-                    android:layout_height="48dp"
+                    android:layout_width="240dp"
+                    android:layout_height="wrap_content"
                     android:ems="10"
                     android:hint="@string/emailRegister"
                     android:inputType="textEmailAddress"
@@ -239,7 +242,7 @@
 
                 <EditText
                     android:id="@+id/editTextPassword"
-                    android:layout_width="wrap_content"
+                    android:layout_width="240dp"
                     android:layout_height="wrap_content"
                     android:ems="10"
                     android:hint="@string/passwordRegister"
@@ -263,7 +266,7 @@
 
                 <EditText
                     android:id="@+id/editTextPassword2"
-                    android:layout_width="wrap_content"
+                    android:layout_width="240dp"
                     android:layout_height="wrap_content"
                     android:ems="10"
                     android:hint="@string/passwordLogin2"

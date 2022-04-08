@@ -60,6 +60,10 @@ class RegistreFragment : Fragment() {
             }
         }
 
+        binding.editTextDataNaixement.setOnClickListener {
+            showDatePickerDialog()
+        }
+
         binding.btnClear.setOnClickListener {
             clearDates()
         }
@@ -67,31 +71,9 @@ class RegistreFragment : Fragment() {
         if (viewModel.estadoRegistro.value == 1 ) restaurarDatos()
 
         return  binding.root
-//        return inflater.inflate(R.layout.fragment_register, container, false)
     }
 
-    override fun onResume() {
-        super.onResume()
-        val supportActionBar = (requireActivity() as AppCompatActivity).supportActionBar
-        (activity as MainActivity).disableMenus()
 
-        supportActionBar?.hide()
-    }
-
-    override fun onStop() {
-        super.onStop()
-        val supportActionBar = (requireActivity() as AppCompatActivity).supportActionBar
-        saveDatesUserViewModel()
-        supportActionBar?.show()
-
-        (activity as MainActivity).logut()
-    }
-
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProvider(this).get(RegistreViewModel::class.java)
-        // TODO: Use the ViewModel
-    }
 
     private fun createAccount(email: String, password: String, password2: String) {
 
@@ -123,6 +105,7 @@ class RegistreFragment : Fragment() {
             (activity as MainActivity).toastView("Passwords not equals!")
         }
     }
+
     private fun restaurarDatos(){
         binding.editTextName.setText(viewModel.nom.value)
         binding.editTextCognom.setText(viewModel.cognom.value)
@@ -151,9 +134,15 @@ class RegistreFragment : Fragment() {
         binding.editTextPassword2.text.clear()
     }
 
-    // generar/implementar datapicker para obtener fecha -----------------------------------------------------------------
-    //--------------------------------------------------------------------------------------------------------------------
-    //--------------------------------------------------------------------------------------------------------------------
+    // generar un picker para poder seleccionar la fecha requerida
+    private fun showDatePickerDialog() {
+        val datePicker = DatePickerFragment {day, month, year -> onDateSelected(day, month, year)}
+        datePicker.show(childFragmentManager, "datePicker")
+    }
+    // setea el "editText" con la fecha obtenida
+    private fun onDateSelected(day:Int, month:Int, year:Int){
+        binding.editTextDataNaixement.setText("$day/$month/$year")
+    }
 
     private fun saveDatesUserViewModel(){
         viewModel.setNom(binding.editTextName.text.toString().trim())
@@ -170,6 +159,7 @@ class RegistreFragment : Fragment() {
         // indica que los datos sehan guardado y por lo tanto se han de restaurar
         viewModel.setEstadoRegistro(1)
     }
+
     private fun saveDatesUserDataBase() {
         Log.d(TAG, "saveDatesUserDataBase: start")
         val auth = (activity as MainActivity).getAuth()
@@ -201,7 +191,6 @@ class RegistreFragment : Fragment() {
         myRefDadesUser.setValue(user)
         Log.d(TAG, "saveDataClass - success")
 
-        // revisar si se guarda bien en la lista--------------------------------------------------------------------------------------------------
         // Se genera el acceso a la DDBB a la llista amb els noms de usuaris disponibles
         val myRefNameUser = database.getReference(
             "AllUsers/LlistatUsersName/${
@@ -217,6 +206,25 @@ class RegistreFragment : Fragment() {
         Log.d(TAG, "saveDatesUserDataBase: end")
     }
 
+    /**
+     * hay que verificar que el 'NameUser' no existeixi --------------------------------------------------------------------------------------------
+     * -- Pendiente a implementar --
+     */
+    private fun controlNameUser() : Boolean{
+        var existeix = false
+        /*
+        // Se genera el acceso a la DDBB a la llista amb els noms de usuaris disponibles
+        val myRefNameUser = database.getReference("/AllUsers/LlistatUsersName/${viewModel.nomUsuari.toString().lowercase()}")
+        // Se settean y suben el nou nom d'usuari a la llista que els compte tots
+        if (myRefNameUser.key != null) {
+            existeix = true
+            (activity as MainActivity).toastView(myRefNameUser.key!!)
+        }
+        myRefNameUser.
+        */
+
+        return existeix
+    }
 
     private fun controlDadesRegistre() : String? {
         var missatgeSortida : String? = null
@@ -249,22 +257,28 @@ class RegistreFragment : Fragment() {
 
         return missatgeSortida
     }
-    // hay que verificar que el 'NameUser' no existeixi --------------------------------------------------------------------------------------------
-    private fun controlNameUser() : Boolean{
-        var existeix = false
-/*
-        // Se genera el acceso a la DDBB a la llista amb els noms de usuaris disponibles
-        val myRefNameUser = database.getReference("/AllUsers/LlistatUsersName/${viewModel.nomUsuari.toString().lowercase()}")
-        // Se settean y suben el nou nom d'usuari a la llista que els compte tots
-        if (myRefNameUser.key != null) {
-            existeix = true
-            (activity as MainActivity).toastView(myRefNameUser.key!!)
-        }
-        myRefNameUser.
-*/
 
+    override fun onResume() {
+        super.onResume()
+        val supportActionBar = (requireActivity() as AppCompatActivity).supportActionBar
+        (activity as MainActivity).disableMenus()
 
-        return existeix
+        supportActionBar?.hide()
     }
+
+    override fun onStop() {
+        super.onStop()
+        val supportActionBar = (requireActivity() as AppCompatActivity).supportActionBar
+        saveDatesUserViewModel()
+        supportActionBar?.show()
+
+        (activity as MainActivity).logut()
+    }
+
+    /*
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        viewModel = ViewModelProvider(this).get(RegistreViewModel::class.java)
+    } */
 
 }

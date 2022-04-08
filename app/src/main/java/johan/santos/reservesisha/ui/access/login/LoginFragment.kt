@@ -109,6 +109,7 @@ class LoginFragment : Fragment() {
 
     private fun setInitFragment(user: FirebaseUser){
         // get type of user------------------------------------------------------------------------------------------------------------
+        //var typeUser = getTypeUser()
         var typeUser = "Admin"
         // generar action al directions to Main Fragment
         //var action: NavDirections? = null
@@ -138,19 +139,27 @@ class LoginFragment : Fragment() {
         val supportActionBar = (requireActivity() as AppCompatActivity).supportActionBar
         supportActionBar?.show()
          */
-        // get type of user--------------------------------------------------------------------------------------------
-        typeUser = "holaa"
+        // get type of user--------------------------------------------------------------------------------------------------------------
+        typeUser = getTypeUser()
         // mostrar menus según el "user" que ha hecho LOGIN
         when (typeUser) {
-            "admin"         -> (activity as MainActivity).enableMenuAdmin()
-            "business"      -> (activity as MainActivity).enableMenuBusiness()
-            "currentUser"   -> (activity as MainActivity).enableMenuCurrentUser()
+            "Admin"         -> (activity as MainActivity).enableMenuAdmin()
+            "Business"      -> (activity as MainActivity).enableMenuBusiness()
+            "CurrentUser"   -> (activity as MainActivity).enableMenuCurrentUser()
         }
     }
+    /*
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProvider(this).get(LoginViewModel::class.java)
         // TODO: Use the ViewModel
-    }//
+    }*/
+
+    private fun getTypeUser() : String {
+        var type = ""
+
+        return type
+    }
+
 
 }
