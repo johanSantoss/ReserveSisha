@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/businessMainFragment"
+        android:icon="@drawable/ic_baseline_other_houses_24"
+        android:title="@string/mainUsers" />
+    <item
+        android:id="@+id/manageRatesFragment"
+        android:icon="@drawable/ic_baseline_rate_24"
+        android:title="@string/manageRate" />
+
+    <item
+        android:id="@+id/manageTablesFragment"
+        android:icon="@drawable/ic_baseline_table_restaurant_24"
+        android:title="@string/manageTables" />
+    <item
+        android:id="@+id/configAdminFragment"
+        android:icon="@drawable/ic_baseline_settings_24"
+        android:title="@string/configUsers" />
+
+</menu>

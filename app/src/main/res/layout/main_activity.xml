@@ -5,6 +5,7 @@
     android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:paddingTop="?attr/actionBarSize"
     tools:context=".MainActivity">
 
     <androidx.fragment.app.FragmentContainerView
@@ -18,4 +19,5 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:navGraph="@navigation/nav_graph" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
