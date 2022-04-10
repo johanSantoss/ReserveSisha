@@ -19,6 +19,13 @@
     <string name="emailRegister">Inserir un email…</string>
     <string name="passwordRegister">Password…</string>
     <string name="passwordRegister2">Torna a repetir el password!</string>
+    <!-- Bottom bar navigation Users -->
+    <string name="mainUsers">Main</string>
+    <string name="manageBooking">Reservas</string>
+    <string name="configUsers">Configuracion</string>
+    <string name="manageRate">Tarifas</string>
+    <string name="manageTables">Mesas</string>
+
 
 
 
