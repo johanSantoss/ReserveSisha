@@ -51,10 +51,14 @@ class MainActivity : AppCompatActivity() {
         return auth
     }
 
-    fun logut(){
+    fun logutAndExit(){
         auth.signOut()
         finish();
         startActivity(getIntent());
+    }
+
+    fun logut(){
+        auth.signOut()
     }
 
 

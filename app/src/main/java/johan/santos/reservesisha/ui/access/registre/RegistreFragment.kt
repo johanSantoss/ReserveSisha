@@ -17,6 +17,7 @@ import com.google.firebase.ktx.Firebase
 import johan.santos.reservesisha.MainActivity
 import johan.santos.reservesisha.R
 import johan.santos.reservesisha.databinding.RegistreFragmentBinding
+import johan.santos.reservesisha.ui.access.models.DataUserType
 import johan.santos.reservesisha.ui.access.models.User_Current
 
 class RegistreFragment : Fragment() {
@@ -184,23 +185,20 @@ class RegistreFragment : Fragment() {
         )
         Log.d(TAG, "create_DataClass - success")
         // Se genera el acceso a la DDBB al nodo de cada usuari
-        val myRefDadesUser =
-            database.getReference("AllUsers/CurrentUsers/${auth.currentUser!!.uid}/userDates")
+        val myRefDadesUser = database.getReference("AllUsers/CurrentUsers/${auth.currentUser!!.uid}/userDates")
         Log.d(TAG, "connect_saveDataClass - success")
         // Se settean y suben los datos del nuevo usuario
         myRefDadesUser.setValue(user)
         Log.d(TAG, "saveDataClass - success")
 
-        // Se genera el acceso a la DDBB a la llista amb els noms de usuaris disponibles
+        // Se genera el acceso a la DDBB a la llista usuari/tipus
         val myRefNameUser = database.getReference(
-            "AllUsers/LlistatUsersName/${
-                viewModel.nomUsuari.value.toString().lowercase()
-            }"
+            "AllUsers/LlistatUsersType/${auth.currentUser!!.uid}"
         )
         Log.d(TAG, "connect_saveNameUser_to_llista - success")
+        val type = DataUserType("CurrentUser")
         // Se settean y suben el nou nom d'usuari a la llista que els compte tots
-        myRefNameUser.setValue(auth.currentUser!!.uid)
-
+        myRefNameUser.setValue(type)
         Log.d(TAG, "saveNameUser_to_llista - success")
 
         Log.d(TAG, "saveDatesUserDataBase: end")
@@ -272,7 +270,7 @@ class RegistreFragment : Fragment() {
         saveDatesUserViewModel()
         supportActionBar?.show()
 
-        (activity as MainActivity).logut()
+        if ((activity as MainActivity).getAuth() != null ) (activity as MainActivity).logut()
     }
 
     /*

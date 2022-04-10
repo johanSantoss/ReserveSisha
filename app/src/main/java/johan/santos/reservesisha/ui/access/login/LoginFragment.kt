@@ -14,15 +14,23 @@ import androidx.navigation.NavDirections
 import androidx.navigation.fragment.NavHostFragment
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.database.*
+import com.google.firebase.database.ktx.database
+import com.google.firebase.database.ktx.getValue
+import com.google.firebase.ktx.Firebase
 import johan.santos.reservesisha.MainActivity
 import johan.santos.reservesisha.R
 import johan.santos.reservesisha.databinding.LoginFragmentBinding
+import johan.santos.reservesisha.ui.access.models.DataUserType
+import johan.santos.reservesisha.ui.access.registre.RegistreFragment
 
 class LoginFragment : Fragment() {
 
     private lateinit var binding : LoginFragmentBinding
     private lateinit var viewModel: LoginViewModel
     private lateinit var auth: FirebaseAuth
+    private lateinit var database2: FirebaseDatabase
+    private lateinit var database: DatabaseReference
     private lateinit var typeUser : String
 
     companion object {
@@ -41,9 +49,13 @@ class LoginFragment : Fragment() {
             false
         )
 
-        auth = (activity as MainActivity).getAuth()
+        //auth = (activity as MainActivity).getAuth()
+        // Conection to DataBase
+        //database2 = FirebaseDatabase.getInstance("https://reservesisha96-default-rtdb.europe-west1.firebasedatabase.app/")
 
-        if (auth.currentUser != null) setInitFragment(auth.currentUser!!)
+
+
+        if ((activity as MainActivity).getAuth().currentUser != null) setInitFragment()
 
         // Get the viewModel
         viewModel = ViewModelProvider(this).get(LoginViewModel::class.java)
@@ -70,7 +82,7 @@ class LoginFragment : Fragment() {
 
 
     private fun signIn(email: String, password: String) {
-        if (auth != null){
+        if ((activity as MainActivity).getAuth() != null){
             // [START sign_in_with_email]
             try {
                 auth.signInWithEmailAndPassword(email, password)
@@ -80,16 +92,13 @@ class LoginFragment : Fragment() {
                             Log.d(TAG, "signInWithEmail:success")
                             // toast para informar el "success" del login
                             Toast.makeText(activity, "Authentication success.", Toast.LENGTH_SHORT).show()
-                            // get user
-                            auth.currentUser.apply {
-                                // set directions to fragment
-                                this?.let { setInitFragment(it) }
-                            }
+                            // get user to apply directions fragment
+                            setInitFragment()
                         } else {
                             // If sign in fails, display a message to the user.
                             Log.w(TAG, "signInWithEmail:failure", task.exception)
                             Toast.makeText(activity, "Authentication failed.", Toast.LENGTH_SHORT).show()
-                            clearText()
+
                         }
                     }
             } catch (e: IllegalArgumentException)  {
@@ -107,10 +116,11 @@ class LoginFragment : Fragment() {
         binding.editTextPassAuth.editableText.clear()
     }
 
-    private fun setInitFragment(user: FirebaseUser){
+    private fun setInitFragment(){
         // get type of user------------------------------------------------------------------------------------------------------------
-        //var typeUser = getTypeUser()
-        var typeUser = "Admin"
+        var typeUser : String = getTypeUser()
+        //var typeUser = "Admin"
+        /*
         // generar action al directions to Main Fragment
         //var action: NavDirections? = null
         var action: NavDirections? = LoginFragmentDirections.actionLoginFragmentToAdminMainFragment()
@@ -121,6 +131,61 @@ class LoginFragment : Fragment() {
             "CurrentUser"   -> action = LoginFragmentDirections.actionLoginFragmentToUserMainFragment()
         }
         NavHostFragment.findNavController(this).navigate(action!!)
+        */
+        (activity as MainActivity).toastView(typeUser)
+    }
+    // -----------------------------------------------------------------------------------------------------------------------
+    class DatosUsuari (
+        val type: String = ""
+    )
+    private fun getTypeUser() : String {
+
+        var type = "fallo-1"
+        // Se genera el acceso a la DDBB al nodo de cada usuari
+        //val myRefDadesUser = database.getReference("AllUsers/LlistatUsersType/${auth.currentUser?.uid}")
+        //database.child("AllUsers").child("LlistatUsersType").child(user.uid).child("type").addListenerForSingleValueEvent()
+        database2 = FirebaseDatabase.getInstance("https://reservesisha96-default-rtdb.europe-west1.firebasedatabase.app/")
+
+        val myRefDadesUser = database2.getReference("AllUsers/LlistatUsersType/${(activity as MainActivity).getAuth().currentUser?.uid}")
+        myRefDadesUser.addValueEventListener(object: ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                // This method is called once with the initial value and again
+                // whenever data at this location is updated.
+                val value = snapshot.getValue<DatosUsuari>()
+                type = value?.type?:"jansfkjsnfkjndskj"
+            }
+            override fun onCancelled(error: DatabaseError) {
+            }
+        })
+        myRefDadesUser.child("type").get()
+
+        return type
+    }
+    private fun getTypeUser2() : String {
+
+        var type = "fallo-1"
+        // Se genera el acceso a la DDBB al nodo de cada usuari
+        //val myRefDadesUser = database.getReference("AllUsers/LlistatUsersType/${auth.currentUser?.uid}")
+        //database.child("AllUsers").child("LlistatUsersType").child(user.uid).child("type").addListenerForSingleValueEvent()
+        database = FirebaseDatabase.getInstance().getReference("AllUsers/LlistatUsersType")
+        val prueba1 = database.child(auth.currentUser!!.uid).get()
+
+        database.child(auth.currentUser!!.uid).get().addOnSuccessListener {
+            type = "fallo-5"
+            if (it.exists()){
+                val value = it.child("type").value
+                type = "fallo-2"
+                type = value.toString()
+            } else {
+                type = "fallo-3"
+            }
+
+        }.addOnFailureListener{
+            type = "fallo-4"
+
+        }
+
+        return type
     }
 
     override fun onResume() {
@@ -139,27 +204,15 @@ class LoginFragment : Fragment() {
         val supportActionBar = (requireActivity() as AppCompatActivity).supportActionBar
         supportActionBar?.show()
          */
-        // get type of user--------------------------------------------------------------------------------------------------------------
-        typeUser = getTypeUser()
-        // mostrar menus según el "user" que ha hecho LOGIN
-        when (typeUser) {
-            "Admin"         -> (activity as MainActivity).enableMenuAdmin()
-            "Business"      -> (activity as MainActivity).enableMenuBusiness()
-            "CurrentUser"   -> (activity as MainActivity).enableMenuCurrentUser()
+        if ((activity as MainActivity).getAuth().currentUser != null){
+            typeUser = getTypeUser()
+            // mostrar menus según el "user" que ha hecho LOGIN
+            when (typeUser) {
+                "Admin"         -> (activity as MainActivity).enableMenuAdmin()
+                "Business"      -> (activity as MainActivity).enableMenuBusiness()
+                "CurrentUser"   -> (activity as MainActivity).enableMenuCurrentUser()
+            }
         }
     }
-    /*
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProvider(this).get(LoginViewModel::class.java)
-        // TODO: Use the ViewModel
-    }*/
-
-    private fun getTypeUser() : String {
-        var type = ""
-
-        return type
-    }
-
 
 }
