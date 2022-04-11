@@ -35,7 +35,7 @@ class AdminMainFragment : Fragment() {
         auth = (activity as MainActivity).getAuth()
 
         binding.btnLogut.setOnClickListener {
-            (activity as MainActivity).logut()
+            (activity as MainActivity).logutAndExit()
         }
 
         return binding.root
