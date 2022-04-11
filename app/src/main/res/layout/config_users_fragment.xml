@@ -1,13 +1,105 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:app="http://schemas.android.com/apk/res-auto"
+xmlns:tools="http://schemas.android.com/tools">
+
+<data>
+
+</data>
+
+<androidx.constraintlayout.widget.ConstraintLayout
+    android:id="@+id/frameLayout5"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ui.adminUser.manageUsers.configUser.ConfigUsersFragment">
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="Hello" />
+    <EditText
+        android:id="@+id/editTextPassAuth"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="@string/passwordLogin"
+        android:inputType="textPassword"
+        android:minHeight="48dp"
+        app:layout_constraintBottom_toTopOf="@+id/btnAuthetification"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.547"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.439" />
 
-</FrameLayout>
+    <EditText
+        android:id="@+id/editTextMailAuth"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="40dp"
+        android:ems="10"
+        android:hint="@string/emailLogin"
+        android:inputType="textEmailAddress"
+        android:minHeight="48dp"
+        app:layout_constraintBottom_toTopOf="@+id/editTextPassAuth"
+        app:layout_constraintEnd_toEndOf="@+id/editTextPassAuth"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="@+id/editTextPassAuth" />
+
+    <ImageView
+        android:id="@+id/imageView6"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="28dp"
+        android:src="@drawable/ic_baseline_account_circle_24"
+        app:layout_constraintBottom_toBottomOf="@+id/editTextMailAuth"
+        app:layout_constraintEnd_toStartOf="@+id/editTextMailAuth"
+        app:layout_constraintTop_toTopOf="@+id/editTextMailAuth"
+        app:layout_constraintVertical_bias="1.0" />
+
+    <ImageView
+        android:id="@+id/imageView7"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="28dp"
+        android:src="@drawable/ic_baseline_lock_24"
+        app:layout_constraintBottom_toBottomOf="@+id/editTextPassAuth"
+        app:layout_constraintEnd_toStartOf="@+id/editTextPassAuth"
+        app:layout_constraintTop_toTopOf="@+id/editTextPassAuth" />
+
+    <Button
+        android:id="@+id/btnAuthetification"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="32dp"
+        android:backgroundTint="@color/buttonColor"
+        android:text="@string/loginButton"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.955" />
+
+    <TextView
+        android:id="@+id/titelAltaUsers"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="sans-serif"
+        android:text="@string/titelCreateUsers"
+        android:textSize="34sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:layout_editor_absoluteY="75dp" />
+
+    <Spinner
+        android:id="@+id/spinner"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@+id/btnAuthetification"
+        app:layout_constraintEnd_toEndOf="@+id/editTextPassAuth"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/editTextPassAuth"
+        app:layout_constraintTop_toBottomOf="@+id/editTextPassAuth"
+        app:layout_constraintVertical_bias="0.145" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

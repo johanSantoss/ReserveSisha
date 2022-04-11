@@ -25,6 +25,11 @@
     <string name="configUsers">Configuracion</string>
     <string name="manageRate">Tarifas</string>
     <string name="manageTables">Mesas</string>
+    
+    <!-- MainAdmin -->
+    <string name="titelCreateUsers">Alta Usuarios</string>
+    <string name="manageUser">Gestion Usuarios</string>
+    <string name="manageBusiness">Gestion Empresas</string>
 
 
 
