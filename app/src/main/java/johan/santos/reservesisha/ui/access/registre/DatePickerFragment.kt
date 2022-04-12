@@ -6,7 +6,6 @@ import android.content.Context
 import android.os.Bundle
 import android.widget.DatePicker
 import androidx.fragment.app.DialogFragment
-import johan.santos.reservesisha.R
 import java.util.*
 
 class DatePickerFragment (val listener : (day:Int, month:Int, year:Int) -> Unit) : DialogFragment(), DatePickerDialog.OnDateSetListener {

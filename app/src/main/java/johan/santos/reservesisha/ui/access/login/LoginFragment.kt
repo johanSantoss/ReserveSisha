@@ -1,61 +1,53 @@
 package johan.santos.reservesisha.ui.access.login
 
+
+import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
 import android.util.Log
+import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
-import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavDirections
 import androidx.navigation.fragment.NavHostFragment
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
+import johan.santos.reservesisha.MainActivity
+import johan.santos.reservesisha.R
+import johan.santos.reservesisha.databinding.LoginFragmentBinding
 import com.google.firebase.database.*
 import com.google.firebase.database.ktx.database
 import com.google.firebase.database.ktx.getValue
 import com.google.firebase.ktx.Firebase
-import johan.santos.reservesisha.MainActivity
-import johan.santos.reservesisha.R
-import johan.santos.reservesisha.databinding.LoginFragmentBinding
+
 
 class LoginFragment : Fragment() {
-
-    private lateinit var binding : LoginFragmentBinding
-    private lateinit var viewModel: LoginViewModel
-    private lateinit var auth: FirebaseAuth
-    //private lateinit var database: FirebaseDatabase
-    private lateinit var typeUser : String
 
     companion object {
         fun newInstance() = LoginFragment()
         private const val TAG = "EmailPassword"
     }
 
+    private lateinit var binding : LoginFragmentBinding
+    private lateinit var viewModel: LoginViewModel
+    private lateinit var auth: FirebaseAuth
+    private lateinit var database : DatabaseReference
+    private var typeUser : String = ""
 
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?): View {
-        binding = DataBindingUtil.inflate(
-            inflater,
-            R.layout.login_fragment,
-            container,
-            false
-        )
+        binding = LoginFragmentBinding.inflate(layoutInflater)
 
         auth = (activity as MainActivity).getAuth()
-        // Conection to DataBase
-        //database2 = FirebaseDatabase.getInstance("https://reservesisha96-default-rtdb.europe-west1.firebasedatabase.app/")
 
-
-
-        if ((activity as MainActivity).getAuth().currentUser != null) setInitFragment()
+        if ((activity as MainActivity).getAuth().currentUser != null) readData()
 
         // Get the viewModel
         viewModel = ViewModelProvider(this).get(LoginViewModel::class.java)
-
 
         binding.btnAuthetification.setOnClickListener {
             // guardar mail en viewModel
@@ -64,6 +56,7 @@ class LoginFragment : Fragment() {
             viewModel.setPassword(binding.editTextPassAuth.text.toString().trim())
             // realizar SING con mial y pass
             signIn( viewModel.email.value.toString(), viewModel.password.value.toString())
+            readData()
         }
 
         binding.textBtnRegister.setOnClickListener {
@@ -76,7 +69,6 @@ class LoginFragment : Fragment() {
         return binding.root
     }
 
-
     private fun signIn(email: String, password: String) {
         if ((activity as MainActivity).getAuth() != null){
             // [START sign_in_with_email]
@@ -86,10 +78,6 @@ class LoginFragment : Fragment() {
                         if (task.isSuccessful) {
                             // Sign in success, update UI with the signed-in user's information
                             Log.d(TAG, "signInWithEmail:success")
-                            // toast para informar el "success" del login
-                            //Toast.makeText(activity, "Authentication success.", Toast.LENGTH_SHORT).show()
-                            // get user to apply directions fragment
-                            setInitFragment()
                         } else {
                             // If sign in fails, display a message to the user.
                             Log.w(TAG, "signInWithEmail:failure", task.exception)
@@ -102,24 +90,30 @@ class LoginFragment : Fragment() {
                     Toast.LENGTH_SHORT).show()
             }
         }
-
     }
 
-    private  fun clearText(){
-        // neteja text "MailBox"
-        binding.editTextMailAuth.editableText.clear()
-        // nateja text "PassBox"
-        binding.editTextPassAuth.editableText.clear()
+    private fun readData() {
+
+        database = FirebaseDatabase.getInstance().getReference("AllUsers/Y9JsbTzz2ENnjR3IL5ICsIOolvH2")
+        database.child("userDates").get().addOnSuccessListener {
+
+            if (it.exists()){
+
+                val firstname = it.child("rol").value
+
+                typeUser = firstname.toString()
+                Toast.makeText(activity,firstname.toString(),Toast.LENGTH_SHORT).show()
+                setInitFragment()
+
+            }else{
+                Toast.makeText(activity,"User Doesn't Exist",Toast.LENGTH_SHORT).show()
+            }
+        }.addOnFailureListener{
+            Toast.makeText(activity,"Failed",Toast.LENGTH_SHORT).show()
+        }
     }
 
     private fun setInitFragment(){
-        // get type of user------------------------------------------------------------------------------------------------------------
-        var typeUser : String = getTypeUser()
-        (activity as MainActivity).toastView(typeUser)
-        //typeUser = "CurrentUser"
-
-        // generar action al directions to Main Fragment
-        //var action: NavDirections? = null
         var action: NavDirections? = LoginFragmentDirections.actionLoginFragmentToAdminMainFragment()
         // set action según el tipo de usuario que ha realizado "Login"
         when (typeUser) {
@@ -128,25 +122,17 @@ class LoginFragment : Fragment() {
             "CurrentUser"   -> action = LoginFragmentDirections.actionLoginFragmentToUserMainFragment()
         }
         NavHostFragment.findNavController(this).navigate(action!!)
-
-        //(activity as MainActivity).toastView(typeUser)
     }
-    // -----------------------------------------------------------------------------------------------------------------------
-    class DatosUsuari (
-        val rol: String = ""
-    ){
 
-    }
     private fun getTypeUser() : String {
 
         var type = "fallo-1"
         // Se genera el acceso a la DDBB al nodo de cada usuari
 
-        //val database = FirebaseDatabase.getInstance("https://reservesisha96-default-rtdb.europe-west1.firebasedatabase.app/")
-        val database : DatabaseReference
-        database = FirebaseDatabase.getInstance().getReference("Users/wasach")
+        var database : DatabaseReference
+        database = FirebaseDatabase.getInstance().getReference("Users")
 
-        database.get().addOnSuccessListener {
+        database.child("t1").get().addOnSuccessListener {
             if (it.exists()){
                 val firstname = it.child("firstName").value
                 val lastName = it.child("lastName").value
@@ -158,7 +144,6 @@ class LoginFragment : Fragment() {
         }.addOnFailureListener{
             type = "Failed"
         }
-
         return type
     }
 
@@ -167,7 +152,6 @@ class LoginFragment : Fragment() {
         // recuperar "ActionBar" para esconderla
         val supportActionBar = (requireActivity() as AppCompatActivity).supportActionBar
         supportActionBar?.hide()
-
         // enconder todos los menus
         (activity as MainActivity).disableMenus()
     }
@@ -179,7 +163,6 @@ class LoginFragment : Fragment() {
         supportActionBar?.show()
          */
         if ((activity as MainActivity).getAuth().currentUser != null){
-            typeUser = getTypeUser()
             // mostrar menus según el "user" que ha hecho LOGIN
             when (typeUser) {
                 "Admin"         -> (activity as MainActivity).enableMenuAdmin()
@@ -187,6 +170,12 @@ class LoginFragment : Fragment() {
                 "CurrentUser"   -> (activity as MainActivity).enableMenuCurrentUser()
             }
         }
+    }
+
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        viewModel = ViewModelProvider(this).get(LoginViewModel::class.java)
+        // TODO: Use the ViewModel
     }
 
 }

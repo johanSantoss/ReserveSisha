@@ -14,6 +14,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 
 import com.google.firebase.ktx.Firebase
+import johan.santos.reservesisha.databinding.MainActivityBinding
 import johan.santos.reservesisha.databinding.NavBarAdminBinding
 import johan.santos.reservesisha.databinding.NavBarBusinessBinding
 import johan.santos.reservesisha.databinding.NavBarUsersBinding
@@ -26,12 +27,15 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding: NavBarUsersBinding
     private lateinit var binding2: NavBarBusinessBinding
     private lateinit var binding3: NavBarAdminBinding
+    private lateinit var bindingMain : MainActivityBinding
 
     private lateinit var auth: FirebaseAuth
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.main_activity)
+
+        bindingMain = MainActivityBinding.inflate(layoutInflater)
 
         auth = Firebase.auth
 
@@ -127,5 +131,8 @@ class MainActivity : AppCompatActivity() {
         auth.signOut()
     }
 
+    private fun login (){
+        //bindingMain.fragmentContainerView.
+    }
 
 }
