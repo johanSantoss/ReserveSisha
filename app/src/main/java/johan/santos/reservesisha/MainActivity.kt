@@ -48,13 +48,13 @@ class MainActivity : AppCompatActivity() {
 
         val appBarConfiguration = AppBarConfiguration(
             setOf(
-                R.id.userMainFragment, R.id.manageBookingFragment, R.id.configAdminFragment
+                R.id.userMainFragment, R.id.manageBookingFragment, R.id.configUserFragment
             )
         )
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
 
-
+        /*
         binding2 = NavBarBusinessBinding.inflate(layoutInflater)
         setContentView(binding2.root)
 
@@ -83,9 +83,10 @@ class MainActivity : AppCompatActivity() {
                 R.id.adminMainFragment, R.id.configAdminFragment
             )
         )
+
         setupActionBarWithNavController(navController3, appBarConfiguration3)
         navView3.setupWithNavController(navController3)
-
+        */
 
 
     }
@@ -95,8 +96,11 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun disableMenus() {
+        /*
         val bottomNavigationView3 = findViewById<BottomNavigationView>(R.id.bottom_navigation_view3)
         bottomNavigationView3.visibility = View.INVISIBLE
+        */
+
     }
 
     fun enableMenuAdmin(){
@@ -109,6 +113,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun enableMenuCurrentUser(){
+
 
     }
 

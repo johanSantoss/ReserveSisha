@@ -26,7 +26,7 @@
         <entry key="..\:/Users/wasach/Desktop/AndroidProject/ReserveSisha/app/src/main/res/layout/config_business_fragment.xml" value="0.371875" />
         <entry key="..\:/Users/wasach/Desktop/AndroidProject/ReserveSisha/app/src/main/res/layout/config_rate_fragment.xml" value="0.371875" />
         <entry key="..\:/Users/wasach/Desktop/AndroidProject/ReserveSisha/app/src/main/res/layout/config_table_fragment.xml" value="0.371875" />
-        <entry key="..\:/Users/wasach/Desktop/AndroidProject/ReserveSisha/app/src/main/res/layout/config_user_fragment.xml" value="0.371875" />
+        <entry key="..\:/Users/wasach/Desktop/AndroidProject/ReserveSisha/app/src/main/res/layout/config_user_fragment.xml" value="0.33" />
         <entry key="..\:/Users/wasach/Desktop/AndroidProject/ReserveSisha/app/src/main/res/layout/config_users_fragment.xml" value="0.371875" />
         <entry key="..\:/Users/wasach/Desktop/AndroidProject/ReserveSisha/app/src/main/res/layout/current_user_main_fragment.xml" value="0.371875" />
         <entry key="..\:/Users/wasach/Desktop/AndroidProject/ReserveSisha/app/src/main/res/layout/item_business.xml" value="0.371875" />
@@ -41,6 +41,7 @@
         <entry key="..\:/Users/wasach/Desktop/AndroidProject/ReserveSisha/app/src/main/res/layout/registre_fragment.xml" value="0.33" />
         <entry key="..\:/Users/wasach/Desktop/AndroidProject/ReserveSisha/app/src/main/res/layout/select_tables_fragment.xml" value="0.1984375" />
         <entry key="..\:/Users/wasach/Desktop/AndroidProject/ReserveSisha/app/src/main/res/layout/user_main_fragment.xml" value="0.371875" />
+        <entry key="..\:/Users/wasach/Desktop/AndroidProject/ReserveSisha/app/src/main/res/menu/bottom_nav_users.xml" value="0.371875" />
         <entry key="..\:/Users/wasach/Desktop/ReserveSisha/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.299" />
         <entry key="..\:/Users/wasach/Desktop/ReserveSisha/app/src/main/res/drawable/ic_launcher_background.xml" value="0.299" />
         <entry key="..\:/Users/wasach/Desktop/ReserveSisha/app/src/main/res/layout/login_fragment.xml" value="0.2638888888888889" />

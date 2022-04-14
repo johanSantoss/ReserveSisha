@@ -1,13 +1,198 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".ui.usuallyUser.config.ConfigUserFragment">
 
-    <TextView
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/frameLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="Hello" />
+        tools:context=".ui.usuallyUser.config.ConfigUserFragment" >
 
-</FrameLayout>
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="1.0">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/frame2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:scrollbars="horizontal|vertical">
+
+                <TextView
+                    android:id="@+id/tvUserDades"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:text="Dades Personals"
+                    android:textAllCaps="true"
+                    android:textColor="@color/black"
+                    android:textSize="18dp"
+                    android:textStyle="bold"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <EditText
+                    android:id="@+id/etName"
+                    android:layout_width="240dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:ems="10"
+                    android:hint="Nom"
+                    android:inputType="textPersonName"
+                    android:minHeight="48dp"
+                    android:textAlignment="center"
+                    app:layout_constraintEnd_toEndOf="@+id/tvUserDades"
+                    app:layout_constraintStart_toStartOf="@+id/tvUserDades"
+                    app:layout_constraintTop_toBottomOf="@+id/tvUserDades"
+                    tools:ignore="TextContrastCheck" />
+
+                <EditText
+                    android:id="@+id/etCognom"
+                    android:layout_width="240dp"
+                    android:layout_height="48dp"
+                    android:layout_marginTop="4dp"
+                    android:ems="10"
+                    android:hint="Cognoms"
+                    android:inputType="textPersonName"
+                    android:textAlignment="center"
+                    app:layout_constraintEnd_toEndOf="@+id/etName"
+                    app:layout_constraintStart_toStartOf="@+id/etName"
+                    app:layout_constraintTop_toBottomOf="@+id/etName"
+                    tools:ignore="TextContrastCheck" />
+
+                <EditText
+                    android:id="@+id/etEdat"
+                    android:layout_width="240dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:ems="10"
+                    android:hint="@string/edat"
+                    android:inputType="number"
+                    android:minHeight="48dp"
+                    android:textAlignment="center"
+                    app:layout_constraintEnd_toEndOf="@+id/etCognom"
+                    app:layout_constraintStart_toStartOf="@+id/etCognom"
+                    app:layout_constraintTop_toBottomOf="@+id/etCognom"
+                    tools:ignore="TextContrastCheck" />
+
+                <RadioGroup
+                    android:id="@+id/radioGroupSexe"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:orientation="vertical"
+                    app:layout_constraintEnd_toEndOf="@+id/etEdat"
+                    app:layout_constraintStart_toStartOf="@+id/etEdat"
+                    app:layout_constraintTop_toBottomOf="@+id/etEdat">
+
+                    <RadioButton
+                        android:id="@+id/radioDone"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/sexe1"
+                        android:textAlignment="center" />
+
+                    <RadioButton
+                        android:id="@+id/radioHome"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/sexe2"
+                        android:textAlignment="center" />
+                </RadioGroup>
+
+                <EditText
+                    android:id="@+id/etCiutat"
+                    android:layout_width="240dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:ems="10"
+                    android:hint="@string/ciutat"
+                    android:inputType="textPersonName"
+                    android:minHeight="48dp"
+                    android:textAlignment="center"
+                    app:layout_constraintEnd_toEndOf="@+id/radioGroupSexe"
+                    app:layout_constraintStart_toStartOf="@+id/radioGroupSexe"
+                    app:layout_constraintTop_toBottomOf="@+id/radioGroupSexe"
+                    tools:ignore="TextContrastCheck" />
+
+                <EditText
+                    android:id="@+id/etDataNaixement"
+                    android:layout_width="240dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:clickable="false"
+                    android:ems="10"
+                    android:focusable="false"
+                    android:hint="Data de Naixement"
+                    android:inputType="date"
+                    android:maxLines="1"
+                    android:minHeight="48dp"
+                    android:textAlignment="center"
+                    app:layout_constraintEnd_toEndOf="@+id/etCiutat"
+                    app:layout_constraintStart_toStartOf="@+id/etCiutat"
+                    app:layout_constraintTop_toBottomOf="@+id/etCiutat"
+                    tools:ignore="TextContrastCheck" />
+
+                <EditText
+                    android:id="@+id/etIdentificadorPersonal"
+                    android:layout_width="240dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:ems="10"
+                    android:hint="DNI/NIE"
+                    android:inputType="text"
+                    android:minHeight="48dp"
+                    android:textAlignment="center"
+                    app:layout_constraintEnd_toEndOf="@+id/etDataNaixement"
+                    app:layout_constraintStart_toStartOf="@+id/etDataNaixement"
+                    app:layout_constraintTop_toBottomOf="@+id/etDataNaixement"
+                    tools:ignore="TextContrastCheck" />
+
+                <EditText
+                    android:id="@+id/etNomUsuari"
+                    android:layout_width="240dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:ems="10"
+                    android:hint="Nom d'usuari"
+                    android:inputType="textPersonName"
+                    android:minHeight="48dp"
+                    android:textAlignment="center"
+                    app:layout_constraintEnd_toEndOf="@+id/etIdentificadorPersonal"
+                    app:layout_constraintStart_toStartOf="@+id/etIdentificadorPersonal"
+                    app:layout_constraintTop_toBottomOf="@+id/etIdentificadorPersonal"
+                    tools:ignore="TextContrastCheck" />
+
+
+                <Button
+                    android:id="@+id/btnUpdate"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="14dp"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginEnd="16dp"
+                    android:backgroundTint="@color/buttonColor"
+                    android:text="update"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/etNomUsuari" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </ScrollView>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

@@ -10,7 +10,7 @@
         android:icon="@drawable/ic_baseline_booking_24"
         android:title="@string/manageBooking" />
     <item
-        android:id="@+id/configAdminFragment"
+        android:id="@+id/configUserFragment"
         android:icon="@drawable/ic_baseline_settings_24"
         android:title="@string/configUsers" />
 </menu>

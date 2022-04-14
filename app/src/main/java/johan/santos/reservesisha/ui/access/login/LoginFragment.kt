@@ -34,7 +34,7 @@ class LoginFragment : Fragment() {
 
     private lateinit var binding : LoginFragmentBinding
     private lateinit var viewModel: LoginViewModel
-    private lateinit var auth: FirebaseAuth
+    //private lateinit var auth: FirebaseAuth
     private lateinit var database : DatabaseReference
     private var typeUser : String = ""
 
@@ -42,7 +42,7 @@ class LoginFragment : Fragment() {
 
         binding = LoginFragmentBinding.inflate(layoutInflater)
 
-        auth = (activity as MainActivity).getAuth()
+        //auth = (activity as MainActivity).getAuth()
 
         if ((activity as MainActivity).getAuth().currentUser != null) readData()
 
@@ -56,7 +56,7 @@ class LoginFragment : Fragment() {
             viewModel.setPassword(binding.editTextPassAuth.text.toString().trim())
             // realizar SING con mial y pass
             signIn( viewModel.email.value.toString(), viewModel.password.value.toString())
-            readData()
+
         }
 
         binding.textBtnRegister.setOnClickListener {
@@ -70,7 +70,7 @@ class LoginFragment : Fragment() {
     }
 
     private fun signIn(email: String, password: String) {
-        if ((activity as MainActivity).getAuth() != null){
+        //if (auth != null){
             // [START sign_in_with_email]
             try {
                 (activity as MainActivity).getAuth().signInWithEmailAndPassword(email, password)
@@ -78,23 +78,23 @@ class LoginFragment : Fragment() {
                         if (task.isSuccessful) {
                             // Sign in success, update UI with the signed-in user's information
                             Log.d(TAG, "signInWithEmail:success")
+                            readData()
                         } else {
                             // If sign in fails, display a message to the user.
                             Log.w(TAG, "signInWithEmail:failure", task.exception)
-                            Toast.makeText(activity, "Authentication failed.", Toast.LENGTH_SHORT).show()
+                            (activity as MainActivity).toastView("Authentication failed.")
 
                         }
                     }
             } catch (e: IllegalArgumentException)  {
-                Toast.makeText(activity, "Authentication failed.",
-                    Toast.LENGTH_SHORT).show()
+                (activity as MainActivity).toastView("Authentication failed.")
             }
-        }
+        //}
     }
 
     private fun readData() {
-
-        database = FirebaseDatabase.getInstance().getReference("AllUsers/Y9JsbTzz2ENnjR3IL5ICsIOolvH2")
+        val auth = (activity as MainActivity).getAuth()
+        database = FirebaseDatabase.getInstance().getReference("AllUsers/${auth.currentUser!!.uid}")
         database.child("userDates").get().addOnSuccessListener {
 
             if (it.exists()){
@@ -122,29 +122,6 @@ class LoginFragment : Fragment() {
             "CurrentUser"   -> action = LoginFragmentDirections.actionLoginFragmentToUserMainFragment()
         }
         NavHostFragment.findNavController(this).navigate(action!!)
-    }
-
-    private fun getTypeUser() : String {
-
-        var type = "fallo-1"
-        // Se genera el acceso a la DDBB al nodo de cada usuari
-
-        var database : DatabaseReference
-        database = FirebaseDatabase.getInstance().getReference("Users")
-
-        database.child("t1").get().addOnSuccessListener {
-            if (it.exists()){
-                val firstname = it.child("firstName").value
-                val lastName = it.child("lastName").value
-                val age = it.child("age").value
-                type = firstname.toString() + " " + lastName.toString() + " Of " + age.toString()
-            }else{
-                type = "User Doesn't Exist"
-            }
-        }.addOnFailureListener{
-            type = "Failed"
-        }
-        return type
     }
 
     override fun onResume() {
