@@ -5,6 +5,7 @@ import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import johan.santos.reservesisha.databinding.ItemBusinessBinding
+import johan.santos.reservesisha.ui.access.models.DataBooking
 import johan.santos.reservesisha.ui.access.models.DataBusiness
 
 class DataBusinessViewHolder (view : View) : RecyclerView.ViewHolder(view) {

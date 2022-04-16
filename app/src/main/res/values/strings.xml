@@ -41,6 +41,13 @@
 
 
 
+    <string name="nom_reserva">Nom_reserva</string>
+    <string name="n_personas">Nº Personas</string>
+    <string name="fecha">Fecha</string>
+    <string name="hora">Hora</string>
+    <string name="tipo">Tipo</string>
+    <string name="direccion">Dirección</string>
+    <string name="reservar">Reservar</string>
 
 
 </resources>

@@ -6,12 +6,9 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import johan.santos.reservesisha.MainActivity
-import johan.santos.reservesisha.R
 import johan.santos.reservesisha.databinding.CurrentUserMainFragmentBinding
-import johan.santos.reservesisha.ui.access.login.LoginViewModel
 import johan.santos.reservesisha.ui.access.models.DataBusiness
 import johan.santos.reservesisha.ui.usuallyUser.recyclerViewBusiness.DataBusinessAdapter
 
@@ -68,6 +65,7 @@ class userMainFragment : Fragment() {
             val anyBusiness = DataBusiness(
                 "",
                 "Don't have any business!",
+                "",
                 "",
                 descripcio,
                 PATH_PHOTO )

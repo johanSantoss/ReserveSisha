@@ -14,7 +14,6 @@ data class User_Current  (
     var data_naixement : String,
     var ciutat      : String,
     var identificador_personal : String
-
 ) : User(){
 
 }
