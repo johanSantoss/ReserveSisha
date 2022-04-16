@@ -1,10 +1,8 @@
 package johan.santos.reservesisha
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.View
 import android.widget.Toast
-import androidx.drawerlayout.widget.DrawerLayout
+import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
@@ -12,12 +10,12 @@ import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
-
 import com.google.firebase.ktx.Firebase
 import johan.santos.reservesisha.databinding.MainActivityBinding
 import johan.santos.reservesisha.databinding.NavBarAdminBinding
 import johan.santos.reservesisha.databinding.NavBarBusinessBinding
 import johan.santos.reservesisha.databinding.NavBarUsersBinding
+
 
 class MainActivity : AppCompatActivity() {
 
@@ -40,6 +38,47 @@ class MainActivity : AppCompatActivity() {
         auth = Firebase.auth
 
         binding = NavBarUsersBinding.inflate(layoutInflater)
+
+        binding2 = NavBarBusinessBinding.inflate(layoutInflater)
+
+        binding3 = NavBarAdminBinding.inflate(layoutInflater)
+
+    }
+
+    fun toastView(message : CharSequence){
+        Toast.makeText(applicationContext, message, Toast.LENGTH_LONG).show()
+    }
+
+    fun disableMenus() {
+
+//        val bottomNavigationView3 = findViewById<BottomNavigationView>(R.id.bottom_navigation_view3)
+//        bottomNavigationView3.visibility = View.INVISIBLE
+//
+//        val bottomNavigationView2 = findViewById<BottomNavigationView>(R.id.bottom_navigation_view2)
+//        bottomNavigationView2.visibility = View.INVISIBLE
+//
+//        val bottomNavigationView = findViewById<BottomNavigationView>(R.id.bottom_navigation_view)
+//        bottomNavigationView.visibility = View.INVISIBLE
+    }
+
+    fun enableMenuAdmin(){
+//        val bottomNavigationView3 = findViewById<BottomNavigationView>(R.id.bottom_navigation_view3)
+//        bottomNavigationView3.visibility = View.VISIBLE
+
+    }
+
+    fun enableMenuBusiness(){
+//        val bottomNavigationView2 = findViewById<BottomNavigationView>(R.id.bottom_navigation_view2)
+//        bottomNavigationView2.visibility = View.VISIBLE
+
+    }
+
+    fun enableMenuCurrentUser(){
+//        val bottomNavigationView = findViewById<BottomNavigationView>(R.id.bottom_navigation_view)
+//        bottomNavigationView.visibility = View.VISIBLE
+    }
+
+    fun upBottonBarUser(){
         setContentView(binding.root)
 
         val navView: BottomNavigationView = findViewById<BottomNavigationView>(R.id.bottom_navigation_view)
@@ -53,9 +92,9 @@ class MainActivity : AppCompatActivity() {
         )
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
+    }
 
-        /*
-        binding2 = NavBarBusinessBinding.inflate(layoutInflater)
+    fun upBottonBarBusiness(){
         setContentView(binding2.root)
 
         val navView2: BottomNavigationView = findViewById<BottomNavigationView>(R.id.bottom_navigation_view2)
@@ -67,11 +106,12 @@ class MainActivity : AppCompatActivity() {
                 R.id.businessMainFragment, R.id.manageRatesFragment, R.id.manageTablesFragment, R.id.configAdminFragment
             )
         )
+
         setupActionBarWithNavController(navController2, appBarConfiguration2)
         navView2.setupWithNavController(navController2)
+    }
 
-
-        binding3 = NavBarAdminBinding.inflate(layoutInflater)
+    fun upBottonBarAdmin(){
         setContentView(binding3.root)
 
         val navView3: BottomNavigationView = findViewById<BottomNavigationView>(R.id.bottom_navigation_view3)
@@ -86,35 +126,6 @@ class MainActivity : AppCompatActivity() {
 
         setupActionBarWithNavController(navController3, appBarConfiguration3)
         navView3.setupWithNavController(navController3)
-        */
-
-
-    }
-
-    fun toastView(message : CharSequence){
-        Toast.makeText(applicationContext, message, Toast.LENGTH_LONG).show()
-    }
-
-    fun disableMenus() {
-        /*
-        val bottomNavigationView3 = findViewById<BottomNavigationView>(R.id.bottom_navigation_view3)
-        bottomNavigationView3.visibility = View.INVISIBLE
-        */
-
-    }
-
-    fun enableMenuAdmin(){
-//        val bottomNavigationView = findViewById<BottomNavigationView>(R.id.bottom_navigation_view)
-//        bottomNavigationView.visibility = View.VISIBLE
-    }
-
-    fun enableMenuBusiness(){
-
-    }
-
-    fun enableMenuCurrentUser(){
-
-
     }
 
 //    override fun onSupportNavigateUp(): Boolean {
@@ -139,5 +150,6 @@ class MainActivity : AppCompatActivity() {
     private fun login (){
         //bindingMain.fragmentContainerView.
     }
+
 
 }

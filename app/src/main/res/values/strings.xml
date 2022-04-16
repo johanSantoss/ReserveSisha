@@ -22,14 +22,22 @@
     <!-- Bottom bar navigation Users -->
     <string name="mainUsers">Main</string>
     <string name="manageBooking">Reservas</string>
-    <string name="configUsers">Configuracion</string>
+    <string name="configUsers">Configuracio</string>
     <string name="manageRate">Tarifas</string>
-    <string name="manageTables">Mesas</string>
+    <string name="manageTables">Taules</string>
     
     <!-- MainAdmin -->
-    <string name="titelCreateUsers">Alta Usuarios</string>
-    <string name="manageUser">Gestion Usuarios</string>
-    <string name="manageBusiness">Gestion Empresas</string>
+    <string name="titelCreateUsers">Alta Usuaris</string>
+    <string name="titelCreateAdmin">Configuracio Admin</string>
+    <string name="manageUser">Gestio Usuaris</string>
+    <string name="manageBusiness">Gestio Empresa</string>
+    <string name="btnAdd">Afegir</string>
+    <string name="btnSave">Guardar</string>
+    <string name="addNewUser">Crear Usuari</string>
+
+    <!-- Current User -->
+    <string name="titleHomeUser">Empresas</string>
+
 
 
 

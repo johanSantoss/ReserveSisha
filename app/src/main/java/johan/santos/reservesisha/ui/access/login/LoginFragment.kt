@@ -142,9 +142,9 @@ class LoginFragment : Fragment() {
         if ((activity as MainActivity).getAuth().currentUser != null){
             // mostrar menus según el "user" que ha hecho LOGIN
             when (typeUser) {
-                "Admin"         -> (activity as MainActivity).enableMenuAdmin()
-                "Business"      -> (activity as MainActivity).enableMenuBusiness()
-                "CurrentUser"   -> (activity as MainActivity).enableMenuCurrentUser()
+                "Admin"         -> (activity as MainActivity).upBottonBarAdmin()
+                "Business"      -> (activity as MainActivity).upBottonBarBusiness()
+                "CurrentUser"   -> (activity as MainActivity).upBottonBarUser()
             }
         }
     }

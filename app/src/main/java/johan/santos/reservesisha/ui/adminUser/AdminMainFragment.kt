@@ -7,11 +7,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
+import androidx.navigation.fragment.NavHostFragment
 import com.google.firebase.auth.FirebaseAuth
 import johan.santos.reservesisha.MainActivity
 import johan.santos.reservesisha.R
 import johan.santos.reservesisha.databinding.AdminMainFragmentBinding
 import johan.santos.reservesisha.databinding.LoginFragmentBinding
+import johan.santos.reservesisha.ui.access.login.LoginFragmentDirections
 
 
 class AdminMainFragment : Fragment() {
@@ -36,6 +38,16 @@ class AdminMainFragment : Fragment() {
 
         binding.btnLogut.setOnClickListener {
             (activity as MainActivity).logutAndExit()
+        }
+
+        binding.manageUsers.setOnClickListener {
+            val action = AdminMainFragmentDirections.actionAdminMainFragmentToManageUsersFragment()
+            NavHostFragment.findNavController(this).navigate(action)
+        }
+
+        binding.manageBusiness.setOnClickListener {
+            val action = AdminMainFragmentDirections.actionAdminMainFragmentToConfigAdminFragment(auth.currentUser?.uid.toString())
+            NavHostFragment.findNavController(this).navigate(action)
         }
 
         return binding.root
