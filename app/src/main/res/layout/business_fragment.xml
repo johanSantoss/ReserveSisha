@@ -114,6 +114,29 @@
 
     </LinearLayout>
 
+    <TextView
+        android:id="@+id/tvDescripcio"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Descripcio: "
+        android:textColor="@color/black"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        android:layout_marginTop="2dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout3"/>
+
+    <TextView
+        android:id="@+id/tvDescripcioContent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="2dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvDescripcio"
+        tools:text="lmsdfklmsdklñmgflñsdamgkpmdgklmnsdklgmnklpsdnmfgkladnmfgklnamdfklgmklsdfmgkl" />
+
     <ImageView
         android:id="@+id/imMaps"
         android:layout_width="match_parent"
@@ -122,7 +145,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout3"
+        app:layout_constraintTop_toBottomOf="@+id/tvDescripcioContent"
         app:layout_constraintVertical_bias="1.0"
         tools:background="@color/black" />
 

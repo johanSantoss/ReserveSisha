@@ -1,13 +1,206 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".ui.businessUser.configBusiness.ConfigBusinessFragment">
 
-    <TextView
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/frameLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="Hello" />
+        tools:context=".ui.businessUser.configBusiness.ConfigBusinessFragment">
 
-</FrameLayout>
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="1.0">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/frame2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:scrollbars="vertical">
+
+                <TextView
+                    android:id="@+id/tvUserDades"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:text="Dades Usuari"
+                    android:textAllCaps="true"
+                    android:textColor="@color/black"
+                    android:textSize="18dp"
+                    android:textStyle="bold"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <EditText
+                    android:id="@+id/etUserNomUsuari"
+                    android:layout_width="240dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:ems="10"
+                    android:hint="Nom d'usuari"
+                    android:inputType="textPersonName"
+                    android:minHeight="48dp"
+                    android:textAlignment="center"
+                    app:layout_constraintEnd_toEndOf="@+id/tvUserDades"
+                    app:layout_constraintStart_toStartOf="@+id/tvUserDades"
+                    app:layout_constraintTop_toBottomOf="@+id/tvUserDades"
+                    tools:ignore="TextContrastCheck" />
+
+                <EditText
+                    android:id="@+id/etUserMail"
+                    android:layout_width="240dp"
+                    android:layout_height="48dp"
+                    android:layout_marginTop="4dp"
+                    android:ems="10"
+                    android:hint="@string/emailLogin"
+                    android:inputType="textPersonName"
+                    android:textAlignment="center"
+                    app:layout_constraintEnd_toEndOf="@+id/etUserNomUsuari"
+                    app:layout_constraintStart_toStartOf="@+id/etUserNomUsuari"
+                    app:layout_constraintTop_toBottomOf="@+id/etUserNomUsuari"
+                    tools:ignore="TextContrastCheck" />
+
+                <EditText
+                    android:id="@+id/etBusiNomEmpresa"
+                    android:layout_width="240dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:ems="10"
+                    android:hint="Nom de la empresa"
+                    android:inputType="number"
+                    android:minHeight="48dp"
+                    android:textAlignment="center"
+                    app:layout_constraintEnd_toEndOf="@+id/etUserMail"
+                    app:layout_constraintStart_toStartOf="@+id/etUserMail"
+                    app:layout_constraintTop_toBottomOf="@+id/etUserMail"
+                    tools:ignore="TextContrastCheck" />
+
+                <EditText
+                    android:id="@+id/etBusiDirecio"
+                    android:layout_width="240dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:ems="10"
+                    android:hint="Direcció"
+                    android:inputType="textPersonName"
+                    android:minHeight="48dp"
+                    android:textAlignment="center"
+                    app:layout_constraintEnd_toEndOf="@+id/etBusiNomEmpresa"
+                    app:layout_constraintStart_toStartOf="@+id/etBusiNomEmpresa"
+                    app:layout_constraintTop_toBottomOf="@+id/etBusiNomEmpresa"
+                    tools:ignore="TextContrastCheck" />
+
+                <EditText
+                    android:id="@+id/etHoraOpen"
+                    android:layout_width="240dp"
+                    android:layout_height="wrap_content"
+                    android:clickable="false"
+                    android:ems="10"
+                    android:focusable="false"
+                    android:hint="Hora Inici"
+                    android:inputType="time"
+                    android:maxLines="1"
+                    android:minHeight="48dp"
+                    android:textAlignment="center"
+                    app:layout_constraintEnd_toEndOf="@+id/etBusiDirecio"
+                    app:layout_constraintStart_toStartOf="@+id/etBusiDirecio"
+                    app:layout_constraintTop_toBottomOf="@+id/etBusiDirecio"
+                    tools:ignore="TextContrastCheck" />
+
+                <EditText
+                    android:id="@+id/etHoraClose"
+                    android:layout_width="240dp"
+                    android:layout_height="wrap_content"
+                    android:clickable="false"
+                    android:ems="10"
+                    android:focusable="false"
+                    android:hint="Hora Final"
+                    android:inputType="time"
+                    android:maxLines="1"
+                    android:minHeight="48dp"
+                    android:textAlignment="center"
+                    app:layout_constraintEnd_toEndOf="@+id/etHoraOpen"
+                    app:layout_constraintStart_toStartOf="@+id/etHoraOpen"
+                    app:layout_constraintTop_toBottomOf="@+id/etHoraOpen"
+                    tools:ignore="TextContrastCheck" />
+
+                <EditText
+                    android:id="@+id/etBusiTel"
+                    android:layout_width="240dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:ems="10"
+                    android:hint="Telèfon"
+                    android:inputType="textPersonName"
+                    android:minHeight="48dp"
+                    android:textAlignment="center"
+                    app:layout_constraintEnd_toEndOf="@+id/etHoraClose"
+                    app:layout_constraintStart_toStartOf="@+id/etHoraClose"
+                    app:layout_constraintTop_toBottomOf="@+id/etHoraClose"
+                    tools:ignore="TextContrastCheck" />
+
+                <EditText
+                    android:id="@+id/etBusiIdentificador"
+                    android:layout_width="240dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:clickable="false"
+                    android:editable="false"
+                    android:ems="10"
+                    android:focusable="false"
+                    android:hint="CIF"
+                    android:minHeight="48dp"
+                    android:textAlignment="center"
+                    app:layout_constraintEnd_toEndOf="@+id/etBusiTel"
+                    app:layout_constraintStart_toStartOf="@+id/etBusiTel"
+                    app:layout_constraintTop_toBottomOf="@+id/etBusiTel"
+                    tools:ignore="TextContrastCheck" />
+
+                <EditText
+                    android:id="@+id/etDescripcio"
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp"
+                    android:layout_marginTop="4dp"
+                    android:ems="10"
+                    android:hint="Descripció"
+                    android:inputType="textPersonName"
+                    android:minHeight="48dp"
+                    android:textAlignment="center"
+                    app:layout_constraintEnd_toEndOf="@+id/etBusiIdentificador"
+                    app:layout_constraintStart_toStartOf="@+id/etBusiIdentificador"
+                    app:layout_constraintTop_toBottomOf="@+id/etBusiIdentificador"
+                    tools:ignore="TextContrastCheck" />
+
+
+                <Button
+                    android:id="@+id/btnUpdate"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="14dp"
+                    android:layout_marginEnd="16dp"
+                    android:backgroundTint="@color/buttonColor"
+                    android:text="update"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/etDescripcio" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </ScrollView>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

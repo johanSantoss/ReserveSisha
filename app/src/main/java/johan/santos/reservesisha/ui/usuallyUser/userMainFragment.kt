@@ -68,6 +68,8 @@ class userMainFragment : Fragment() {
                 "",
                 "",
                 descripcio,
+                "",
+                "",
                 PATH_PHOTO )
             viewModel.addValueBusiness(anyBusiness)
         }

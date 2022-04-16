@@ -6,5 +6,7 @@ data class DataBusiness(
     var direccio    : String,
     var telefono    : String,
     var descripcio  : String,
+    var horaOpen    : String,
+    var horaClose   : String,
     var logo        : String
 )

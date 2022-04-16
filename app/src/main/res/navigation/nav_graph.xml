@@ -71,9 +71,6 @@
         android:label="business_main_fragment"
         tools:layout="@layout/business_main_fragment" >
         <action
-            android:id="@+id/action_businessMainFragment_to_bookingFragment"
-            app:destination="@id/bookingFragment" />
-        <action
             android:id="@+id/action_businessMainFragment_to_configBusinessFragment"
             app:destination="@id/configBusinessFragment" />
         <action
@@ -109,11 +106,6 @@
         android:name="johan.santos.reservesisha.ui.adminUser.manageUsers.configUser.ConfigUsersFragment"
         android:label="config_users_fragment"
         tools:layout="@layout/config_users_fragment" />
-    <fragment
-        android:id="@+id/bookingFragment"
-        android:name="johan.santos.reservesisha.ui.businessUser.booking.BookingFragment"
-        android:label="booking_fragment"
-        tools:layout="@layout/booking_fragment" />
     <fragment
         android:id="@+id/configBusinessFragment"
         android:name="johan.santos.reservesisha.ui.businessUser.configBusiness.ConfigBusinessFragment"
