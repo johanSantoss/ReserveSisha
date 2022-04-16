@@ -36,9 +36,6 @@ class AdminMainFragment : Fragment() {
         )
         auth = (activity as MainActivity).getAuth()
 
-        binding.btnLogut.setOnClickListener {
-            (activity as MainActivity).logutAndExit()
-        }
 
         binding.manageUsers.setOnClickListener {
             val action = AdminMainFragmentDirections.actionAdminMainFragmentToManageUsersFragment()

@@ -1,31 +1,25 @@
 package johan.santos.reservesisha.ui.adminUser.manageUsers.configUser
 
-import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
 import android.widget.ArrayAdapter
-import android.widget.Spinner
-import android.widget.Toast
 import androidx.databinding.DataBindingUtil
-import androidx.navigation.fragment.NavHostFragment
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import com.google.firebase.database.FirebaseDatabase
 import johan.santos.reservesisha.MainActivity
 import johan.santos.reservesisha.R
 import johan.santos.reservesisha.databinding.ConfigUsersFragmentBinding
-import johan.santos.reservesisha.databinding.MainActivityBinding
-import johan.santos.reservesisha.databinding.NavBarUsersBinding
 import johan.santos.reservesisha.ui.access.models.User
 import johan.santos.reservesisha.ui.access.models.User_Admin
 import johan.santos.reservesisha.ui.access.models.User_Business
 import johan.santos.reservesisha.ui.access.models.User_Current
-import johan.santos.reservesisha.ui.access.registre.RegistreFragment
-import johan.santos.reservesisha.ui.access.registre.RegistreFragmentDirections
-import java.text.SimpleDateFormat
 import java.util.*
+
 
 class ConfigUsersFragment : Fragment() {
 
@@ -54,9 +48,21 @@ class ConfigUsersFragment : Fragment() {
 
         val spinnerItems = ArrayAdapter<String>((activity as MainActivity), android.R.layout.simple_spinner_item)
 
-        spinnerItems.addAll(listOf("CurrentUser", "Empresa", "Admin"))
+        spinnerItems.addAll(listOf("CurrentUser", "Business", "Admin"))
 
         binding.spinner.adapter = spinnerItems
+
+        binding.spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(arg0: AdapterView<*>?, arg1: View, arg2: Int, arg3: Long) {
+                if(binding.spinner.selectedItem.toString() == "Business"){
+                    binding.editTextCIF.visibility = View.VISIBLE
+                }else{
+                    binding.editTextCIF.visibility = View.INVISIBLE
+                }
+            }
+
+            override fun onNothingSelected(arg0: AdapterView<*>?) {}
+        }
 
         binding.btnAddNewUser.setOnClickListener {
             val missatge = controlDadesRegistre()
@@ -121,14 +127,22 @@ class ConfigUsersFragment : Fragment() {
         viewModel.setEmail(binding.editTextMailAuth.text.toString().trim())
         viewModel.setPassword(binding.editTextPassAuth.text.toString().trim())
 
+        if(binding.spinner.selectedItem.toString() == "Business"){
+            viewModel.setNumCIF(binding.spinner.selectedItem.toString())
+        }
+
         viewModel.setEstadoRegistro(1)
     }
 
     private fun saveDatesUserDataBase(rol: String) {
+        var cif = "null"
         Log.d(TAG, "saveDatesUserDataBase: start")
         val auth = (activity as MainActivity).getAuth()
         Log.d(TAG, "getAuth - success")
         // se genera una clase de USER con todos los datos del usuario
+        if(viewModel.numCIF.value.toString() == "Business"){
+            cif = viewModel.numCIF.value.toString()
+        }
 
         var user: User
 
@@ -141,7 +155,7 @@ class ConfigUsersFragment : Fragment() {
                 Date()
 
             )
-        }else if(rol == "Empresa"){
+        }else if(rol == "Business"){
                  user = User_Business(
                     auth.currentUser!!.uid,
                     "null",
@@ -151,7 +165,7 @@ class ConfigUsersFragment : Fragment() {
                     "null",
                     0,
                     "null",
-                    "null"
+                    cif
                 )
         }else{
              user = User_Current(
@@ -183,6 +197,7 @@ class ConfigUsersFragment : Fragment() {
     private fun clearDates(){
         binding.editTextMailAuth.text.clear()
         binding.editTextPassAuth.text.clear()
+        binding.editTextCIF.text.clear()
     }
 
 }

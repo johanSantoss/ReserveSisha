@@ -34,6 +34,7 @@
     <string name="btnAdd">Afegir</string>
     <string name="btnSave">Guardar</string>
     <string name="addNewUser">Crear Usuari</string>
+    <string name="numCIF">CIF</string>
 
     <!-- Current User -->
     <string name="titleHomeUser">Empresas</string>

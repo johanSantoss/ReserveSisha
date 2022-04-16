@@ -135,10 +135,8 @@ class LoginFragment : Fragment() {
 
     override fun onStop() {
         super.onStop()
-        /*
         val supportActionBar = (requireActivity() as AppCompatActivity).supportActionBar
         supportActionBar?.show()
-         */
         if ((activity as MainActivity).getAuth().currentUser != null){
             // mostrar menus según el "user" que ha hecho LOGIN
             when (typeUser) {

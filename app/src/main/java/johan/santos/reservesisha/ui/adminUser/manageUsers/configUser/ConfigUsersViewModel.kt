@@ -18,6 +18,13 @@ class ConfigUsersViewModel : ViewModel() {
         _password.value = pass
     }
 
+    // CIF
+    private val _numCIF = MutableLiveData<String>("")
+    val numCIF: LiveData<String> get() = _numCIF
+    fun setNumCIF (numCIF : String){
+        _numCIF.value = numCIF
+    }
+
     private val _estadoRegistro = MutableLiveData(0)
     val estadoRegistro: LiveData<Int> get() = _estadoRegistro
     fun setEstadoRegistro (estadoRegistro : Int){

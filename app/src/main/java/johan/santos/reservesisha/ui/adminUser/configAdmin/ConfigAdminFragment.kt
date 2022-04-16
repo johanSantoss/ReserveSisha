@@ -68,7 +68,7 @@ class ConfigAdminFragment : Fragment() {
 
         val spinnerItems = ArrayAdapter<String>((activity as MainActivity), android.R.layout.simple_spinner_item)
 
-        spinnerItems.addAll(listOf("CurrentUser", "Empresa", "Admin"))
+        spinnerItems.addAll(listOf("CurrentUser", "Business", "Admin"))
 
         binding.spinner2.adapter = spinnerItems
 
@@ -175,19 +175,19 @@ class ConfigAdminFragment : Fragment() {
         if(viewModel.pass.value != viewModel.passConf.value){
             Toast.makeText(activity,"La contrasenya no coincideix", Toast.LENGTH_SHORT).show()
         }else{
-            auth.currentUser?.updateEmail(viewModel.email.value!!)?.addOnSuccessListener {
-                Log.d(TAG, "updateEmail:success")
-            }?.addOnFailureListener{
-                Log.d(TAG, "updateEmail:failure")
-            }
-
-            if(viewModel.pass.value?.isEmpty() == false){
-                auth.currentUser?.updatePassword(viewModel.pass.value!!)?.addOnSuccessListener {
-                    Log.d(TAG, "updatePass:success")
-                }?.addOnFailureListener{
-                    Log.d(TAG, "updatePass:failure")
-                }
-            }
+//            auth.currentUser?.updateEmail(viewModel.email.value!!)?.addOnSuccessListener {
+//                Log.d(TAG, "updateEmail:success")
+//            }?.addOnFailureListener{
+//                Log.d(TAG, "updateEmail:failure")
+//            }
+//
+//            if(viewModel.pass.value?.isEmpty() == false){
+//                auth.currentUser?.updatePassword(viewModel.pass.value!!)?.addOnSuccessListener {
+//                    Log.d(TAG, "updatePass:success")
+//                }?.addOnFailureListener{
+//                    Log.d(TAG, "updatePass:failure")
+//                }
+//            }
 
             database = FirebaseDatabase.getInstance().getReference("AllUsers/${args.idUsuari}")
 

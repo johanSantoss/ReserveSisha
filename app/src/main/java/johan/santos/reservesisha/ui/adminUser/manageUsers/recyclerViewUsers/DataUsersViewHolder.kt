@@ -4,6 +4,7 @@ import android.view.View
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.recyclerview.widget.RecyclerView
+import com.google.firebase.database.FirebaseDatabase
 import johan.santos.reservesisha.databinding.ItemUsersManageBinding
 import johan.santos.reservesisha.ui.access.login.LoginFragmentDirections
 import johan.santos.reservesisha.ui.access.models.DataUsers
@@ -13,6 +14,7 @@ import johan.santos.reservesisha.ui.adminUser.manageUsers.ManageUsersFragmentDir
 class DataUsersViewHolder (view : View) : RecyclerView.ViewHolder(view) {
 
     val binding = ItemUsersManageBinding.bind(view)
+    private lateinit var database: FirebaseDatabase
 
     fun render (item : DataUsers, onClickListener: (DataUsers) -> Unit) {
         binding.tvItemUsersId.text = item.id_usuari
@@ -25,6 +27,13 @@ class DataUsersViewHolder (view : View) : RecyclerView.ViewHolder(view) {
             val action = ManageUsersFragmentDirections.actionManageUsersFragmentToConfigAdminFragment(item.id_usuari.toString())
             it.findNavController().navigate(action)
         }
+
+//        binding.tvItemUserDelete.setOnClickListener{
+//            database = FirebaseDatabase.getInstance("https://reservesisha96-default-rtdb.europe-west1.firebasedatabase.app/")
+//            val myRefDadesUser = database.getReference("AllUsers/${item.id_usuari.toString()}")
+//            myRefDadesUser.removeValue()
+//
+//        }
 
 //        itemView.setOnClickListener {
 //            onClickListener(item)

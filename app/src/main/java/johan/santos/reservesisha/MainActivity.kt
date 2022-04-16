@@ -1,6 +1,8 @@
 package johan.santos.reservesisha
 
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
@@ -11,10 +13,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
-import johan.santos.reservesisha.databinding.MainActivityBinding
-import johan.santos.reservesisha.databinding.NavBarAdminBinding
-import johan.santos.reservesisha.databinding.NavBarBusinessBinding
-import johan.santos.reservesisha.databinding.NavBarUsersBinding
+import johan.santos.reservesisha.databinding.*
 
 
 class MainActivity : AppCompatActivity() {
@@ -42,6 +41,9 @@ class MainActivity : AppCompatActivity() {
         binding2 = NavBarBusinessBinding.inflate(layoutInflater)
 
         binding3 = NavBarAdminBinding.inflate(layoutInflater)
+
+
+
 
     }
 
@@ -149,6 +151,30 @@ class MainActivity : AppCompatActivity() {
 
     private fun login (){
         //bindingMain.fragmentContainerView.
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        menuInflater.inflate(R.menu.top_nav, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+//        val navController = findNavController(R.id.nav_host_fragment_content_main)
+//        navController.navigateUp()
+//        navController.navigate()
+//        return super.onOptionsItemSelected(item)
+//        when(item.itemId) {
+//        }
+        when (item.itemId){
+            R.id.action_logOut -> {
+                auth.signOut()
+                finish();
+                startActivity(getIntent());
+            }
+        }
+
+        return false
     }
 
 

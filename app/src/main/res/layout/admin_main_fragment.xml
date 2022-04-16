@@ -28,25 +28,16 @@
             app:layout_constraintVertical_bias="0.062" />
 
         <Button
-            android:id="@+id/btnLogut"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Logut"
-            app:layout_constraintEnd_toEndOf="@+id/textView3"
-            app:layout_constraintStart_toStartOf="@+id/textView3"
-            app:layout_constraintTop_toBottomOf="@+id/textView3" />
-
-        <Button
             android:id="@+id/manageUsers"
             android:layout_width="273dp"
             android:layout_height="52dp"
-            android:layout_marginTop="124dp"
             android:backgroundTint="@color/buttonColor"
             android:text="@string/manageUser"
-            app:layout_constraintEnd_toEndOf="@+id/btnLogut"
-            app:layout_constraintHorizontal_bias="0.502"
-            app:layout_constraintStart_toStartOf="@+id/btnLogut"
-            app:layout_constraintTop_toBottomOf="@+id/btnLogut" />
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/textView3"
+            app:layout_constraintStart_toStartOf="@+id/textView3"
+            app:layout_constraintTop_toBottomOf="@+id/textView3"
+            app:layout_constraintVertical_bias="0.177" />
 
         <Button
             android:id="@+id/manageBusiness"
