@@ -15,6 +15,7 @@ import johan.santos.reservesisha.MainActivity
 import johan.santos.reservesisha.R
 import johan.santos.reservesisha.databinding.ConfigBusinessFragmentBinding
 import johan.santos.reservesisha.databinding.ConfigUserFragmentBinding
+import johan.santos.reservesisha.ui.access.models.TimePickerFragment
 import johan.santos.reservesisha.ui.access.registre.DatePickerFragment
 
 class ConfigBusinessFragment : Fragment() {
@@ -38,6 +39,8 @@ class ConfigBusinessFragment : Fragment() {
         binding     = ConfigBusinessFragmentBinding.inflate(layoutInflater)
         viewModel   = ViewModelProvider(this).get(ConfigBusinessViewModel::class.java)
 
+        auth = (activity as MainActivity).getAuth()
+
         if (viewModel.estadoRegistro.value == 1 ) {
             restaurarDatos()
         } else {
@@ -53,14 +56,37 @@ class ConfigBusinessFragment : Fragment() {
         }
 
         binding.etHoraOpen.setOnClickListener {
-            //showDatePickerDialog()
+            showTimePickerDialog(1)
+
         }
 
         binding.etHoraClose.setOnClickListener {
-            //showDatePickerDialog()
+            showTimePickerDialog(2)
         }
 
         return binding.root
+    }
+
+    private fun showTimePickerDialog(num : Int) {
+        var timePicker: TimePickerFragment
+        if (num == 1){
+            timePicker = TimePickerFragment {
+                onTimeIni(it)
+            }
+        } else {
+            timePicker = TimePickerFragment {
+                onTimeFin(it)
+            }
+        }
+        timePicker.show(childFragmentManager, "time")
+
+    }
+
+    private fun onTimeIni(time : String){
+        binding.etHoraOpen.setText(time)
+    }
+    private fun onTimeFin(time : String){
+        binding.etHoraClose.setText(time)
     }
 
     private fun restaurarDatos(){
@@ -92,6 +118,8 @@ class ConfigBusinessFragment : Fragment() {
                 binding.etDescripcio.setText(it.child("descripcio").value.toString())
                 binding.etBusiIdentificador.setText(it.child("cif").value.toString())
 
+                saveDatesUserViewModel()
+
             }else{
                 (activity as MainActivity).toastView("User Doesn't Exist")
             }
@@ -108,14 +136,15 @@ class ConfigBusinessFragment : Fragment() {
                 binding.etHoraOpen.setText(it.child("horaOpen").value.toString())
                 binding.etHoraClose.setText(it.child("horaClose").value.toString())
 
+                saveDatesUserViewModel()
+
             }else{
-                (activity as MainActivity).toastView("User Doesn't Exist")
+                binding.etHoraOpen.setText("")
+                binding.etHoraClose.setText("")
             }
         }.addOnFailureListener{
             (activity as MainActivity).toastView("Failed")
         }
-
-        saveDatesUserViewModel()
 
     }
 
@@ -174,12 +203,13 @@ class ConfigBusinessFragment : Fragment() {
         viewModel.setEstadoRegistro(1)
     }
 
+    /*
     override fun onDestroy() {
         super.onDestroy()
         // actualizar datos del usuario en viewModel
         saveDatesUserViewModel()
         // actualizar datos del usuario en DataBase
         updateUser()
-    }
+    }*/
 
 }

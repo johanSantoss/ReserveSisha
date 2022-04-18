@@ -122,7 +122,7 @@ class ManageUsersFragment : Fragment() {
                                         it?.cognoms?:""
                                     )
                                     viewModel.addValueUsers(anyUsers)
-                                    initRecyclerView()
+                                    if (!item.hasChildren()) initRecyclerView()
                                 }
                             }
                 }

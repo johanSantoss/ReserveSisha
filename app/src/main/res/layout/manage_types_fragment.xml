@@ -2,10 +2,10 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/frameLayout33"
+    android:id="@+id/frameLayout29"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.businessUser.manageRates.ManageRatesFragment">
+    tools:context=".ui.businessUser.manageTypes.ManageTypesFragment">
 
 
     <LinearLayout
@@ -14,12 +14,12 @@
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/tvManageRates"
+            android:id="@+id/tvManageTypes"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginTop="8dp"
-            android:text="@string/rates"
+            android:text="@string/types"
             android:textColor="@color/black"
             android:textSize="32sp"
             android:textStyle="bold"
@@ -29,14 +29,14 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <Button
-            android:id="@+id/btnAddNewRate"
-            android:text="@string/add_rate"
+            android:id="@+id/btnAddNewType"
+            android:text="@string/add_type"
             android:backgroundTint="@color/buttonColor"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerRates"
+            android:id="@+id/recyclerTypes"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
 

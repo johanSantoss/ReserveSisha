@@ -10,5 +10,7 @@ data class DataBooking(
     var direccion       : String,
     var id_user         : String,
     var id_empresa      : String,
+    var id_booking      : String,
+    var tarifa          : Int,
     var confirmada      : Boolean
 )

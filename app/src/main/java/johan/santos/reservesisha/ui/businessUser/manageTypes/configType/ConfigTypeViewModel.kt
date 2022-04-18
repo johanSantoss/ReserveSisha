@@ -1,10 +1,10 @@
-package johan.santos.reservesisha.ui.businessUser.manageRates.configRate
+package johan.santos.reservesisha.ui.businessUser.manageTypes.configType
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 
-class ConfigRateViewModel : ViewModel() {
+class ConfigTypeViewModel : ViewModel() {
 
     // Name
     private val _name = MutableLiveData<String>("")
@@ -13,11 +13,11 @@ class ConfigRateViewModel : ViewModel() {
         _name.value = nameRate
     }
 
-    // Price
-    private val _price = MutableLiveData<Int?>(null)
-    val price : LiveData<Int?> get() = _price
-    fun setPrice (estado : Int){
-        _price.value = estado
+    // Suplemento
+    private val _suplemento = MutableLiveData<Int?>(null)
+    val suplemento : LiveData<Int?> get() = _suplemento
+    fun setSuplemento (estado : Int){
+        _suplemento.value = estado
     }
 
     // contador salidaRegistro/nuevoRegistro

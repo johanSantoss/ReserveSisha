@@ -9,7 +9,10 @@
         android:id="@+id/manageRatesFragment"
         android:icon="@drawable/ic_baseline_rate_24"
         android:title="@string/manageRate" />
-
+    <item
+        android:id="@+id/manageTypesFragment"
+        android:icon="@drawable/ic_baseline_rate_24"
+        android:title="@string/managetypes" />
     <item
         android:id="@+id/manageTablesFragment"
         android:icon="@drawable/ic_baseline_table_restaurant_24"

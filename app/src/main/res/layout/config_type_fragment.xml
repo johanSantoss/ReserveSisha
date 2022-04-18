@@ -2,17 +2,17 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/frameLayout7"
+    android:id="@+id/frameLayout2"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.businessUser.manageRates.configRate.ConfigRateFragment" >
+    tools:context=".ui.businessUser.manageTypes.configType.ConfigTypeFragment" >
 
     <TextView
-        android:id="@+id/tvRate"
+        android:id="@+id/tvType"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:text="TARIFA"
+        android:text="TYPE"
         android:textColor="@color/black"
         android:textSize="32sp"
         android:textStyle="bold"
@@ -23,7 +23,7 @@
         app:layout_constraintVertical_bias="0.20999998" />
 
     <TextView
-        android:id="@+id/tvRateName"
+        android:id="@+id/tvTypeName"
         android:layout_width="140dp"
         android:layout_height="60sp"
         android:gravity="center"
@@ -35,52 +35,52 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvRate"
+        app:layout_constraintTop_toBottomOf="@+id/tvType"
         app:layout_constraintVertical_bias="0.22000003" />
 
     <EditText
-        android:id="@+id/tvRateNameContent"
+        android:id="@+id/tvTypeNameContent"
         android:layout_width="250dp"
         android:layout_height="wrap_content"
-        android:hint="Nombre Tarifa"
+        android:hint="Introducir el nombre del Type"
         android:textAlignment="center"
         android:textSize="16sp"
         android:ems="10"
         android:inputType="textPersonName"
-        app:layout_constraintBottom_toBottomOf="@+id/tvRateName"
+        app:layout_constraintBottom_toBottomOf="@+id/tvTypeName"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/tvRateName"
-        app:layout_constraintTop_toTopOf="@+id/tvRateName" />
+        app:layout_constraintStart_toEndOf="@+id/tvTypeName"
+        app:layout_constraintTop_toTopOf="@+id/tvTypeName" />
 
     <TextView
-        android:id="@+id/tvRatePrice"
+        android:id="@+id/tvTypeSuplemento"
         android:layout_width="140dp"
         android:layout_height="60dp"
         android:gravity="center"
-        android:text="Price:"
+        android:text="Suplemento: "
         android:textColor="@color/black"
         android:textSize="24sp"
         android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="@+id/tvRateName"
-        app:layout_constraintStart_toStartOf="@+id/tvRateName"
-        app:layout_constraintTop_toBottomOf="@+id/tvRateName" />
+        app:layout_constraintEnd_toEndOf="@+id/tvTypeName"
+        app:layout_constraintStart_toStartOf="@+id/tvTypeName"
+        app:layout_constraintTop_toBottomOf="@+id/tvTypeName" />
 
     <EditText
-        android:id="@+id/tvRatePriceContent"
+        android:id="@+id/tvTypeSuplementoContent"
         android:layout_width="250dp"
         android:layout_height="wrap_content"
         android:ems="10"
-        android:hint="Introducir el Precio"
+        android:hint="Introducir el suplemento"
         android:inputType="number"
         android:textAlignment="center"
         android:textSize="16sp"
-        app:layout_constraintBottom_toBottomOf="@+id/tvRatePrice"
-        app:layout_constraintEnd_toEndOf="@+id/tvRateNameContent"
-        app:layout_constraintStart_toStartOf="@+id/tvRateNameContent"
-        app:layout_constraintTop_toTopOf="@+id/tvRatePrice" />
+        app:layout_constraintBottom_toBottomOf="@+id/tvTypeSuplemento"
+        app:layout_constraintEnd_toEndOf="@+id/tvTypeNameContent"
+        app:layout_constraintStart_toStartOf="@+id/tvTypeNameContent"
+        app:layout_constraintTop_toTopOf="@+id/tvTypeSuplemento" />
 
     <Button
-        android:id="@+id/btnUpdateRate"
+        android:id="@+id/btnUpdateType"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/save_or_update"
@@ -88,6 +88,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvRatePrice" />
+        app:layout_constraintTop_toBottomOf="@+id/tvTypeSuplemento" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -77,6 +77,8 @@ class BusinessMainFragment : Fragment() {
                 "Any",
                 "Any",
                 "Any",
+                "Any",
+                0,
                 false
             )
             viewModel.addValueReserva(anyBooking)

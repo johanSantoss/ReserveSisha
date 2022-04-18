@@ -105,7 +105,7 @@ class MainActivity : AppCompatActivity() {
 
         val appBarConfiguration2 = AppBarConfiguration(
             setOf(
-                R.id.businessMainFragment, R.id.manageRatesFragment, R.id.manageTablesFragment, R.id.configBusinessFragment
+                R.id.businessMainFragment, R.id.manageRatesFragment, R.id.manageTypesFragment, R.id.manageTablesFragment, R.id.configBusinessFragment
             )
         )
 

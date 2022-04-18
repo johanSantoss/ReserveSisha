@@ -49,6 +49,12 @@
     <string name="tipo">Tipo</string>
     <string name="direccion">Dirección</string>
     <string name="reservar">Reservar</string>
+    <string name="add_rate">Add rate</string>
+    <string name="rates">Rates</string>
+    <string name="types">Types</string>
+    <string name="add_type">add type</string>
+    <string name="managetypes">BookingTypes</string>
+    <string name="save_or_update">Save or update</string>
 
 
 </resources>

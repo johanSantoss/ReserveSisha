@@ -79,6 +79,9 @@
         <action
             android:id="@+id/action_businessMainFragment_to_manageTablesFragment"
             app:destination="@id/manageTablesFragment" />
+        <action
+            android:id="@+id/action_businessMainFragment_to_manageTypesFragment"
+            app:destination="@id/manageTypesFragment" />
     </fragment>
     <fragment
         android:id="@+id/configAdminFragment"
@@ -133,7 +136,19 @@
         android:id="@+id/configRateFragment"
         android:name="johan.santos.reservesisha.ui.businessUser.manageRates.configRate.ConfigRateFragment"
         android:label="config_rate_fragment"
-        tools:layout="@layout/config_rate_fragment" />
+        tools:layout="@layout/config_rate_fragment" >
+        <argument
+            android:name="rate"
+            app:argType="string" />
+        <argument
+            android:name="newRate"
+            app:argType="boolean" />
+        <action
+            android:id="@+id/action_configRateFragment_to_manageRatesFragment"
+            app:destination="@id/manageRatesFragment"
+            app:popUpTo="@id/configRateFragment"
+            app:popUpToInclusive="true" />
+    </fragment>
     <fragment
         android:id="@+id/configTableFragment"
         android:name="johan.santos.reservesisha.ui.businessUser.manageTables.configTable.ConfigTableFragment"
@@ -167,4 +182,30 @@
         android:name="johan.santos.reservesisha.ui.usuallyUser.manageBooking.configBooking.ConfigBookingFragment"
         android:label="config_booking_fragment"
         tools:layout="@layout/config_booking_fragment" />
+    <fragment
+        android:id="@+id/manageTypesFragment"
+        android:name="johan.santos.reservesisha.ui.businessUser.manageTypes.ManageTypesFragment"
+        android:label="manage_types_fragment"
+        tools:layout="@layout/manage_types_fragment" >
+        <action
+            android:id="@+id/action_manageTypesFragment_to_configTypeFragment"
+            app:destination="@id/configTypeFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/configTypeFragment"
+        android:name="johan.santos.reservesisha.ui.businessUser.manageTypes.configType.ConfigTypeFragment"
+        android:label="config_type_fragment"
+        tools:layout="@layout/config_type_fragment" >
+        <argument
+            android:name="type"
+            app:argType="string" />
+        <argument
+            android:name="newType"
+            app:argType="boolean" />
+        <action
+            android:id="@+id/action_configTypeFragment_to_manageTypesFragment"
+            app:destination="@id/manageTypesFragment"
+            app:popUpTo="@id/configTypeFragment"
+            app:popUpToInclusive="true" />
+    </fragment>
 </navigation>
