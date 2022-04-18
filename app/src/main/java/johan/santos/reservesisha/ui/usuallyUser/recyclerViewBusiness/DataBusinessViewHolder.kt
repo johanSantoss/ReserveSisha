@@ -2,11 +2,15 @@ package johan.santos.reservesisha.ui.usuallyUser.recyclerViewBusiness
 
 import android.view.View
 import android.widget.Toast
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import johan.santos.reservesisha.databinding.CurrentUserMainFragmentBinding
 import johan.santos.reservesisha.databinding.ItemBusinessBinding
 import johan.santos.reservesisha.ui.access.models.DataBooking
 import johan.santos.reservesisha.ui.access.models.DataBusiness
+import johan.santos.reservesisha.ui.usuallyUser.manageBooking.ManageBookingFragmentDirections
+import johan.santos.reservesisha.ui.usuallyUser.userMainFragment
 
 class DataBusinessViewHolder (view : View) : RecyclerView.ViewHolder(view) {
 
@@ -22,7 +26,10 @@ class DataBusinessViewHolder (view : View) : RecyclerView.ViewHolder(view) {
         }
 
         itemView.setOnClickListener {
-            onClickListener(item)
+//            onClickListener(item)
+
+//            val action = userMainFragmentDirection.actionManageBookingFragmentToConfigBookingFragment()
+//            it.findNavController().navigate(action)
         }
     }
 

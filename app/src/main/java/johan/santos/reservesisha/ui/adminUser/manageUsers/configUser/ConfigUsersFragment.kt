@@ -163,7 +163,7 @@ class ConfigUsersFragment : Fragment() {
                     rol,
                     "null",
                     "null",
-                    0,
+                    "null",
                     "null",
                     cif
                 )

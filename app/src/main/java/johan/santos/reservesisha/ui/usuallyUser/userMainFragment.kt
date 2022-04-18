@@ -7,9 +7,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
+import com.google.firebase.database.ktx.getValue
 import johan.santos.reservesisha.MainActivity
 import johan.santos.reservesisha.databinding.CurrentUserMainFragmentBinding
 import johan.santos.reservesisha.ui.access.models.DataBusiness
+import johan.santos.reservesisha.ui.access.models.DataUsers
 import johan.santos.reservesisha.ui.usuallyUser.recyclerViewBusiness.DataBusinessAdapter
 
 class userMainFragment : Fragment() {
@@ -21,11 +27,14 @@ class userMainFragment : Fragment() {
 
     private lateinit var binding : CurrentUserMainFragmentBinding
     private lateinit var viewModel: UserMainViewModel
+    private lateinit var database: FirebaseDatabase
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        database = FirebaseDatabase.getInstance("https://reservesisha96-default-rtdb.europe-west1.firebasedatabase.app/")
+
         binding = CurrentUserMainFragmentBinding.inflate(layoutInflater)
         viewModel = ViewModelProvider(this).get(UserMainViewModel::class.java)
 
@@ -41,7 +50,37 @@ class userMainFragment : Fragment() {
     }
     //----------------------------------------------------------------------------------------------------------------------------
     private fun reloadListBusiness(){
-
+//        val myRef = database.getReference("AllBusiness/")
+//
+//        myRef.addValueEventListener(object: ValueEventListener {
+//            override fun onDataChange(snapshot: DataSnapshot) {
+//                // This method is called once with the initial value and again
+//                // whenever data at this location is updated.
+//
+//                snapshot.children.forEach { item ->
+//                    item.children.forEach { valors ->
+//                        valors.getValue<DataBusiness>()?.let {
+//
+//                            val anyBusiness = DataBusiness(
+//                                it?.cif?:"",
+//                                it?.nom_business?:"",
+//                                it?.direccio?:"",
+//                                it?.telefono?:"",
+//                                it?.descripcio?:"",
+//                                it?.horaOpen?:"",
+//                                it?.horaClose?:"",
+//                                it?.logo?:""
+//                            )
+//                            viewModel.addValueBusiness(anyBusiness)
+//                            initRecyclerView()
+//                        }
+//                    }
+//                }
+//            }
+//            override fun onCancelled(error: DatabaseError) {
+//                TODO("Not yet implemented")
+//            }
+//        })
     }
 
     private fun initRecyclerView(){

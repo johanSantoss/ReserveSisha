@@ -2,13 +2,19 @@ package johan.santos.reservesisha.ui.usuallyUser.manageBooking.recyclerViewBooki
 
 import android.view.View
 import android.widget.Toast
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
+import com.google.firebase.database.FirebaseDatabase
 import johan.santos.reservesisha.databinding.ItemBookingBinding
+import johan.santos.reservesisha.databinding.ManageBookingFragmentBinding
 import johan.santos.reservesisha.ui.access.models.DataBooking
+import johan.santos.reservesisha.ui.adminUser.manageUsers.ManageUsersFragmentDirections
+import johan.santos.reservesisha.ui.usuallyUser.manageBooking.ManageBookingFragmentDirections
 
 class DataBookingViewHolder (view : View) : RecyclerView.ViewHolder(view) {
 
     val binding = ItemBookingBinding.bind(view)
+    private lateinit var database: FirebaseDatabase
 
     fun render (item : DataBooking, onClickListener: (DataBooking) -> Unit) {
         binding.tvBookingName.text          = item.nom_business
@@ -19,13 +25,15 @@ class DataBookingViewHolder (view : View) : RecyclerView.ViewHolder(view) {
         binding.tvTipoResContent.text       = item.tipo_reserva
         binding.tvDireccioResContent.text   = item.direccion
 
-        binding.tvBookingName.setOnClickListener {
-            Toast.makeText(binding.tvBookingName.context, item.nom_business, Toast.LENGTH_SHORT).show()
-
+        binding.tvEditBooking.setOnClickListener {
+            val action = ManageBookingFragmentDirections.actionManageBookingFragmentToConfigBookingFragment()
+            it.findNavController().navigate(action)
         }
 
-        binding.tvDireccioResContent.setOnClickListener {
-            Toast.makeText(binding.tvBookingName.context, "Hay que abrir un intent a GoogleMaps", Toast.LENGTH_SHORT).show()
+        binding.tvDeleteBooking.setOnClickListener {
+            database = FirebaseDatabase.getInstance("https://reservesisha96-default-rtdb.europe-west1.firebasedatabase.app/")
+            val myRefDadesUser = database.getReference("AllUsers/${item.id_user.toString()}/userDates/reserva/${item.id_empresa.toString()}")
+            myRefDadesUser.removeValue()
         }
 
         itemView.setOnClickListener {

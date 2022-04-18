@@ -44,14 +44,14 @@
         android:label="user_main_fragment"
         tools:layout="@layout/current_user_main_fragment" >
         <action
-            android:id="@+id/action_userMainFragment_to_businessFragment"
-            app:destination="@id/businessFragment" />
-        <action
             android:id="@+id/action_userMainFragment_to_manageBookingFragment"
             app:destination="@id/manageBookingFragment" />
         <action
             android:id="@+id/action_userMainFragment_to_configUserFragment"
             app:destination="@id/configUserFragment" />
+        <action
+            android:id="@+id/action_userMainFragment_to_businessFragment"
+            app:destination="@id/businessFragment" />
     </fragment>
     <fragment
         android:id="@+id/adminMainFragment"

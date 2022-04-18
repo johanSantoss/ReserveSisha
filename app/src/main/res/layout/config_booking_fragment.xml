@@ -1,13 +1,154 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".ui.usuallyUser.manageBooking.configBooking.ConfigBookingFragment">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <TextView
+    <data>
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/frameLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="Hello" />
+        tools:context=".ui.usuallyUser.config.ConfigUserFragment" >
 
-</FrameLayout>
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="1.0">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/frame2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:scrollbars="horizontal|vertical">
+
+                <TextView
+                    android:id="@+id/tvBookingData"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:text="Dades Reserva"
+                    android:textAllCaps="true"
+                    android:textColor="@color/black"
+                    android:textSize="18dp"
+                    android:textStyle="bold"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <EditText
+                    android:id="@+id/etName"
+                    android:layout_width="240dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:ems="10"
+                    android:hint="Nom"
+                    android:inputType="textPersonName"
+                    android:minHeight="48dp"
+                    android:textAlignment="center"
+                    app:layout_constraintEnd_toEndOf="@+id/tvBookingData"
+                    app:layout_constraintStart_toStartOf="@+id/tvBookingData"
+                    app:layout_constraintTop_toBottomOf="@+id/tvBookingData"
+                    tools:ignore="TextContrastCheck" />
+
+                <EditText
+                    android:id="@+id/etNomReserva"
+                    android:layout_width="240dp"
+                    android:layout_height="48dp"
+                    android:layout_marginTop="4dp"
+                    android:ems="10"
+                    android:hint="@string/nom_reserva"
+                    android:inputType="textPersonName"
+                    android:textAlignment="center"
+                    app:layout_constraintEnd_toEndOf="@+id/etName"
+                    app:layout_constraintStart_toStartOf="@+id/etName"
+                    app:layout_constraintTop_toBottomOf="@+id/etName"
+                    tools:ignore="TextContrastCheck" />
+
+                <EditText
+                    android:id="@+id/etNumPersonas"
+                    android:layout_width="240dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:ems="10"
+                    android:hint="@string/n_personas"
+                    android:inputType="number"
+                    android:minHeight="48dp"
+                    android:textAlignment="center"
+                    app:layout_constraintEnd_toEndOf="@+id/etNomReserva"
+                    app:layout_constraintStart_toStartOf="@+id/etNomReserva"
+                    app:layout_constraintTop_toBottomOf="@+id/etNomReserva"
+                    tools:ignore="TextContrastCheck" />
+
+                <EditText
+                    android:id="@+id/etDataReserva"
+                    android:layout_width="240dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:clickable="false"
+                    android:ems="10"
+                    android:focusable="false"
+                    android:hint="Data de Reserva"
+                    android:inputType="date"
+                    android:maxLines="1"
+                    android:minHeight="48dp"
+                    android:textAlignment="center"
+                    app:layout_constraintEnd_toEndOf="@+id/etNumPersonas"
+                    app:layout_constraintStart_toStartOf="@+id/etNumPersonas"
+                    app:layout_constraintTop_toBottomOf="@+id/etNumPersonas"
+                    tools:ignore="TextContrastCheck" />
+
+
+                <EditText
+                    android:id="@+id/etHoraReserva"
+                    android:layout_width="240dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:clickable="false"
+                    android:ems="10"
+                    android:focusable="false"
+                    android:hint="Hora"
+                    android:inputType="date"
+                    android:maxLines="1"
+                    android:minHeight="48dp"
+                    android:textAlignment="center"
+                    app:layout_constraintEnd_toEndOf="@+id/etDataReserva"
+                    app:layout_constraintStart_toStartOf="@+id/etDataReserva"
+                    app:layout_constraintTop_toBottomOf="@+id/etDataReserva"
+                tools:ignore="TextContrastCheck" />
+
+                <Spinner
+                    android:id="@+id/spinnerBooking"
+                    android:layout_width="240dp"
+                    android:layout_height="41dp"
+                    android:textAlignment="center"
+                    app:layout_constraintEnd_toEndOf="@+id/etHoraReserva"
+                    app:layout_constraintStart_toStartOf="@+id/etHoraReserva"
+                    app:layout_constraintTop_toBottomOf="@+id/etHoraReserva" />
+
+                <Button
+                    android:id="@+id/btnUpdate"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="14dp"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginEnd="16dp"
+                    android:backgroundTint="@color/buttonColor"
+                    android:text="update"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/spinnerBooking" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </ScrollView>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
