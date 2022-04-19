@@ -29,20 +29,17 @@ class LoginFragment : Fragment() {
 
     companion object {
         fun newInstance() = LoginFragment()
-        private const val TAG = "EmailPassword"
+        private const val TAG = "LoginFragment"
     }
 
     private lateinit var binding : LoginFragmentBinding
     private lateinit var viewModel: LoginViewModel
-    //private lateinit var auth: FirebaseAuth
     private lateinit var database : DatabaseReference
     private var typeUser : String = ""
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
 
         binding = LoginFragmentBinding.inflate(layoutInflater)
-
-        //auth = (activity as MainActivity).getAuth()
 
         if ((activity as MainActivity).getAuth().currentUser != null) readData()
 
@@ -56,7 +53,6 @@ class LoginFragment : Fragment() {
             viewModel.setPassword(binding.editTextPassAuth.text.toString().trim())
             // realizar SING con mial y pass
             signIn( viewModel.email.value.toString(), viewModel.password.value.toString())
-
         }
 
         binding.textBtnRegister.setOnClickListener {
@@ -70,26 +66,23 @@ class LoginFragment : Fragment() {
     }
 
     private fun signIn(email: String, password: String) {
-        //if (auth != null){
-            // [START sign_in_with_email]
-            try {
-                (activity as MainActivity).getAuth().signInWithEmailAndPassword(email, password)
-                    .addOnCompleteListener(requireActivity()) { task ->
-                        if (task.isSuccessful) {
-                            // Sign in success, update UI with the signed-in user's information
-                            Log.d(TAG, "signInWithEmail:success")
-                            readData()
-                        } else {
-                            // If sign in fails, display a message to the user.
-                            Log.w(TAG, "signInWithEmail:failure", task.exception)
-                            (activity as MainActivity).toastView("Authentication failed.")
-
-                        }
+        // [START sign_in_with_email]
+        try {
+            (activity as MainActivity).getAuth().signInWithEmailAndPassword(email, password)
+                .addOnCompleteListener(requireActivity()) { task ->
+                    if (task.isSuccessful) {
+                        // Sign in success, update UI with the signed-in user's information
+                        Log.d(TAG, "signInWithEmail:success")
+                        readData()
+                    } else {
+                        // If sign in fails, display a message to the user.
+                        Log.w(TAG, "signInWithEmail:failure", task.exception)
+                        (activity as MainActivity).toastView("Authentication failed.")
                     }
-            } catch (e: IllegalArgumentException)  {
-                (activity as MainActivity).toastView("Authentication failed.")
-            }
-        //}
+                }
+        } catch (e: IllegalArgumentException)  {
+            (activity as MainActivity).toastView("Authentication failed.")
+        }
     }
 
     private fun readData() {
@@ -98,45 +91,38 @@ class LoginFragment : Fragment() {
         database.child("userDates").get().addOnSuccessListener {
 
             if (it.exists()){
-
                 val firstname = it.child("rol").value
-
                 typeUser = firstname.toString()
                 Toast.makeText(activity,firstname.toString(),Toast.LENGTH_SHORT).show()
                 setInitFragment()
-
-            }else{
-                Toast.makeText(activity,"User Doesn't Exist",Toast.LENGTH_SHORT).show()
+            } else {
+                var action: NavDirections = LoginFragmentDirections.actionLoginFragmentToAdminMainFragment()
+                NavHostFragment.findNavController(this).navigate(action)
+                setInitToolBar()
+                (activity as MainActivity).upBottonBarAdmin()
             }
+
         }.addOnFailureListener{
-            Toast.makeText(activity,"Failed",Toast.LENGTH_SHORT).show()
+            Toast.makeText(activity,"FailedReadData",Toast.LENGTH_SHORT).show()
         }
     }
 
     private fun setInitFragment(){
-        var action: NavDirections? = LoginFragmentDirections.actionLoginFragmentToAdminMainFragment()
+        var action: NavDirections? = null
         // set action según el tipo de usuario que ha realizado "Login"
         when (typeUser) {
             "Admin"         -> action = LoginFragmentDirections.actionLoginFragmentToAdminMainFragment()
             "Business"      -> action = LoginFragmentDirections.actionLoginFragmentToBusinessMainFragment()
             "CurrentUser"   -> action = LoginFragmentDirections.actionLoginFragmentToUserMainFragment()
         }
-        NavHostFragment.findNavController(this).navigate(action!!)
+        if (action != null) {
+            NavHostFragment.findNavController(this).navigate(action)
+            setInitBar()
+        }
     }
 
-    override fun onResume() {
-        super.onResume()
-        // recuperar "ActionBar" para esconderla
-        val supportActionBar = (requireActivity() as AppCompatActivity).supportActionBar
-        supportActionBar?.hide()
-        // enconder todos los menus
-        (activity as MainActivity).disableMenus()
-    }
-
-    override fun onStop() {
-        super.onStop()
-        val supportActionBar = (requireActivity() as AppCompatActivity).supportActionBar
-        supportActionBar?.show()
+    private fun setInitBar(){
+        setInitToolBar()
         if ((activity as MainActivity).getAuth().currentUser != null){
             // mostrar menus según el "user" que ha hecho LOGIN
             when (typeUser) {
@@ -147,10 +133,18 @@ class LoginFragment : Fragment() {
         }
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProvider(this).get(LoginViewModel::class.java)
-        // TODO: Use the ViewModel
+    private fun setInitToolBar(){
+        val supportActionBar = (requireActivity() as AppCompatActivity).supportActionBar
+        supportActionBar?.show()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        // recuperar "ActionBar" para esconderla
+        val supportActionBar = (requireActivity() as AppCompatActivity).supportActionBar
+        supportActionBar?.hide()
+        // enconder todos los menus
+        (activity as MainActivity).disableMenus()
     }
 
 }

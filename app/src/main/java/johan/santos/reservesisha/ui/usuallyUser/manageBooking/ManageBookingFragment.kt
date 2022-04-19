@@ -63,7 +63,6 @@ class ManageBookingFragment : Fragment() {
                 snapshot.children.forEach { valors ->
                         valors.getValue<DataBooking>()?.let {
 
-
                             val anyBooking = DataBooking(
                                 it?.nom_business?:"",
                                 it?.nom_reserva?:"",
@@ -74,8 +73,12 @@ class ManageBookingFragment : Fragment() {
                                 it?.direccion?:"",
                                 it?.id_user?:"",
                                 it?.id_empresa?:"",
+                                it?.id_booking,
+                                it?.tarifa,
                                 it?.confirmada?:false
                             )
+                            //val anyBooking = valors.
+
                             viewModel.addValueReserva(anyBooking)
                             initRecyclerView()
                         }
