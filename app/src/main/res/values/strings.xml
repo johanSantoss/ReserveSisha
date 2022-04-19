@@ -33,8 +33,10 @@
     <string name="manageBusiness">Gestio Empresa</string>
     <string name="btnAdd">Afegir</string>
     <string name="btnSave">Guardar</string>
+    <string name="btnUpdate">Update</string>
     <string name="addNewUser">Crear Usuari</string>
     <string name="numCIF">CIF</string>
+    <string name="swLogin">Email and Pass</string>
 
     <!-- Current User -->
     <string name="titleHomeUser">Empresas</string>

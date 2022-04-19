@@ -12,8 +12,7 @@ import com.google.firebase.database.FirebaseDatabase
 import johan.santos.reservesisha.MainActivity
 import johan.santos.reservesisha.R
 import johan.santos.reservesisha.databinding.ConfigRateFragmentBinding
-import johan.santos.reservesisha.ui.access.models.DataRates
-import johan.santos.reservesisha.ui.adminUser.configAdmin.ConfigAdminFragmentArgs
+
 
 class ConfigRateFragment : Fragment() {
 

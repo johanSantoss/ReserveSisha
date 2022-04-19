@@ -41,7 +41,7 @@ class AdminMainFragment : Fragment() {
         }
 
         binding.manageBusiness.setOnClickListener {
-            val action = AdminMainFragmentDirections.actionAdminMainFragmentToConfigAdminFragment(auth.currentUser?.uid.toString())
+            val action = AdminMainFragmentDirections.actionAdminMainFragmentToConfigAdminFragment()
             NavHostFragment.findNavController(this).navigate(action)
         }
 

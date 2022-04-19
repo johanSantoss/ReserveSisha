@@ -24,7 +24,8 @@ class DataUsersViewHolder (view : View) : RecyclerView.ViewHolder(view) {
         binding.tvItemUserRol.text = item.rol
 
         binding.tvItemEdit.setOnClickListener{
-            val action = ManageUsersFragmentDirections.actionManageUsersFragmentToConfigAdminFragment(item.id_usuari.toString())
+            //item.id_usuari.toString()
+            val action = ManageUsersFragmentDirections.actionManageUsersFragmentToConfigUsersFragment()
             it.findNavController().navigate(action)
         }
 

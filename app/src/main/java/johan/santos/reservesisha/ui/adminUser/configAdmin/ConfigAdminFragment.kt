@@ -23,9 +23,11 @@ import johan.santos.reservesisha.databinding.ConfigAdminFragmentBinding
 import johan.santos.reservesisha.databinding.ConfigUsersFragmentBinding
 import johan.santos.reservesisha.databinding.NavBarBusinessBinding
 import johan.santos.reservesisha.ui.access.login.LoginFragment
+import johan.santos.reservesisha.ui.access.models.User_Admin
 import johan.santos.reservesisha.ui.access.registre.DatePickerFragment
 import johan.santos.reservesisha.ui.adminUser.manageUsers.ManageUsersFragment
 import johan.santos.reservesisha.ui.usuallyUser.config.ConfigUserViewModel
+import java.util.*
 
 class ConfigAdminFragment : Fragment() {
 
@@ -34,10 +36,7 @@ class ConfigAdminFragment : Fragment() {
     private lateinit var binding2: NavBarBusinessBinding
     private lateinit var database: DatabaseReference
     private lateinit var auth: FirebaseAuth
-    private lateinit var datePicker: DatePickerFragment
-    val args: ConfigAdminFragmentArgs by navArgs()
-
-
+    private var userAdmin : User_Admin? = null
 
     companion object {
         fun newInstance() = ConfigAdminFragment()
@@ -57,20 +56,12 @@ class ConfigAdminFragment : Fragment() {
         )
         auth = (activity as MainActivity).getAuth()
         viewModel = ViewModelProvider(this).get(ConfigAdminViewModel::class.java)
+
+
         binding2 = NavBarBusinessBinding.inflate(layoutInflater)
-
-
         val navView: BottomNavigationView = binding2.bottomNavigationView2
-
         // Find the menu item and then disable it
         navView.menu.findItem(R.id.businessMainFragment).isEnabled = true
-
-
-        val spinnerItems = ArrayAdapter<String>((activity as MainActivity), android.R.layout.simple_spinner_item)
-
-        spinnerItems.addAll(listOf("CurrentUser", "Business", "Admin"))
-
-        binding.spinner2.adapter = spinnerItems
 
         if (viewModel.estadoRegistro.value == 1 ) {
             restaurarDatos()
@@ -79,55 +70,39 @@ class ConfigAdminFragment : Fragment() {
             cargarDatosUser()
         }
 
-        binding.editTextDataNaixement.setOnClickListener {
-            showDatePickerDialog()
-        }
-
         binding.btnUpdateData.setOnClickListener {
-
             saveDatesUserViewModel()
-            updateUser()
+            if (binding.swDatosLogin.isChecked) {
+                updateUserAndLogin()
+            } else {
+                updateUser()
+            }
         }
 
         return binding.root
     }
 
-    private fun showDatePickerDialog() {
-        datePicker = DatePickerFragment { day, month, year -> onDateSelected(day, month, year)}
-        datePicker.show(childFragmentManager, "datePicker")
-    }
-    // setea el "editText" con la fecha obtenida
-    private fun onDateSelected(day:Int, month:Int, year:Int){
-        binding.editTextDataNaixement.setText("$day/$month/$year")
-    }
 
     fun cargarDatosUser(){
-        database = FirebaseDatabase.getInstance().getReference("AllUsers/${args.idUsuari}")
+        database = FirebaseDatabase.getInstance().getReference("AllUsers/${auth.currentUser!!.uid}")
         database.child("userDates").get().addOnSuccessListener {
 
             if (it.exists()){
 
                 binding.editTextNomUsuari.setText(it.child("nom_usuari").value.toString())
-                binding.editTextName.setText(it.child("nom").value.toString())
-                binding.editTextCognom.setText(it.child("cognoms").value.toString())
-                binding.editTextEdat.setText(it.child("edat").value.toString())
-                binding.editTextDataNaixement.setText(it.child("data_naixement").value.toString())
-                binding.editTextCiutat.setText(it.child("ciutat").value.toString())
-                var rol = binding.spinner2.adapter.getItem(0)
-                if(binding.spinner2.adapter.getItem(0) == it.child("rol").value.toString()){
-                    binding.spinner2.setSelection(0)
-                }else if(binding.spinner2.adapter.getItem(1) == it.child("rol").value.toString()){
-                    binding.spinner2.setSelection(1)
-                }else{
-                    binding.spinner2.setSelection(2)
-                }
-
-
                 binding.editTextEmailRegister.setText(it.child("email").value.toString())
+                userAdmin = User_Admin(
+                    it.child("id_usuari").value.toString(),
+                    it.child("nom_usuari").value.toString(),
+                    it.child("email").value.toString(),
+                    "Admin",
+                    it.child("data_creacio").value.toString()
+                )
                 saveDatesUserViewModel()
 
             }else{
-                (activity as MainActivity).toastView("User Doesn't Exist")
+                (activity as MainActivity).toastView("Modificar Datos")
+                binding.editTextEmailRegister.setText(auth.currentUser!!.email)
             }
         }.addOnFailureListener{
             (activity as MainActivity).toastView("Failed")
@@ -135,73 +110,101 @@ class ConfigAdminFragment : Fragment() {
     }
 
     private fun saveDatesUserViewModel(){
-        viewModel.setNom(binding.editTextName.text.toString().trim())
-        viewModel.setCognom(binding.editTextCognom.text.toString().trim())
-        viewModel.setEdatUser(binding.editTextCognom.text.toString().trim())
-        viewModel.setCiutatUser(binding.editTextCiutat.text.toString().trim())
-        viewModel.setDataNaixement(binding.editTextDataNaixement.text.toString().trim())
         viewModel.setNomUsuari(binding.editTextNomUsuari.text.toString().trim())
         viewModel.setEmail(binding.editTextEmailRegister.text.toString())
         viewModel.setPass(binding.editTextPassword.text.toString())
         viewModel.setPassConf(binding.editTextPassword2.text.toString())
+        if (binding.swDatosLogin.isChecked) viewModel.setSwLogin(true)
         // indica que los datos sehan guardado y por lo tanto se han de restaurar
         viewModel.setEstadoRegistro(1)
     }
 
     private fun restaurarDatos(){
-        binding.editTextName.setText(viewModel.nom.value)
-        binding.editTextCognom.setText(viewModel.cognom.value)
-        binding.editTextEdat.setText(viewModel.edat.value)
-        binding.editTextCiutat.setText(viewModel.ciutat.value)
-        binding.editTextDataNaixement.setText(viewModel.dataNaixement.value)
         binding.editTextNomUsuari.setText(viewModel.nomUsuari.value)
         binding.editTextEmailRegister.setText(viewModel.email.value)
         binding.editTextPassword.setText(viewModel.pass.value)
         binding.editTextPassword2.setText(viewModel.passConf.value)
+        if (viewModel.swLogin.value!!) binding.swDatosLogin.isChecked = true
+    }
+
+    private fun getNowDate() : String{
+        val c = Calendar.getInstance()
+
+        val day: Int = c.get(Calendar.DAY_OF_MONTH)
+        val month: Int = c.get(Calendar.MONTH)
+        val year: Int = c.get(Calendar.YEAR)
+
+        val nowDate = "$day/$month/$year"
+        return nowDate
     }
 
     private fun updateUser(){
 
-        val user = mapOf<String,String>(
-            "nom_usuari"                to viewModel.nomUsuari.value!!,
-            "nom"                       to viewModel.nom.value!!,
-            "cognoms"                   to viewModel.cognom.value!!,
-            "edat"                      to viewModel.edat.value!!,
-            "data_naixement"            to viewModel.dataNaixement.value!!,
-            "ciutat"                    to viewModel.ciutat.value!!,
-            "email"                     to viewModel.email.value!!
-        )
+        if (binding.editTextNomUsuari.text.toString() != "") {
+            val user = User_Admin(
+                auth.currentUser!!.uid,
+                viewModel.nomUsuari.value!!,
+                viewModel.email.value!!,
+                "Admin",
+                getNowDate()
+            )
 
-        if(viewModel.pass.value != viewModel.passConf.value){
-            Toast.makeText(activity,"La contrasenya no coincideix", Toast.LENGTH_SHORT).show()
-        }else{
-//            auth.currentUser?.updateEmail(viewModel.email.value!!)?.addOnSuccessListener {
-//                Log.d(TAG, "updateEmail:success")
-//            }?.addOnFailureListener{
-//                Log.d(TAG, "updateEmail:failure")
-//            }
-//
-//            if(viewModel.pass.value?.isEmpty() == false){
-//                auth.currentUser?.updatePassword(viewModel.pass.value!!)?.addOnSuccessListener {
-//                    Log.d(TAG, "updatePass:success")
-//                }?.addOnFailureListener{
-//                    Log.d(TAG, "updatePass:failure")
-//                }
-//            }
+            // Se genera el acceso a la DDBB al nodo de cada usuari
+            database = FirebaseDatabase.getInstance().getReference("AllUsers/${auth.currentUser!!.uid}/userDates")
+            // Se settean y suben los datos del nuevo usuario
+            database.setValue(user)
+        } else {
+            val message : String? = controlDadesUpdate()
+            if (message != null) (activity as MainActivity).toastView(message)
+        }
 
-            database = FirebaseDatabase.getInstance().getReference("AllUsers/${args.idUsuari}")
+    }
 
-            database.child("userDates").updateChildren(user).addOnSuccessListener {
+    private fun updateUserAndLogin(){
+        val message : String? = controlDadesUpdate()
+        if (message != null) {
+            (activity as MainActivity).toastView(message)
+        } else {
+            updateUser()
 
-                (activity as MainActivity).toastView("Successfuly Updated")
 
-            }.addOnFailureListener{
+            auth.currentUser?.updateEmail(viewModel.email.value!!)?.addOnSuccessListener {
+                Log.d(TAG, "updateEmail:success")
+                auth.currentUser?.updatePassword(viewModel.pass.value!!)?.addOnSuccessListener {
+                    Log.d(TAG, "updatePass:success")
+                    (activity as MainActivity).toastView("Email & Pass & Dates - ACTUALIZADOS!")
+                }?.addOnFailureListener {
+                    Log.d(TAG, "updatePass:failure")
+                }
 
-                (activity as MainActivity).toastView("Failed Updated")
-
+            }?.addOnFailureListener{
+                Log.d(TAG, "updateEmail:failure")
             }
+
         }
     }
 
+    private fun controlDadesUpdate() : String? {
+        var missatgeSortida : String? = null
+
+        if (binding.editTextNomUsuari.text.isEmpty() ) {
+            missatgeSortida = "Falta el nombre de usuario!"
+        } else if (binding.editTextEmailRegister.text.isEmpty()) {
+            missatgeSortida = "Falta el Mail!"
+        } else if (binding.editTextPassword.text.isEmpty()) {
+            missatgeSortida = "Falta la pass"
+        } else if (binding.editTextPassword2.text.isEmpty()) {
+            missatgeSortida = "Falta la confirmación de la pass"
+        } else if (!binding.editTextPassword.text.toString().equals(binding.editTextPassword2.text.toString())){
+            missatgeSortida = "Las pass son diferentes"
+        }
+
+        return missatgeSortida
+    }
+
+    override fun onStop() {
+        super.onStop()
+        saveDatesUserViewModel()
+    }
 
 }

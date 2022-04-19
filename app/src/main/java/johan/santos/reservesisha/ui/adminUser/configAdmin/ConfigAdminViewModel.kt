@@ -6,40 +6,11 @@ import androidx.lifecycle.ViewModel
 
 class ConfigAdminViewModel : ViewModel() {
 
-    // nom
-    private val _nom = MutableLiveData<String>("")
-    val nom: LiveData<String> get() = _nom
-    fun setNom (userName : String){
-        _nom.value = userName
-    }
-
-    // cognom
-    private val _cognom = MutableLiveData<String>("")
-    val cognom: LiveData<String> get() = _cognom
-    fun setCognom (userCognoms : String){
-        _cognom.value = userCognoms
-    }
-
-    // edat
-    private val _edat = MutableLiveData<String>("")
-    val edat: LiveData<String> get() = _edat
-    fun setEdatUser (edatUser : String){
-        _edat.value = edatUser
-    }
-
-
-    // ciutat
-    private val _ciutat = MutableLiveData<String>("")
-    val ciutat: LiveData<String> get() = _ciutat
-    fun setCiutatUser (ciutatUser : String){
-        _ciutat.value = ciutatUser
-    }
-
-    // data de naixement
-    private val _dataNaixement = MutableLiveData<String>("")
-    val dataNaixement: LiveData<String> get() = _dataNaixement
-    fun setDataNaixement (dataNaixement : String){
-        _dataNaixement.value = dataNaixement
+    // nom d'usuari
+    private val _nomUsuari = MutableLiveData<String>("")
+    val nomUsuari: LiveData<String> get() = _nomUsuari
+    fun setNomUsuari (nomUsuari : String){
+        _nomUsuari.value = nomUsuari
     }
 
     // nom email
@@ -63,18 +34,18 @@ class ConfigAdminViewModel : ViewModel() {
         _passConf.value = passConf
     }
 
-
-    // nom d'usuari
-    private val _nomUsuari = MutableLiveData<String>("")
-    val nomUsuari: LiveData<String> get() = _nomUsuari
-    fun setNomUsuari (nomUsuari : String){
-        _nomUsuari.value = nomUsuari
+    // nom confirmacio password
+    private val _swLogin = MutableLiveData<Boolean>(false)
+    val swLogin: LiveData<Boolean> get() = _swLogin
+    fun setSwLogin (check : Boolean){
+        _swLogin.value = check
     }
-    // nom d'usuari
-    private val _userMap = MutableLiveData<Map<String, String>>()
-    val userMap: LiveData<Map<String, String>> get() = _userMap
-    fun setUserMap (userMap : Map<String, String>){
-        _userMap.value = userMap
+
+    // nom confirmacio password
+    private val _isExist = MutableLiveData<Boolean>(false)
+    val isExist: LiveData<Boolean> get() = _isExist
+    fun setIsExist (check : Boolean){
+        _isExist.value = check
     }
 
     // contador salidaRegistro/nuevoRegistro

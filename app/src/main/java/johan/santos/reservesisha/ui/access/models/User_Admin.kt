@@ -7,5 +7,5 @@ data class User_Admin(
     override var nom_usuari : String,
     override var email      : String,
     override var rol        : String,
-    var data_creacio    : Date
+    var data_update         : String
 ) : User()

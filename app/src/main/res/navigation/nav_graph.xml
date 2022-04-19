@@ -87,11 +87,7 @@
         android:id="@+id/configAdminFragment"
         android:name="johan.santos.reservesisha.ui.adminUser.configAdmin.ConfigAdminFragment"
         android:label="config_admin_fragment"
-        tools:layout="@layout/config_admin_fragment" >
-        <argument android:name="id_usuari"
-            app:argType="string"
-            app:nullable="true" />
-    </fragment>
+        tools:layout="@layout/config_admin_fragment" />
     <fragment
         android:id="@+id/manageUsersFragment"
         android:name="johan.santos.reservesisha.ui.adminUser.manageUsers.ManageUsersFragment"
@@ -100,9 +96,6 @@
         <action
             android:id="@+id/action_manageUsersFragment_to_configUsersFragment"
             app:destination="@id/configUsersFragment" />
-        <action
-            android:id="@+id/action_manageUsersFragment_to_configAdminFragment"
-            app:destination="@id/configAdminFragment" />
     </fragment>
     <fragment
         android:id="@+id/configUsersFragment"
