@@ -19,7 +19,6 @@ import johan.santos.reservesisha.ui.access.login.LoginFragmentDirections
 class AdminMainFragment : Fragment() {
 
     private lateinit var binding : AdminMainFragmentBinding
-    private lateinit var viewModel: AdminMainViewModel
     private lateinit var auth: FirebaseAuth
 
     companion object {
@@ -36,7 +35,6 @@ class AdminMainFragment : Fragment() {
         )
         auth = (activity as MainActivity).getAuth()
 
-
         binding.manageUsers.setOnClickListener {
             val action = AdminMainFragmentDirections.actionAdminMainFragmentToManageUsersFragment()
             NavHostFragment.findNavController(this).navigate(action)
@@ -48,12 +46,6 @@ class AdminMainFragment : Fragment() {
         }
 
         return binding.root
-    }
-
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProvider(this).get(AdminMainViewModel::class.java)
-        // TODO: Use the ViewModel
     }
 
 }
