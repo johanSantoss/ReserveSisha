@@ -160,11 +160,12 @@ class RegistreFragment : Fragment() {
     private fun saveDatesUserDataBase() {
         Log.d(TAG, "saveDatesUserDataBase: start")
         val auth = (activity as MainActivity).getAuth()
-        Log.d(TAG, "getAuth - success")
         var sexe: String
+
         // se setea el sexe
         if (viewModel.sexe.value == binding.radioBtn1.id) sexe = "Dona" else sexe = "Home"
         Log.d(TAG, "setSexe - success")
+
         // se genera una clase de USER con todos los datos del usuario
         val user = User_Current(
             auth.currentUser!!.uid,
@@ -227,10 +228,10 @@ class RegistreFragment : Fragment() {
             missatgeSortida = "Falta la data de naixement!"
         } else if (binding.editTextIdentificadorPersonal.text.isEmpty()){
             missatgeSortida = "Falta el DNI/NIE!"
-        } else if (controlNameUser()){
-            missatgeSortida = "El nom d'usuari ja existeix!"
         } else if (binding.editTextNomUsuari.text.isEmpty()){
             missatgeSortida = "Falta el nom d'usuari!"
+        } else if (controlNameUser()){
+            missatgeSortida = "El nom d'usuari ja existeix!"
         } else if (binding.editTextEmailRegister.text.isEmpty()){
             missatgeSortida = "Falta el email!"
         } else if (binding.editTextPassword.text.isEmpty() ){
@@ -244,25 +245,15 @@ class RegistreFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        val supportActionBar = (requireActivity() as AppCompatActivity).supportActionBar
         (activity as MainActivity).disableMenus()
-
-        supportActionBar?.hide()
     }
 
     override fun onStop() {
         super.onStop()
-        val supportActionBar = (requireActivity() as AppCompatActivity).supportActionBar
+//        val supportActionBar = (requireActivity() as AppCompatActivity).supportActionBar
+//        supportActionBar?.show()
         saveDatesUserViewModel()
-        supportActionBar?.show()
-
-        if ((activity as MainActivity).getAuth() != null ) (activity as MainActivity).logut()
+        if ((activity as MainActivity).getAuth().currentUser != null ) (activity as MainActivity).logut()
     }
-
-    /*
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProvider(this).get(RegistreViewModel::class.java)
-    } */
 
 }

@@ -52,32 +52,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun disableMenus() {
-
-//        val bottomNavigationView3 = findViewById<BottomNavigationView>(R.id.bottom_navigation_view3)
-//        bottomNavigationView3.visibility = View.INVISIBLE
-//
-//        val bottomNavigationView2 = findViewById<BottomNavigationView>(R.id.bottom_navigation_view2)
-//        bottomNavigationView2.visibility = View.INVISIBLE
-//
-//        val bottomNavigationView = findViewById<BottomNavigationView>(R.id.bottom_navigation_view)
-//        bottomNavigationView.visibility = View.INVISIBLE
-    }
-
-    fun enableMenuAdmin(){
-//        val bottomNavigationView3 = findViewById<BottomNavigationView>(R.id.bottom_navigation_view3)
-//        bottomNavigationView3.visibility = View.VISIBLE
-
-    }
-
-    fun enableMenuBusiness(){
-//        val bottomNavigationView2 = findViewById<BottomNavigationView>(R.id.bottom_navigation_view2)
-//        bottomNavigationView2.visibility = View.VISIBLE
-
-    }
-
-    fun enableMenuCurrentUser(){
-//        val bottomNavigationView = findViewById<BottomNavigationView>(R.id.bottom_navigation_view)
-//        bottomNavigationView.visibility = View.VISIBLE
+        val supportActionBar = this.supportActionBar
+        supportActionBar?.hide()
     }
 
     fun upBottonBarUser(){

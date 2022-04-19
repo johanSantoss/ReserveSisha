@@ -140,10 +140,9 @@ class LoginFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
+//        val supportActionBar = (requireActivity() as AppCompatActivity).supportActionBar
+//        supportActionBar?.hide()
         // recuperar "ActionBar" para esconderla
-        val supportActionBar = (requireActivity() as AppCompatActivity).supportActionBar
-        supportActionBar?.hide()
-        // enconder todos los menus
         (activity as MainActivity).disableMenus()
     }
 
