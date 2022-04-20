@@ -14,9 +14,9 @@ class ConfigRateViewModel : ViewModel() {
     }
 
     // Price
-    private val _price = MutableLiveData<Int?>(null)
-    val price : LiveData<Int?> get() = _price
-    fun setPrice (estado : Int){
+    private val _price = MutableLiveData<String>("")
+    val price : LiveData<String> get() = _price
+    fun setPrice (estado : String){
         _price.value = estado
     }
 

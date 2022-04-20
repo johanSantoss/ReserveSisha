@@ -101,7 +101,22 @@
         android:id="@+id/configUsersFragment"
         android:name="johan.santos.reservesisha.ui.adminUser.manageUsers.configUser.ConfigUsersFragment"
         android:label="config_users_fragment"
-        tools:layout="@layout/config_users_fragment" />
+        tools:layout="@layout/config_users_fragment" >
+        <argument
+            android:name="user"
+            app:argType="string" />
+        <argument
+            android:name="rol"
+            app:argType="string" />
+        <argument
+            android:name="newUser"
+            app:argType="boolean" />
+        <action
+            android:id="@+id/action_configUsersFragment_to_manageUsersFragment"
+            app:destination="@id/manageUsersFragment"
+            app:popUpTo="@id/configUsersFragment"
+            app:popUpToInclusive="true" />
+    </fragment>
     <fragment
         android:id="@+id/configBusinessFragment"
         android:name="johan.santos.reservesisha.ui.businessUser.configBusiness.ConfigBusinessFragment"
@@ -174,7 +189,18 @@
         android:id="@+id/configBookingFragment"
         android:name="johan.santos.reservesisha.ui.usuallyUser.manageBooking.configBooking.ConfigBookingFragment"
         android:label="config_booking_fragment"
-        tools:layout="@layout/config_booking_fragment" />
+        tools:layout="@layout/config_booking_fragment" >
+        <action
+            android:id="@+id/action_configBookingFragment_to_manageBookingFragment"
+            app:destination="@id/manageBookingFragment"
+            app:popUpTo="@id/configBookingFragment"
+            app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_configBookingFragment_to_businessFragment"
+            app:destination="@id/businessFragment"
+            app:popUpTo="@id/configBookingFragment"
+            app:popUpToInclusive="true" />
+    </fragment>
     <fragment
         android:id="@+id/manageTypesFragment"
         android:name="johan.santos.reservesisha.ui.businessUser.manageTypes.ManageTypesFragment"

@@ -35,50 +35,26 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:text="id"
                     android:textAlignment="center"
                     android:textColor="@color/black"
                     android:textSize="14sp"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"
+                    tools:text="ID_user"/>
 
                 <TextView
                     android:id="@+id/tvItemUserName"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="TextView"
-                    android:textAlignment="center" />
+                    android:textAlignment="center"
+                    tools:text="User_name"/>
 
-                <LinearLayout
+                <TextView
+                    android:id="@+id/tvItemUserRol"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:id="@+id/tvItemUsersRName"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:paddingRight="10dp"
-                        android:scrollbars="vertical"
-                        android:textAlignment="center"
-                        tools:text="Name" />
-
-                    <TextView
-                        android:id="@+id/tvItemUsersLastName"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:paddingRight="10dp"
-                        android:text="Last Name"
-                        android:textAlignment="center" />
-
-                    <TextView
-                        android:id="@+id/tvItemUserRol"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:paddingRight="10dp"
-                        android:text="TextView"
-                        android:textAlignment="center" />
-
-                </LinearLayout>
+                    android:paddingRight="10dp"
+                    android:textAlignment="center"
+                    tools:text="Rol_user"/>
 
             </LinearLayout>
 

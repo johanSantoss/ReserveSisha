@@ -21,6 +21,7 @@ import johan.santos.reservesisha.databinding.CurrentUserMainFragmentBinding
 import johan.santos.reservesisha.databinding.MainActivityBinding
 import johan.santos.reservesisha.databinding.ManageUsersFragmentBinding
 import johan.santos.reservesisha.ui.access.models.DataBusiness
+import johan.santos.reservesisha.ui.access.models.DataRates
 import johan.santos.reservesisha.ui.access.models.DataUsers
 import johan.santos.reservesisha.ui.adminUser.AdminMainFragmentDirections
 import johan.santos.reservesisha.ui.adminUser.manageUsers.recyclerViewUsers.DataUsersAdapter
@@ -55,51 +56,20 @@ class ManageUsersFragment : Fragment() {
 
 
 
-        // cargar la lista de empresas
+        // cargar la lista de Usuarios
         reloadListUsers()
-        // realizar un check para comprobar que no hay nigúna empresa dispponible para poder mostrar al usuario
-        checkListUsers()
-        // inicializar el recycler view
-        //initRecyclerView()
+
 
         binding.button52.setOnClickListener {
-            val action = ManageUsersFragmentDirections.actionManageUsersFragmentToConfigUsersFragment()
+            val action = ManageUsersFragmentDirections.actionManageUsersFragmentToConfigUsersFragment("", "", true)
             NavHostFragment.findNavController(this).navigate(action)
         }
 
         return binding.root
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProvider(this).get(ManageUsersViewModel::class.java)
-        // TODO: Use the ViewModel
-    }
-
     private fun reloadListUsers(){
-        if(viewModel.llistaUsers.isNotEmpty()){
-            viewModel.clearLlistaUSers()
-        }
-
-    }
-
-
-    private fun initRecyclerView(){
-        val manager = LinearLayoutManager(activity)
-        binding.recyclerUsersM.layoutManager = manager
-        binding.recyclerUsersM.adapter = DataUsersAdapter (getListUsers() as List<DataUsers>) { usersSelected ->
-            onItemSelected(
-                usersSelected
-            )
-        }
-    }
-
-    private fun onItemSelected (usersSelected : DataUsers){
-//        (activity as MainActivity).toastView("Has seleccionado el item: " + usersSelected.nom_usuari)
-    }
-
-    private fun checkListUsers(){
-        //if (viewModel.listEmpty.value == 0){
+        viewModel.clearLlistaUSers()
 
         val myRef = database.getReference("AllUsers/")
 
@@ -107,25 +77,20 @@ class ManageUsersFragment : Fragment() {
             override fun onDataChange(snapshot: DataSnapshot) {
                 // This method is called once with the initial value and again
                 // whenever data at this location is updated.
-
                 snapshot.children.forEach { item ->
-                            item.children.forEach { valors ->
-                                valors.getValue<DataUsers>()?.let {
-
-                                    binding.textView2.setText(it?.rol?:"")
-
-                                    val anyUsers = DataUsers(
-                                        it?.id_usuari?:"",
-                                        it?.nom_usuari?:"",
-                                        it?.rol?:"",
-                                        it?.nom?:"",
-                                        it?.cognoms?:""
-                                    )
-                                    viewModel.addValueUsers(anyUsers)
-                                    if (!item.hasChildren()) initRecyclerView()
-                                }
-                            }
+                    item.children.forEach { valors ->
+                        valors.getValue<DataUsers>()?.let {
+                            val anyUsers = DataUsers(
+                                it.id_usuari,
+                                it.nom_usuari,
+                                it.email,
+                                it.rol
+                            )
+                            viewModel.addValueUsers(anyUsers)
+                        }
+                    }
                 }
+                initRecyclerView()
             }
             override fun onCancelled(error: DatabaseError) {
                 TODO("Not yet implemented")
@@ -133,9 +98,32 @@ class ManageUsersFragment : Fragment() {
         })
     }
 
-    private fun saveListUsers(listUsers : MutableList<DataUsers>){
-        viewModel.setLlistaUsers(listUsers)
+
+    private fun initRecyclerView(){
+        val manager = LinearLayoutManager(activity)
+        binding.recyclerUsersM.layoutManager = manager
+        binding.recyclerUsersM.adapter = DataUsersAdapter (getListUsers() as List<DataUsers>) { usersSelected ->
+            onItemSelectedToDelete(
+                usersSelected
+            )
+        }
     }
+
+    private fun onItemSelectedToDelete (usersSelected : DataUsers){
+        (activity as MainActivity).toastView("Has Borrado el User: " + usersSelected.nom_usuari)
+        database = FirebaseDatabase.getInstance("https://reservesisha96-default-rtdb.europe-west1.firebasedatabase.app/")
+        val myRefDadesUser = database.getReference("AllUsers/${usersSelected.id_usuari.toString()}")
+        myRefDadesUser.removeValue().addOnSuccessListener {
+            reloadListUsers()
+        }
+        //-------------------------------------------------------------------------------------------------------------------------------------
+        /*
+        falta recuperar la contraseña para poder borrar el usuario
+         */
+
+
+    }
+
 
     private fun getListUsers() : List<DataUsers?> {
         return viewModel.llistaUsers

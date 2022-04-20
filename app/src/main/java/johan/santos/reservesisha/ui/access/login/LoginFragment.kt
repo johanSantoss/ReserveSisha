@@ -74,6 +74,7 @@ class LoginFragment : Fragment() {
                         // Sign in success, update UI with the signed-in user's information
                         Log.d(TAG, "signInWithEmail:success")
                         readData()
+                        //deleteUSer()
                     } else {
                         // If sign in fails, display a message to the user.
                         Log.w(TAG, "signInWithEmail:failure", task.exception)
@@ -84,6 +85,16 @@ class LoginFragment : Fragment() {
             (activity as MainActivity).toastView("Authentication failed.")
         }
     }
+    /*
+    private fun deleteUSer(){
+        val mail = (activity as MainActivity).getAuth().currentUser!!.email.toString()
+        (activity as MainActivity).getAuth().currentUser!!.delete()
+            .addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    (activity as MainActivity).toastView("Has borrado el user con mail: " + mail)
+                }
+            }
+    }*/
 
     private fun readData() {
         val auth = (activity as MainActivity).getAuth()
@@ -93,7 +104,7 @@ class LoginFragment : Fragment() {
             if (it.exists()){
                 val firstname = it.child("rol").value
                 typeUser = firstname.toString()
-                Toast.makeText(activity,firstname.toString(),Toast.LENGTH_SHORT).show()
+                (activity as MainActivity).toastView(firstname.toString())
                 setInitFragment()
             } else {
                 var action: NavDirections = LoginFragmentDirections.actionLoginFragmentToAdminMainFragment()

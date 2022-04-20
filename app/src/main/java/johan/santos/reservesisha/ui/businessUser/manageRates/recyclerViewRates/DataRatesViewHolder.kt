@@ -17,10 +17,10 @@ class DataRatesViewHolder (view : View) : RecyclerView.ViewHolder(view) {
     fun render (item : DataRates, onClickListener: (DataRates) -> Unit) {
 
         binding.tvNameRate.text = item.name
-        binding.tvPriceContent.text = item.price.toString()
+        binding.tvPriceContent.text = item.price
 
         binding.ivItemRateEdit.setOnClickListener {
-            val action = ManageRatesFragmentDirections.actionManageRatesFragmentToConfigRateFragment(item.name, false)
+            val action = ManageRatesFragmentDirections.actionManageRatesFragmentToConfigRateFragment(item.name!!, false)
             it.findNavController().navigate(action)
         }
 

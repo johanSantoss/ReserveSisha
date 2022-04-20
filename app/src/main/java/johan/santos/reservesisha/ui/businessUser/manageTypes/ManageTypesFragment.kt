@@ -73,14 +73,14 @@ class ManageTypesFragment : Fragment() {
                     item.children.forEach { valors ->
                         valors.getValue<DataType>()?.let {
                             val anyType = DataType(
-                                it?.name,
-                                it?.suplemento
+                                it?.name.toString(),
+                                it?.suplemento!!
                             )
                             viewModel.addValueType(anyType)
-                            if (!item.hasChildren()) initRecyclerView()
                         }
                     }
                 }
+                initRecyclerView()
             }
 
             override fun onCancelled(error: DatabaseError) {

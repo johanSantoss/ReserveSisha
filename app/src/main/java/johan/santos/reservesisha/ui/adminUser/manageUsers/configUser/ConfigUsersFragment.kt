@@ -7,17 +7,21 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.fragment.navArgs
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
+import com.google.firebase.database.ktx.getValue
 import johan.santos.reservesisha.MainActivity
 import johan.santos.reservesisha.R
 import johan.santos.reservesisha.databinding.ConfigUsersFragmentBinding
-import johan.santos.reservesisha.ui.access.models.User
-import johan.santos.reservesisha.ui.access.models.User_Admin
-import johan.santos.reservesisha.ui.access.models.User_Business
-import johan.santos.reservesisha.ui.access.models.User_Current
+import johan.santos.reservesisha.ui.access.models.*
 import java.util.*
 
 
@@ -25,6 +29,8 @@ class ConfigUsersFragment : Fragment() {
 
     private lateinit var binding: ConfigUsersFragmentBinding
     private lateinit var database: FirebaseDatabase
+    private lateinit var spinnerItems : ArrayAdapter<String>
+    val args    : ConfigUsersFragmentArgs by navArgs()
 
     companion object {
         fun newInstance() = ConfigUsersFragment()
@@ -44,9 +50,11 @@ class ConfigUsersFragment : Fragment() {
             container,
             false
         )
+        viewModel = ViewModelProvider(this).get(ConfigUsersViewModel::class.java)
+
         database = FirebaseDatabase.getInstance("https://reservesisha96-default-rtdb.europe-west1.firebasedatabase.app/")
 
-        val spinnerItems = ArrayAdapter<String>((activity as MainActivity), android.R.layout.simple_spinner_item)
+        spinnerItems = ArrayAdapter<String>((activity as MainActivity), android.R.layout.simple_spinner_item)
 
         spinnerItems.addAll(listOf("CurrentUser", "Business", "Admin"))
 
@@ -65,50 +73,156 @@ class ConfigUsersFragment : Fragment() {
         }
 
         binding.btnAddNewUser.setOnClickListener {
-            val missatge = controlDadesRegistre()
-
-            if (missatge != null)
-                (activity as MainActivity).toastView(missatge)
-            else {
-                saveDatesUserViewModel()
-                Log.d(TAG, "saveDatesUserViewModel: success")
-                createAccount(viewModel.email.value.toString(), viewModel.password.value.toString(), binding.spinner.selectedItem.toString())
-                Log.d(TAG, "createAccount: success")
+            if (!args.newUser){
+                updateUser()
+            } else {
+                createUser()
             }
         }
 
+        if (!args.newUser) {
+            cargarUser()
+        }
 
-        //return inflater.inflate(R.layout.config_users_fragment, container, false)
         return binding.root
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProvider(this).get(ConfigUsersViewModel::class.java)
-        // TODO: Use the ViewModel
+    private fun cargarUser(){
+        when (args.rol){
+            "Business"      -> cargarUserBusines()
+            "CurrentUser"   -> cargarUserCurrentUser()
+            "Admin"         -> cargarUserAdmin()
+        }
+    }
+
+    private fun cargarUserAdmin(){
+        val myRef = database.getReference("AllUsers/${args.user}/userDates")
+        myRef.addValueEventListener(object: ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                // This method is called once with the initial value and again
+                // whenever data at this location is updated.
+                val value = snapshot.getValue<User_Admin>()
+                binding.editTextMailAuth.setText(value?.email)
+                binding.spinner.setSelection(spinnerItems.getPosition(value?.rol))
+                saveDatesUserViewModel()
+            }
+            override fun onCancelled(error: DatabaseError) {
+            }
+        })
+    }
+
+    private fun cargarUserBusines(){
+        val myRef = database.getReference("AllUsers/${args.user}/userDates")
+        myRef.addValueEventListener(object: ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                // This method is called once with the initial value and again
+                // whenever data at this location is updated.
+                val value = snapshot.getValue<User_Business>()
+                binding.editTextMailAuth.setText(value?.email)
+                binding.spinner.setSelection(spinnerItems.getPosition(value?.rol))
+                binding.editTextCIF.isVisible = true
+                binding.editTextCIF.setText(value?.cif)
+                saveDatesUserViewModel()
+            }
+            override fun onCancelled(error: DatabaseError) {
+            }
+        })
+    }
+
+    private fun cargarUserCurrentUser(){
+        val myRef = database.getReference("AllUsers/${args.user}/userDates")
+        myRef.addValueEventListener(object: ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                // This method is called once with the initial value and again
+                // whenever data at this location is updated.
+                val value = snapshot.getValue<User_Current>()
+                binding.editTextMailAuth.setText(value?.email)
+                binding.spinner.setSelection(spinnerItems.getPosition(value?.rol))
+                saveDatesUserViewModel()
+            }
+            override fun onCancelled(error: DatabaseError) {
+            }
+        })
+    }
+
+    private fun updateUser(){
+        saveDatesUserViewModel()
+        var user : Map<String, String>  = mapOf<String,String>()
+
+        when (viewModel.rol.value){
+            "Business"      -> {
+                user = mapOf<String,String>(
+                    "cif"                to viewModel.numCIF.value!!
+                )
+            }
+            "CurrentUser"   -> {
+                user = mapOf<String,String>(
+                    "email"                to viewModel.email.value!!
+                )
+            }
+            "Admin"         -> {
+                user = mapOf<String,String>(
+                    "email"                to viewModel.email.value!!
+                )
+            }
+        }
+/*
+        val user = mapOf<String,String>(
+            "cif"                to viewModel.numCIF.value!!
+        )*/
+
+        val database2 = FirebaseDatabase.getInstance().getReference("AllUsers/${args.user}")
+
+        database2.child("userDates").updateChildren(user).addOnSuccessListener {
+
+        }.addOnFailureListener{
+
+        }
+
+        back()
+    }
+
+    private fun back(){
+        val action = ConfigUsersFragmentDirections.actionConfigUsersFragmentToManageUsersFragment()
+        NavHostFragment.findNavController(this).navigate(action)
+    }
+
+    private fun createUser(){
+        val missatge = controlDadesRegistre()
+
+        if (missatge != null)
+            (activity as MainActivity).toastView(missatge)
+        else {
+            saveDatesUserViewModel()
+            Log.d(TAG, "saveDatesUserViewModel: success")
+            createAccount(viewModel.email.value.toString(), viewModel.password.value.toString(), binding.spinner.selectedItem.toString())
+            Log.d(TAG, "createAccount: success")
+
+            back()
+        }
     }
 
     private fun createAccount(email: String, password: String, rol: String) {
 
-            // [START create_user_with_email]
-            (activity as MainActivity).getAuth().createUserWithEmailAndPassword(email, password)
-                .addOnCompleteListener(requireActivity()) { task ->
-                    if (task.isSuccessful) {
-                        // Sign in success, update UI with the signed-in user's information
-                        Log.d(TAG, "createUserWithEmail: success")
-                        // missatge de "DONE"
-                        (activity as MainActivity).toastView("Success Registre!")
-                        // guardar los datos en la DDBB
-                        saveDatesUserDataBase(rol)
-                        Log.d(TAG, "saveDatesUserDataBase: success")
-                        clearDates()
-                        Log.d(TAG, "navigate(action): success")
-                    } else {
-                        // If sign in fails, display a message to the user.
-                        Log.w(TAG, "createUserWithEmail:failure", task.exception)
-                        (activity as MainActivity).toastView("Failed Registre!")
-                    }
+        // [START create_user_with_email]
+        (activity as MainActivity).getAuth().createUserWithEmailAndPassword(email, password)
+            .addOnCompleteListener(requireActivity()) { task ->
+                if (task.isSuccessful) {
+                    // Sign in success, update UI with the signed-in user's information
+                    Log.d(TAG, "createUserWithEmail: success")
+                    // missatge de "DONE"
+                    //(activity as MainActivity).toastView("Success Registre!")
+                    // guardar los datos en la DDBB
+                    saveDatesUserDataBase(rol)
+                    Log.d(TAG, "saveDatesUserDataBase: success")
+                    clearDates()
+                    Log.d(TAG, "navigate(action): success")
+                } else {
+                    // If sign in fails, display a message to the user.
+                    Log.w(TAG, "createUserWithEmail:failure", task.exception)
+                    (activity as MainActivity).toastView("Failed Registre!")
                 }
+            }
     }
 
     private fun controlDadesRegistre() : String? {
@@ -126,11 +240,15 @@ class ConfigUsersFragment : Fragment() {
     private fun saveDatesUserViewModel(){
         viewModel.setEmail(binding.editTextMailAuth.text.toString().trim())
         viewModel.setPassword(binding.editTextPassAuth.text.toString().trim())
+        val rol = binding.spinner.selectedItem.toString()
+        when(rol) {
+            "Business"      -> {
+                viewModel.setNumCIF(binding.editTextCIF.text.toString())
+                viewModel.setRol(rol)
+            }
+            else -> viewModel.setRol(rol)
 
-        if(binding.spinner.selectedItem.toString() == "Business"){
-            viewModel.setNumCIF(binding.spinner.selectedItem.toString())
         }
-
         viewModel.setEstadoRegistro(1)
     }
     private fun getNowDate() : String{
@@ -145,7 +263,7 @@ class ConfigUsersFragment : Fragment() {
     }
 
     private fun saveDatesUserDataBase(rol: String) {
-        var cif = "null"
+        var cif = ""
         Log.d(TAG, "saveDatesUserDataBase: start")
         val auth = (activity as MainActivity).getAuth()
         Log.d(TAG, "getAuth - success")
@@ -159,7 +277,7 @@ class ConfigUsersFragment : Fragment() {
         if(rol == "Admin"){
              user = User_Admin(
                 auth.currentUser!!.uid,
-                "null",
+                "",
                 viewModel.email.value.toString(),
                 rol,
                 getNowDate()
@@ -168,28 +286,28 @@ class ConfigUsersFragment : Fragment() {
         }else if(rol == "Business"){
                  user = User_Business(
                     auth.currentUser!!.uid,
-                    "null",
+                    "",
                     viewModel.email.value.toString(),
                     rol,
-                    "null",
-                    "null",
-                    "null",
-                    "null",
+                    "",
+                    "",
+                    "",
+                    "",
                     cif
                 )
         }else{
              user = User_Current(
                 auth.currentUser!!.uid,
-                "null",
+                "",
                 viewModel.email.value.toString(),
                 rol,
-                "null",
-                "null",
-                "null",
-                "null",
-                "null",
-                "null",
-                "null"
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                ""
             )
         }
 

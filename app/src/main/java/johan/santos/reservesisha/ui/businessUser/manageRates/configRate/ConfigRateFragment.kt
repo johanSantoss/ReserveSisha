@@ -31,6 +31,7 @@ class ConfigRateFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = ConfigRateFragmentBinding.inflate(layoutInflater)
+        viewModel = ViewModelProvider(this).get(ConfigRateViewModel::class.java)
 
         cif = getCifBusiness()
 
@@ -43,6 +44,7 @@ class ConfigRateFragment : Fragment() {
         }
 
         binding.btnUpdateRate.setOnClickListener {
+            saveDataViewModel()
             updateRate()
         }
 
@@ -53,21 +55,12 @@ class ConfigRateFragment : Fragment() {
     private fun updateRate(){
         val rate = mapOf<String,String>(
             "name"    to viewModel.name.value!!,
-            "price"   to viewModel.price.value!!.toString()
+            "price"   to viewModel.price.value!!
         )
 
-        database2 = FirebaseDatabase.getInstance().getReference("AllBusiness/$cif/tipos")
+        database2 = FirebaseDatabase.getInstance().getReference("AllBusiness/$cif/tarifas")
 
-        database2.child(viewModel.name.value.toString()).updateChildren(rate).addOnSuccessListener {
-
-            saveDataViewModel()
-            (activity as MainActivity).toastView("Successfuly Updated")
-
-        }.addOnFailureListener{
-
-            (activity as MainActivity).toastView("Failed Updated")
-
-        }
+        database2.child(viewModel.name.value!!).setValue(rate)
     }
 
     private fun loadRate(){
@@ -76,7 +69,7 @@ class ConfigRateFragment : Fragment() {
             if (it.exists()){
 
                 binding.tvRateNameContent.setText(it.child("name").value.toString())
-                binding.tvRatePriceContent.setText(it.child("price").value.toString().toInt())
+                binding.tvRatePriceContent.setText(it.child("price").value.toString())
                 saveDataViewModel()
 
             }else{
@@ -90,12 +83,12 @@ class ConfigRateFragment : Fragment() {
 
     private fun restaurarDatos(){
         binding.tvRateNameContent.setText(viewModel.name.value)
-        binding.tvRatePriceContent.setText(viewModel.price.value!!)
+        binding.tvRatePriceContent.setText(viewModel.price.value)
     }
 
     private fun saveDataViewModel(){
         viewModel.setName(binding.tvRateNameContent.text.toString())
-        viewModel.setPrice(binding.tvRatePriceContent.text.toString().toInt())
+        viewModel.setPrice(binding.tvRatePriceContent.text.toString())
 
         viewModel.setEstadoRegistro(1)
     }

@@ -50,11 +50,13 @@ class ManageRatesFragment : Fragment() {
         return binding.root
     }
 
-    //----------------------------------------------------------------------------------------------------------------------------
     private fun reloadListRates(){
+        viewModel.cleanListRate()
+
         database = FirebaseDatabase.getInstance("https://reservesisha96-default-rtdb.europe-west1.firebasedatabase.app/")
         val cif = getCifBusiness()
-        val myRef = database.getReference("AllBusiness/$cif/tarifas/")
+        val path = "AllBusiness/$cif/tarifas/"
+        val myRef = database.getReference(path)
 
         myRef.addValueEventListener(object: ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
@@ -65,21 +67,19 @@ class ManageRatesFragment : Fragment() {
                     item.children.forEach { valors ->
                         valors.getValue<DataRates>()?.let {
                             val anyRate = DataRates(
-                                it?.name,
-                                it?.price
+                                it.name,
+                                it.price
                             )
                             viewModel.addValueRate(anyRate)
-                            if (!item.hasChildren()) initRecyclerView()
                         }
                     }
                 }
+                initRecyclerView()
             }
             override fun onCancelled(error: DatabaseError) {
                 TODO("Not yet implemented")
             }
         })
-
-        checkListRates()
 
     }
 
@@ -94,7 +94,7 @@ class ManageRatesFragment : Fragment() {
     }
 
     private fun onDeleteItemSelected (rateSelected : DataRates){
-        (activity as MainActivity).toastView("Vas a ELIMINAR el item: '" + rateSelected.name.uppercase() + "'")
+        (activity as MainActivity).toastView("Vas a ELIMINAR el item: '" + rateSelected.name!!.uppercase() + "'")
         val cif = getCifBusiness()
         if (rateSelected.price != null){
             database = FirebaseDatabase.getInstance("https://reservesisha96-default-rtdb.europe-west1.firebasedatabase.app/")
@@ -126,20 +126,6 @@ class ManageRatesFragment : Fragment() {
         return cif
     }
 
-    private fun checkListRates(){
-        //if (viewModel.listEmpty.value == 0){
-        if (viewModel.llistaRates.isEmpty()){
-            val anyRate = DataRates(
-                "No hay ninguna Tarifa disponible!",
-                null
-            )
-            viewModel.addValueRate(anyRate)
-        } else viewModel.setHayDatosList(true)
-    }
-
-    private fun saveListRates(listRates : MutableList<DataRates>){
-        viewModel.setLlistaRates(listRates)
-    }
 
     private fun getListRates() : List<DataRates> {
         return viewModel.llistaRates

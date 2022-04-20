@@ -18,6 +18,13 @@ class ConfigUsersViewModel : ViewModel() {
         _password.value = pass
     }
 
+    // password
+    private val _rol = MutableLiveData<String>("")
+    val rol : LiveData<String> get() = _rol
+    fun setRol (rol : String){
+        _rol.value = rol
+    }
+
     // CIF
     private val _numCIF = MutableLiveData<String>("")
     val numCIF: LiveData<String> get() = _numCIF

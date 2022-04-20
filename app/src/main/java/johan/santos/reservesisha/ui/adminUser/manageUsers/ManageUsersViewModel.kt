@@ -13,6 +13,9 @@ class ManageUsersViewModel : ViewModel() {
     fun addValueUsers (users : DataUsers){
         _llistaUsers.add(users)
     }
+    fun delValueUser (users : DataUsers){
+        _llistaUsers.remove(users)
+    }
     fun clearLlistaUSers(){
         _llistaUsers.clear()
     }

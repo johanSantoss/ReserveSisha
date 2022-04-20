@@ -19,26 +19,18 @@ class DataUsersViewHolder (view : View) : RecyclerView.ViewHolder(view) {
     fun render (item : DataUsers, onClickListener: (DataUsers) -> Unit) {
         binding.tvItemUsersId.text = item.id_usuari
         binding.tvItemUserName.text = item.nom_usuari
-        binding.tvItemUsersRName.text = item.nom
-        binding.tvItemUsersLastName.text = item.cognoms
         binding.tvItemUserRol.text = item.rol
 
         binding.tvItemEdit.setOnClickListener{
             //item.id_usuari.toString()
-            val action = ManageUsersFragmentDirections.actionManageUsersFragmentToConfigUsersFragment()
+            val action = ManageUsersFragmentDirections.actionManageUsersFragmentToConfigUsersFragment(item.id_usuari.toString(), item.rol.toString() , false)
             it.findNavController().navigate(action)
         }
 
-//        binding.tvItemUserDelete.setOnClickListener{
-//            database = FirebaseDatabase.getInstance("https://reservesisha96-default-rtdb.europe-west1.firebasedatabase.app/")
-//            val myRefDadesUser = database.getReference("AllUsers/${item.id_usuari.toString()}")
-//            myRefDadesUser.removeValue()
-//
-//        }
+        binding.tvItemUserDelete.setOnClickListener{
+            onClickListener(item)
+        }
 
-//        itemView.setOnClickListener {
-//            onClickListener(item)
-//        }
     }
 
 }
