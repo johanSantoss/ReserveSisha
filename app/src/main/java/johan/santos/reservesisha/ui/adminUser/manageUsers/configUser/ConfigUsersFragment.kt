@@ -198,7 +198,6 @@ class ConfigUsersFragment : Fragment() {
             createAccount(viewModel.email.value.toString(), viewModel.password.value.toString(), binding.spinner.selectedItem.toString())
             Log.d(TAG, "createAccount: success")
 
-            back()
         }
     }
 
@@ -217,6 +216,7 @@ class ConfigUsersFragment : Fragment() {
                     Log.d(TAG, "saveDatesUserDataBase: success")
                     clearDates()
                     Log.d(TAG, "navigate(action): success")
+                    back()
                 } else {
                     // If sign in fails, display a message to the user.
                     Log.w(TAG, "createUserWithEmail:failure", task.exception)
