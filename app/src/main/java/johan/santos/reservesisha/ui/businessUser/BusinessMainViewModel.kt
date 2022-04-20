@@ -8,11 +8,13 @@ class BusinessMainViewModel : ViewModel() {
     // llistaReservas
     private var _llistaReservas = mutableListOf<DataBooking>()
     val llistaReservas: List<DataBooking> get() = _llistaReservas
-    fun setLlistaReservas (novaLlista : MutableList<DataBooking>){
-        _llistaReservas = novaLlista
-    }
+
     fun addValueReserva (reserva : DataBooking){
         _llistaReservas.add(reserva)
     }
+    fun clearReservas(){
+        _llistaReservas.clear()
+    }
+
 
 }

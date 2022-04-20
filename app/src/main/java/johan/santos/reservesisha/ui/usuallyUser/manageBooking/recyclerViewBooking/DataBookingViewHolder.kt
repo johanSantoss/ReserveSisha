@@ -32,7 +32,12 @@ class DataBookingViewHolder (view : View) : RecyclerView.ViewHolder(view) {
 
         binding.tvDeleteBooking.setOnClickListener {
             database = FirebaseDatabase.getInstance("https://reservesisha96-default-rtdb.europe-west1.firebasedatabase.app/")
-            val myRefDadesUser = database.getReference("AllUsers/${item.id_user.toString()}/userDates/reserva/${item.id_empresa.toString()}")
+            // delete on Business
+            val myRefDadesBusiness = database.getReference("AllBusiness/${item.id_empresa}/reservas/${item.id_booking}")
+            myRefDadesBusiness.removeValue()
+
+            // delete on Current_User
+            val myRefDadesUser = database.getReference("AllUsers/${item.id_user}/reservas/${item.id_booking}")
             myRefDadesUser.removeValue()
         }
 

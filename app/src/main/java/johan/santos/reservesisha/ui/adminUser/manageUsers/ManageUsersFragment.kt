@@ -30,14 +30,15 @@ import johan.santos.reservesisha.ui.usuallyUser.userMainFragment
 
 class ManageUsersFragment : Fragment() {
 
-    private lateinit var binding : ManageUsersFragmentBinding
-    private lateinit var database: FirebaseDatabase
+
 
     companion object {
         fun newInstance() = ManageUsersFragment()
     }
 
     private lateinit var viewModel: ManageUsersViewModel
+    private lateinit var binding : ManageUsersFragmentBinding
+    private lateinit var database: FirebaseDatabase
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
