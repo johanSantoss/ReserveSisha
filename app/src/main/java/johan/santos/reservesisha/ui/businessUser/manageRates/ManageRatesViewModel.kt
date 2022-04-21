@@ -8,7 +8,7 @@ import johan.santos.reservesisha.ui.access.models.DataRates
 class ManageRatesViewModel : ViewModel() {
 
     // llista de Rate's
-    private var _llistaRates = mutableListOf<DataRates>()
+    private var _llistaRates: MutableList<DataRates> = mutableListOf()
     val llistaRates : List<DataRates> get() = _llistaRates
     fun setLlistaRates (novaLlista : MutableList<DataRates>){
         _llistaRates = novaLlista

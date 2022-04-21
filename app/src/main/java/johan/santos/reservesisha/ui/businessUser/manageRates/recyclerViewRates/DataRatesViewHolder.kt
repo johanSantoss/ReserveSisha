@@ -20,7 +20,7 @@ class DataRatesViewHolder (view : View) : RecyclerView.ViewHolder(view) {
         binding.tvPriceContent.text = item.price
 
         binding.ivItemRateEdit.setOnClickListener {
-            val action = ManageRatesFragmentDirections.actionManageRatesFragmentToConfigRateFragment(item.name!!, false)
+            val action = ManageRatesFragmentDirections.actionManageRatesFragmentToConfigRateFragment(item.name, false)
             it.findNavController().navigate(action)
         }
 

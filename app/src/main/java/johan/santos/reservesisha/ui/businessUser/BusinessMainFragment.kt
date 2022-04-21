@@ -34,13 +34,14 @@ class BusinessMainFragment : Fragment() {
     private lateinit var viewModel  : BusinessMainViewModel
     private lateinit var binding    : BusinessMainFragmentBinding
     private lateinit var database: FirebaseDatabase
+    private var cif = ""
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View? {
         binding = BusinessMainFragmentBinding.inflate(layoutInflater)
         viewModel = ViewModelProvider(this).get(BusinessMainViewModel::class.java)
-
+        cif = (activity as MainActivity).getPersonalID()
         database = FirebaseDatabase.getInstance("https://reservesisha96-default-rtdb.europe-west1.firebasedatabase.app/")
 
         // cargar la lista de reservas
@@ -51,7 +52,6 @@ class BusinessMainFragment : Fragment() {
 
     private fun reloadListBooking(){
         viewModel.clearReservas()
-        val cif = getCifBusiness()
         val myRef = database.getReference("AllBusiness/$cif/reservas")
 
         myRef.addValueEventListener(object: ValueEventListener {
@@ -59,24 +59,22 @@ class BusinessMainFragment : Fragment() {
                 // This method is called once with the initial value and again
                 // whenever data at this location is updated.
                 snapshot.children.forEach { item ->
-                    item.children.forEach { valors ->
-                        valors.getValue<DataBooking>()?.let {
-                            val anyBooking = DataBooking(
-                                it.nom_business,
-                                it.nom_reserva,
-                                it.num_personas,
-                                it.fecha,
-                                it.hora,
-                                it.tipo_reserva,
-                                it.direccion,
-                                it.id_user,
-                                it.id_empresa,
-                                it.id_booking,
-                                it.tarifa,
-                                it.confirmada
-                            )
-                            viewModel.addValueReserva(anyBooking)
-                        }
+                    item.getValue<DataBooking>()?.let {
+                        val anyBooking = DataBooking(
+                            it.nom_business,
+                            it.nom_reserva,
+                            it.num_personas,
+                            it.fecha,
+                            it.hora,
+                            it.tipo_reserva,
+                            it.direccion,
+                            it.id_user,
+                            it.id_empresa,
+                            it.id_booking,
+                            it.tarifa,
+                            it.confirmada
+                        )
+                        viewModel.addValueReserva(anyBooking)
                     }
                 }
                 initRecyclerView()
@@ -87,24 +85,6 @@ class BusinessMainFragment : Fragment() {
         })
     }
 
-    private fun getCifBusiness() : String {
-        var cif = ""
-        val auth = (activity as MainActivity).getAuth()
-        val  database2 = FirebaseDatabase.getInstance().getReference("AllUsers/${auth.currentUser!!.uid}")
-        database2.child("userDates").get().addOnSuccessListener {
-            if (it.exists()){
-
-                cif = it.child("cif").value.toString()
-
-            }else{
-                (activity as MainActivity).toastView("User Doesn't Exist")
-            }
-        }.addOnFailureListener{
-            (activity as MainActivity).toastView("Failed conection")
-        }
-
-        return cif
-    }
 
     private fun initRecyclerView(){
         val manager = LinearLayoutManager(activity)

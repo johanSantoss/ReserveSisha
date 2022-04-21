@@ -104,7 +104,13 @@ class LoginFragment : Fragment() {
             if (it.exists()){
                 val firstname = it.child("rol").value
                 typeUser = firstname.toString()
+                when(typeUser){
+                    "Admin"         -> (activity as MainActivity).setPersonalID(it.child("id_usuari").value.toString())
+                    "Business"      -> (activity as MainActivity).setPersonalID(it.child("cif").value.toString())
+                    "CurrentUser"   -> (activity as MainActivity).setPersonalID(it.child("identificador_personal").value.toString())
+                }
                 (activity as MainActivity).toastView(firstname.toString())
+                //(activity as MainActivity).toastView((activity as MainActivity).getPersonalID())
                 setInitFragment()
             } else {
                 var action: NavDirections = LoginFragmentDirections.actionLoginFragmentToAdminMainFragment()

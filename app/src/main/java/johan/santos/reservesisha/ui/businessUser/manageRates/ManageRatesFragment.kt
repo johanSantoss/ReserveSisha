@@ -30,6 +30,8 @@ class ManageRatesFragment : Fragment() {
     private lateinit var viewModel  : ManageRatesViewModel
     private lateinit var binding    : ManageRatesFragmentBinding
     private lateinit var database: FirebaseDatabase
+    private lateinit var database2  : DatabaseReference
+    private var cif = ""
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -37,6 +39,10 @@ class ManageRatesFragment : Fragment() {
     ): View? {
         binding = ManageRatesFragmentBinding.inflate(layoutInflater)
         viewModel = ViewModelProvider(this).get(ManageRatesViewModel::class.java)
+
+        cif = (activity as MainActivity).getPersonalID()
+
+        //(activity as MainActivity).toastView(cif)
 
         // cargar la lista de reservas
         reloadListRates()
@@ -54,8 +60,7 @@ class ManageRatesFragment : Fragment() {
         viewModel.cleanListRate()
 
         database = FirebaseDatabase.getInstance("https://reservesisha96-default-rtdb.europe-west1.firebasedatabase.app/")
-        val cif = getCifBusiness()
-        val path = "AllBusiness/$cif/tarifas/"
+        val path = "AllBusiness/$cif/rates/"
         val myRef = database.getReference(path)
 
         myRef.addValueEventListener(object: ValueEventListener {
@@ -64,14 +69,12 @@ class ManageRatesFragment : Fragment() {
                 // whenever data at this location is updated.
 
                 snapshot.children.forEach { item ->
-                    item.children.forEach { valors ->
-                        valors.getValue<DataRates>()?.let {
-                            val anyRate = DataRates(
-                                it.name,
-                                it.price
-                            )
-                            viewModel.addValueRate(anyRate)
-                        }
+                    item.getValue<DataRates>()?.let {
+                        val anyRate = DataRates(
+                            it.name,
+                            it.price
+                        )
+                        viewModel.addValueRate(anyRate)
                     }
                 }
                 initRecyclerView()
@@ -94,37 +97,36 @@ class ManageRatesFragment : Fragment() {
     }
 
     private fun onDeleteItemSelected (rateSelected : DataRates){
-        (activity as MainActivity).toastView("Vas a ELIMINAR el item: '" + rateSelected.name!!.uppercase() + "'")
-        val cif = getCifBusiness()
-        if (rateSelected.price != null){
-            database = FirebaseDatabase.getInstance("https://reservesisha96-default-rtdb.europe-west1.firebasedatabase.app/")
-            val myRefDadesUser = database.getReference("AllBusiness/$cif/tarifas/${rateSelected.name}")
-            myRefDadesUser.removeValue()
-        }
+        (activity as MainActivity).toastView("Vas a ELIMINAR el item: '" + rateSelected.name.uppercase() + "'")
+//        val cif = getCifBusiness()
+
+        database = FirebaseDatabase.getInstance("https://reservesisha96-default-rtdb.europe-west1.firebasedatabase.app/")
+        val myRefDadesUser = database.getReference("AllBusiness/$cif/rates/${rateSelected.name}")
+        myRefDadesUser.removeValue()
+
 
         viewModel.delValueRate(rateSelected)
         initRecyclerView()
 
     }
 
-    private fun getCifBusiness() : String {
-        var cif = ""
-        val auth = (activity as MainActivity).getAuth()
-        val  database2 = FirebaseDatabase.getInstance().getReference("AllUsers/${auth.currentUser!!.uid}")
-        database2.child("userDates").get().addOnSuccessListener {
-            if (it.exists()){
-
-                cif = it.child("cif").value.toString()
-
-            }else{
-                (activity as MainActivity).toastView("User Doesn't Exist")
-            }
-        }.addOnFailureListener{
-            (activity as MainActivity).toastView("Failed conection")
-        }
-
-        return cif
-    }
+//    private fun getCifBusiness() {
+//
+//        val auth = (activity as MainActivity).getAuth()
+//        database2 = FirebaseDatabase.getInstance().getReference("AllUsers/${auth.currentUser!!.uid}/userDates")
+//        database2.get().addOnSuccessListener {
+//            if (it.exists()) {
+//
+//                cif = it.child("cif").value.toString()
+//
+//            } else {
+//                (activity as MainActivity).toastView("User Doesn't Exist")
+//            }
+//        }.addOnFailureListener {
+//            (activity as MainActivity).toastView("Failed conection")
+//        }
+//
+//    }
 
 
     private fun getListRates() : List<DataRates> {

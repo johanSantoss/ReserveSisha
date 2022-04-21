@@ -27,17 +27,16 @@ import java.util.*
 
 class ConfigUsersFragment : Fragment() {
 
-    private lateinit var binding: ConfigUsersFragmentBinding
-    private lateinit var database: FirebaseDatabase
-    private lateinit var spinnerItems : ArrayAdapter<String>
-    val args    : ConfigUsersFragmentArgs by navArgs()
-
     companion object {
         fun newInstance() = ConfigUsersFragment()
         private const val TAG = "RegistreFragment"
     }
 
     private lateinit var viewModel: ConfigUsersViewModel
+    private lateinit var binding: ConfigUsersFragmentBinding
+    private lateinit var database: FirebaseDatabase
+    private lateinit var spinnerItems : ArrayAdapter<String>
+    val args    : ConfigUsersFragmentArgs by navArgs()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

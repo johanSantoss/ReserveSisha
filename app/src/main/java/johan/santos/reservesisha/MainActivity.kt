@@ -27,6 +27,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var bindingMain : MainActivityBinding
 
     private lateinit var auth: FirebaseAuth
+    private var personal_id = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -45,6 +46,14 @@ class MainActivity : AppCompatActivity() {
 
 
 
+    }
+
+    fun getPersonalID() : String{
+        return personal_id
+    }
+
+    fun setPersonalID(id : String){
+        personal_id = id
     }
 
     fun toastView(message : CharSequence){

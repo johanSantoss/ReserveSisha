@@ -79,6 +79,7 @@ class ManageUsersFragment : Fragment() {
                 // This method is called once with the initial value and again
                 // whenever data at this location is updated.
                 snapshot.children.forEach { item ->
+                    /*
                     item.children.forEach { valors ->
                         valors.getValue<DataUsers>()?.let {
                             val anyUsers = DataUsers(
@@ -89,7 +90,18 @@ class ManageUsersFragment : Fragment() {
                             )
                             viewModel.addValueUsers(anyUsers)
                         }
+                    }*/
+
+                    item.child("userDates").getValue<DataUsers>()?.let {
+                        val anyUsers = DataUsers(
+                            it.id_usuari,
+                            it.nom_usuari,
+                            it.email,
+                            it.rol
+                        )
+                        viewModel.addValueUsers(anyUsers)
                     }
+
                 }
                 initRecyclerView()
             }
