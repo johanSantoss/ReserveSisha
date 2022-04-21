@@ -240,14 +240,8 @@ class ConfigUsersFragment : Fragment() {
         viewModel.setEmail(binding.editTextMailAuth.text.toString().trim())
         viewModel.setPassword(binding.editTextPassAuth.text.toString().trim())
         val rol = binding.spinner.selectedItem.toString()
-        when(rol) {
-            "Business"      -> {
-                viewModel.setNumCIF(binding.editTextCIF.text.toString())
-                viewModel.setRol(rol)
-            }
-            else -> viewModel.setRol(rol)
-
-        }
+        viewModel.setNumCIF(binding.editTextCIF.text.toString())
+        viewModel.setRol(rol)
         viewModel.setEstadoRegistro(1)
     }
     private fun getNowDate() : String{
@@ -267,9 +261,9 @@ class ConfigUsersFragment : Fragment() {
         val auth = (activity as MainActivity).getAuth()
         Log.d(TAG, "getAuth - success")
         // se genera una clase de USER con todos los datos del usuario
-        if(viewModel.numCIF.value.toString() == "Business"){
-            cif = viewModel.numCIF.value.toString()
-        }
+
+        cif = viewModel.numCIF.value.toString()
+
 
         var user: User
 
