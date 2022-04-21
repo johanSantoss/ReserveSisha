@@ -15,6 +15,7 @@ import johan.santos.reservesisha.MainActivity
 import johan.santos.reservesisha.R
 import johan.santos.reservesisha.databinding.ConfigBusinessFragmentBinding
 import johan.santos.reservesisha.databinding.ConfigUserFragmentBinding
+import johan.santos.reservesisha.ui.access.models.DataBusiness
 import johan.santos.reservesisha.ui.access.models.TimePickerFragment
 import johan.santos.reservesisha.ui.access.registre.DatePickerFragment
 
@@ -23,6 +24,7 @@ class ConfigBusinessFragment : Fragment() {
     companion object {
         fun newInstance() = ConfigBusinessFragment()
         private const val TAG = "ConfigBusinessFragment"
+        const val PATH_PHOTO = "https://somoviles.files.wordpress.com/2014/08/androidf6o.jpg"
     }
 
     private lateinit var viewModel: ConfigBusinessViewModel
@@ -31,6 +33,7 @@ class ConfigBusinessFragment : Fragment() {
     private lateinit var database2 : DatabaseReference
     private lateinit var datePicker: DatePickerFragment
     private lateinit var timePicker: TimePickerDialog
+    private var cif = ""
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -38,7 +41,7 @@ class ConfigBusinessFragment : Fragment() {
     ): View? {
         binding     = ConfigBusinessFragmentBinding.inflate(layoutInflater)
         viewModel   = ViewModelProvider(this).get(ConfigBusinessViewModel::class.java)
-
+        cif = (activity as MainActivity).getPersonalID()
         auth = (activity as MainActivity).getAuth()
 
         if (viewModel.estadoRegistro.value == 1 ) {
@@ -171,21 +174,18 @@ class ConfigBusinessFragment : Fragment() {
         }
 
         // update dates Empresa
-        user = mapOf<String,String>(
-            "horaOpen"    to viewModel.nomUsuari.value!!,
-            "horaClose"   to viewModel.email.value!!
+        val dates = DataBusiness(
+            viewModel.identEmpresa.value!!,
+            viewModel.nomEmpresa.value!!,
+            viewModel.direccio.value!!,
+            viewModel.telefon.value!!,
+            viewModel.descripcio.value!!,
+            viewModel.horaInici.value!!,
+            viewModel.horaFinal.value!!,
+            PATH_PHOTO
         )
         database2 = FirebaseDatabase.getInstance().getReference("AllBusiness/${viewModel.identEmpresa.value!!}")
-
-        database2.child("businessDates").updateChildren(user).addOnSuccessListener {
-
-            (activity as MainActivity).toastView("Successfuly Updated dataBusiness")
-
-        }.addOnFailureListener{
-
-            (activity as MainActivity).toastView("Failed Updated dataBusiness")
-
-        }
+        database2.child("businessDates").setValue(dates)
 
     }
 
@@ -199,6 +199,7 @@ class ConfigBusinessFragment : Fragment() {
         viewModel.setHoraFinal(binding.etHoraClose.text.toString().trim())
         viewModel.setTelefon(binding.etBusiTel.text.toString().trim())
         viewModel.setDescripcio(binding.etDescripcio.text.toString().trim())
+        viewModel.setIdentiEmpresa(binding.etBusiIdentificador.text.toString())
         // indica que los datos sehan guardado y por lo tanto se han de restaurar
         viewModel.setEstadoRegistro(1)
     }

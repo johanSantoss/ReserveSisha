@@ -170,6 +170,9 @@
         <action
             android:id="@+id/action_businessFragment_to_configBookingFragment"
             app:destination="@id/configBookingFragment" />
+        <argument
+            android:name="cif"
+            app:argType="string" />
     </fragment>
     <fragment
         android:id="@+id/configUserFragment"

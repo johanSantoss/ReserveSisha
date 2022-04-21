@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.fragment.NavHostFragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -40,47 +41,43 @@ class userMainFragment : Fragment() {
 
         // cargar la lista de empresas
         reloadListBusiness()
-        // realizar un check para comprobar que no hay nigúna empresa dispponible para poder mostrar al usuario
-        checkListBusiness()
-        // inicializar el recycler view
-        initRecyclerView()
-
 
         return binding.root
     }
     //----------------------------------------------------------------------------------------------------------------------------
     private fun reloadListBusiness(){
-//        val myRef = database.getReference("AllBusiness/")
-//
-//        myRef.addValueEventListener(object: ValueEventListener {
-//            override fun onDataChange(snapshot: DataSnapshot) {
-//                // This method is called once with the initial value and again
-//                // whenever data at this location is updated.
-//
-//                snapshot.children.forEach { item ->
-//                    item.children.forEach { valors ->
-//                        valors.getValue<DataBusiness>()?.let {
-//
-//                            val anyBusiness = DataBusiness(
-//                                it?.cif?:"",
-//                                it?.nom_business?:"",
-//                                it?.direccio?:"",
-//                                it?.telefono?:"",
-//                                it?.descripcio?:"",
-//                                it?.horaOpen?:"",
-//                                it?.horaClose?:"",
-//                                it?.logo?:""
-//                            )
-//                            viewModel.addValueBusiness(anyBusiness)
-//                            initRecyclerView()
-//                        }
-//                    }
-//                }
-//            }
-//            override fun onCancelled(error: DatabaseError) {
-//                TODO("Not yet implemented")
-//            }
-//        })
+        viewModel.clearListBusiness()
+
+        val myRef = database.getReference("AllBusiness/")
+
+        myRef.addValueEventListener(object: ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                // This method is called once with the initial value and again
+                // whenever data at this location is updated.
+                snapshot.children.forEach { item ->
+                    item.child("businessDates").getValue<DataBusiness>()?.let {
+                        val anyBusiness = DataBusiness(
+                            it.cif,
+                            it.nom_business,
+                            it.direccio,
+                            it.telefono,
+                            it.descripcio,
+                            it.horaOpen,
+                            it.horaClose,
+                            it.logo
+                        )
+                        viewModel.addValueBusiness(anyBusiness)
+                    }
+                }
+                checkListBusiness().apply {
+                    initRecyclerView()
+                }
+
+            }
+            override fun onCancelled(error: DatabaseError) {
+                TODO("Not yet implemented")
+            }
+        })
     }
 
     private fun initRecyclerView(){
@@ -95,6 +92,8 @@ class userMainFragment : Fragment() {
 
     private fun onItemSelected (businessSelected : DataBusiness){
         (activity as MainActivity).toastView("Has seleccionado el item: " + businessSelected.nom_business)
+        val action = userMainFragmentDirections.actionUserMainFragmentToBusinessFragment(businessSelected.cif)
+        NavHostFragment.findNavController(this).navigate(action)
     }
 
     private fun checkListBusiness(){
@@ -112,10 +111,6 @@ class userMainFragment : Fragment() {
                 PATH_PHOTO )
             viewModel.addValueBusiness(anyBusiness)
         }
-    }
-
-    private fun saveListBusiness(listBusiness : MutableList<DataBusiness>){
-        viewModel.setLlistaBusiness(listBusiness)
     }
 
     private fun getListBusiness() : List<DataBusiness?> {

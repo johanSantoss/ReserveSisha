@@ -42,13 +42,10 @@ class ManageRatesFragment : Fragment() {
 
         cif = (activity as MainActivity).getPersonalID()
 
-        //(activity as MainActivity).toastView(cif)
-
         // cargar la lista de reservas
         reloadListRates()
 
         binding.btnAddNewRate.setOnClickListener {
-            viewModel.setHayDatosList(true)
             val action = ManageRatesFragmentDirections.actionManageRatesFragmentToConfigRateFragment("", true)
             NavHostFragment.findNavController(this).navigate(action)
         }
@@ -98,7 +95,6 @@ class ManageRatesFragment : Fragment() {
 
     private fun onDeleteItemSelected (rateSelected : DataRates){
         (activity as MainActivity).toastView("Vas a ELIMINAR el item: '" + rateSelected.name.uppercase() + "'")
-//        val cif = getCifBusiness()
 
         database = FirebaseDatabase.getInstance("https://reservesisha96-default-rtdb.europe-west1.firebasedatabase.app/")
         val myRefDadesUser = database.getReference("AllBusiness/$cif/rates/${rateSelected.name}")
@@ -109,25 +105,6 @@ class ManageRatesFragment : Fragment() {
         initRecyclerView()
 
     }
-
-//    private fun getCifBusiness() {
-//
-//        val auth = (activity as MainActivity).getAuth()
-//        database2 = FirebaseDatabase.getInstance().getReference("AllUsers/${auth.currentUser!!.uid}/userDates")
-//        database2.get().addOnSuccessListener {
-//            if (it.exists()) {
-//
-//                cif = it.child("cif").value.toString()
-//
-//            } else {
-//                (activity as MainActivity).toastView("User Doesn't Exist")
-//            }
-//        }.addOnFailureListener {
-//            (activity as MainActivity).toastView("Failed conection")
-//        }
-//
-//    }
-
 
     private fun getListRates() : List<DataRates> {
         return viewModel.llistaRates

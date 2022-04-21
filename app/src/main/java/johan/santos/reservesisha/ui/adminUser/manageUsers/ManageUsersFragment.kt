@@ -101,7 +101,6 @@ class ManageUsersFragment : Fragment() {
                         )
                         viewModel.addValueUsers(anyUsers)
                     }
-
                 }
                 initRecyclerView()
             }

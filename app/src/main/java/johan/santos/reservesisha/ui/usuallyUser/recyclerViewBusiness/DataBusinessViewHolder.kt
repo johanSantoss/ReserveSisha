@@ -26,10 +26,7 @@ class DataBusinessViewHolder (view : View) : RecyclerView.ViewHolder(view) {
         }
 
         itemView.setOnClickListener {
-//            onClickListener(item)
-
-//            val action = userMainFragmentDirection.actionManageBookingFragmentToConfigBookingFragment()
-//            it.findNavController().navigate(action)
+            onClickListener(item)
         }
     }
 
