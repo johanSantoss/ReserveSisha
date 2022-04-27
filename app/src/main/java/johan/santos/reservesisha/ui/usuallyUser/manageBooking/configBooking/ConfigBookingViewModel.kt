@@ -3,6 +3,8 @@ package johan.santos.reservesisha.ui.usuallyUser.manageBooking.configBooking
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import johan.santos.reservesisha.ui.access.models.DataBooking
+import johan.santos.reservesisha.ui.access.models.DataRates
 
 class ConfigBookingViewModel : ViewModel() {
     // nom empresa
@@ -47,39 +49,10 @@ class ConfigBookingViewModel : ViewModel() {
         _tipoReserva.value = tipoReserva
     }
 
-    //direccion
-    private val _direccio = MutableLiveData<String>("")
-    val direccio: LiveData<String> get() = _direccio
-    fun setDireccio (direccio : String){
-        _direccio.value = direccio
-    }
-
-    //id user
-    private val _id_user = MutableLiveData<String>("")
-    val idUser: LiveData<String> get() = _id_user
-    fun setIdUser (id_user : String){
-        _id_user.value = id_user
-    }
-
-    //id empresa
-    private val _id_empresa = MutableLiveData<String>("")
-    val idEmpresa: LiveData<String> get() = _id_empresa
-    fun setIdEmpresa (id_empresa : String){
-        _id_empresa.value = id_empresa
-    }
-
-    //confirmacio reseva
-    private val _confirmada = MutableLiveData<Boolean>()
-    val confirmada: LiveData<Boolean> get() = _confirmada
-    fun setConfirmada (confirmada : Boolean){
-        _confirmada.value = confirmada
-    }
-
-    // nom d'usuari
-    private val _userMap = MutableLiveData<Map<String, String>>()
-    val userMap: LiveData<Map<String, String>> get() = _userMap
-    fun setUserMap (userMap : Map<String, String>){
-        _userMap.value = userMap
+    private var _llistaReservas: MutableList<DataRates> = mutableListOf()
+    val llistaReservas : List<DataRates> get() = _llistaReservas
+    fun addValueReservas (reserva : DataRates){
+        _llistaReservas.add(reserva)
     }
 
     // contador salidaRegistro/nuevoRegistro

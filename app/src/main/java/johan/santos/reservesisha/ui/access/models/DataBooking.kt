@@ -3,7 +3,7 @@ package johan.santos.reservesisha.ui.access.models
 data class DataBooking(
     var nom_business    : String,
     var nom_reserva     : String,
-    var num_personas    : Int,
+    var num_personas    : String,
     var fecha           : String,
     var hora            : String,
     var tipo_reserva    : String,
@@ -11,6 +11,6 @@ data class DataBooking(
     var id_user         : String,
     var id_empresa      : String,
     var id_booking      : String,
-    var tarifa          : Int,
-    var confirmada      : Boolean
+    var tarifa          : String,
+    var confirmada      : String
 )

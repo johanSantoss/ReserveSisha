@@ -8,10 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.fragment.NavHostFragment
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.ValueEventListener
+import com.google.firebase.database.*
 import com.google.firebase.database.ktx.getValue
 import johan.santos.reservesisha.MainActivity
 import johan.santos.reservesisha.R
@@ -33,6 +30,8 @@ class ManageTypesFragment : Fragment() {
     private lateinit var viewModel: ManageTypesViewModel
     private lateinit var binding: ManageTypesFragmentBinding
     private lateinit var database: FirebaseDatabase
+    private lateinit var database2 : DatabaseReference
+    var cif: String = ""
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -40,7 +39,9 @@ class ManageTypesFragment : Fragment() {
     ): View? {
         binding = ManageTypesFragmentBinding.inflate(layoutInflater)
         viewModel = ViewModelProvider(this).get(ManageTypesViewModel::class.java)
+        database = FirebaseDatabase.getInstance("https://reservesisha96-default-rtdb.europe-west1.firebasedatabase.app/")
 
+        cif = (activity as MainActivity).getPersonalID()
         // cargar la lista de reservas
         reloadListTypes()
 
@@ -59,25 +60,25 @@ class ManageTypesFragment : Fragment() {
 
     //----------------------------------------------------------------------------------------------------------------------------
     private fun reloadListTypes() {
-        database =
-            FirebaseDatabase.getInstance("https://reservesisha96-default-rtdb.europe-west1.firebasedatabase.app/")
-        val cif = getCifBusiness()
-        val myRef = database.getReference("AllBusiness/$cif/tipos/")
+
+        viewModel.cleanListTypes()
+
+        database = FirebaseDatabase.getInstance("https://reservesisha96-default-rtdb.europe-west1.firebasedatabase.app/")
+        val path = "AllBusiness/$cif/types/"
+        val myRef = database.getReference(path)
 
         myRef.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 // This method is called once with the initial value and again
                 // whenever data at this location is updated.
 
-                snapshot.children.forEach { item ->
-                    item.children.forEach { valors ->
-                        valors.getValue<DataType>()?.let {
-                            val anyType = DataType(
-                                it?.name.toString(),
-                                it?.suplemento!!
-                            )
-                            viewModel.addValueType(anyType)
-                        }
+            snapshot.children.forEach { item ->
+                item.getValue<DataType>()?.let {
+                        val anyType = DataType(
+                            it?.name.toString(),
+                            it?.suplemento.toString()
+                        )
+                        viewModel.addValueType(anyType)
                     }
                 }
                 initRecyclerView()
@@ -88,7 +89,7 @@ class ManageTypesFragment : Fragment() {
             }
         })
 
-        checkListTypes()
+        //checkListTypes()
 
     }
 
@@ -103,48 +104,15 @@ class ManageTypesFragment : Fragment() {
     }
 
     private fun onDeleteItemSelected(typeSelected: DataType) {
-        (activity as MainActivity).toastView("Vas a ELIMINAR el item: '" + typeSelected.name.uppercase() + "'")
-        val cif = getCifBusiness()
+        (activity as MainActivity).toastView("Vas a ELIMINAR el item: '" + typeSelected.name?.uppercase() + "'")
         if (typeSelected.suplemento != null) {
-            database = FirebaseDatabase.getInstance("https://reservesisha96-default-rtdb.europe-west1.firebasedatabase.app/")
-            val myRefDadesUser = database.getReference("AllBusiness/$cif/tipos/${typeSelected.name}")
+            val myRefDadesUser = database.getReference("AllBusiness/$cif/types/${typeSelected.name}")
             myRefDadesUser.removeValue()
         }
 
         viewModel.delValueType(typeSelected)
         initRecyclerView()
 
-    }
-
-    private fun getCifBusiness(): String {
-        var cif = ""
-        val auth = (activity as MainActivity).getAuth()
-        val database2 =
-            FirebaseDatabase.getInstance().getReference("AllUsers/${auth.currentUser!!.uid}")
-        database2.child("userDates").get().addOnSuccessListener {
-            if (it.exists()) {
-
-                cif = it.child("cif").value.toString()
-
-            } else {
-                (activity as MainActivity).toastView("User Doesn't Exist")
-            }
-        }.addOnFailureListener {
-            (activity as MainActivity).toastView("Failed conection")
-        }
-
-        return cif
-    }
-
-    private fun checkListTypes() {
-        //if (viewModel.listEmpty.value == 0){
-        if (viewModel.llistaTypes.isEmpty()) {
-            val anyType = DataType(
-                "No hay ninguna tipo de reserva!",
-                null
-            )
-            viewModel.addValueType(anyType)
-        } else viewModel.setHayDatosList(true)
     }
 
     private fun getListTypes(): List<DataType> {

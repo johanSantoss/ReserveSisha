@@ -1,93 +1,100 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/frameLayout2"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".ui.businessUser.manageTypes.configType.ConfigTypeFragment" >
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <TextView
-        android:id="@+id/tvType"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:text="TYPE"
-        android:textColor="@color/black"
-        android:textSize="32sp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.20999998" />
+    <data>
 
-    <TextView
-        android:id="@+id/tvTypeName"
-        android:layout_width="140dp"
-        android:layout_height="60sp"
-        android:gravity="center"
-        android:text="Name:"
-        android:textColor="@color/black"
-        android:textSize="24sp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvType"
-        app:layout_constraintVertical_bias="0.22000003" />
+    </data>
 
-    <EditText
-        android:id="@+id/tvTypeNameContent"
-        android:layout_width="250dp"
-        android:layout_height="wrap_content"
-        android:hint="Introducir el nombre del Type"
-        android:textAlignment="center"
-        android:textSize="16sp"
-        android:ems="10"
-        android:inputType="textPersonName"
-        app:layout_constraintBottom_toBottomOf="@+id/tvTypeName"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/tvTypeName"
-        app:layout_constraintTop_toTopOf="@+id/tvTypeName" />
-
-    <TextView
-        android:id="@+id/tvTypeSuplemento"
-        android:layout_width="140dp"
-        android:layout_height="60dp"
-        android:gravity="center"
-        android:text="Suplemento: "
-        android:textColor="@color/black"
-        android:textSize="24sp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="@+id/tvTypeName"
-        app:layout_constraintStart_toStartOf="@+id/tvTypeName"
-        app:layout_constraintTop_toBottomOf="@+id/tvTypeName" />
-
-    <EditText
-        android:id="@+id/tvTypeSuplementoContent"
-        android:layout_width="250dp"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:hint="Introducir el suplemento"
-        android:inputType="number"
-        android:textAlignment="center"
-        android:textSize="16sp"
-        app:layout_constraintBottom_toBottomOf="@+id/tvTypeSuplemento"
-        app:layout_constraintEnd_toEndOf="@+id/tvTypeNameContent"
-        app:layout_constraintStart_toStartOf="@+id/tvTypeNameContent"
-        app:layout_constraintTop_toTopOf="@+id/tvTypeSuplemento" />
-
-    <Button
-        android:id="@+id/btnUpdateType"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/frameLayout2"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/save_or_update"
-        android:backgroundTint="@color/buttonColor"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvTypeSuplemento" />
+        android:layout_height="match_parent"
+        tools:context=".ui.businessUser.manageTypes.configType.ConfigTypeFragment">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <TextView
+            android:id="@+id/tvType"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="TYPE"
+            android:textColor="@color/black"
+            android:textSize="32sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.20999998" />
+
+        <TextView
+            android:id="@+id/tvTypeName"
+            android:layout_width="140dp"
+            android:layout_height="60sp"
+            android:gravity="center"
+            android:text="Name:"
+            android:textColor="@color/black"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvType"
+            app:layout_constraintVertical_bias="0.22000003" />
+
+        <EditText
+            android:id="@+id/tvTypeNameContent"
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:hint="Introducir el nombre del Type"
+            android:textAlignment="center"
+            android:textSize="16sp"
+            android:ems="10"
+            android:inputType="textPersonName"
+            app:layout_constraintBottom_toBottomOf="@+id/tvTypeName"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/tvTypeName"
+            app:layout_constraintTop_toTopOf="@+id/tvTypeName" />
+
+        <TextView
+            android:id="@+id/tvTypeSuplemento"
+            android:layout_width="140dp"
+            android:layout_height="60dp"
+            android:gravity="center"
+            android:text="Suplemento: "
+            android:textColor="@color/black"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="@+id/tvTypeName"
+            app:layout_constraintStart_toStartOf="@+id/tvTypeName"
+            app:layout_constraintTop_toBottomOf="@+id/tvTypeName" />
+
+        <EditText
+            android:id="@+id/tvTypeSuplementoContent"
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="Introducir el suplemento"
+            android:inputType="number"
+            android:textAlignment="center"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toBottomOf="@+id/tvTypeSuplemento"
+            app:layout_constraintEnd_toEndOf="@+id/tvTypeNameContent"
+            app:layout_constraintStart_toStartOf="@+id/tvTypeNameContent"
+            app:layout_constraintTop_toTopOf="@+id/tvTypeSuplemento" />
+
+        <Button
+            android:id="@+id/btnUpdateType"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/save_or_update"
+            android:backgroundTint="@color/buttonColor"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvTypeSuplemento" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

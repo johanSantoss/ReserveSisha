@@ -14,10 +14,10 @@ class DataTypeViewHolder (view : View) : RecyclerView.ViewHolder(view) {
     fun render (item : DataType, onClickListener: (DataType) -> Unit) {
 
         binding.tvNameType.text = item.name
-        binding.tvSuplementoContent.text = item.suplemento.toString()
+        binding.tvSuplementoContent.text = item.suplemento
 
         binding.ivItemEdit.setOnClickListener {
-            val action = ManageTypesFragmentDirections.actionManageTypesFragmentToConfigTypeFragment(item.name, false)
+            val action = ManageTypesFragmentDirections.actionManageTypesFragmentToConfigTypeFragment(item.name.toString(), false)
             it.findNavController().navigate(action)
         }
 

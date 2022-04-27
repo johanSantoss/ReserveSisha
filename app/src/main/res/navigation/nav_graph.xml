@@ -203,6 +203,13 @@
             app:destination="@id/businessFragment"
             app:popUpTo="@id/configBookingFragment"
             app:popUpToInclusive="true" />
+        <argument
+            android:name="idBooking"
+            app:argType="string" />
+        <argument android:name="newBooking"
+            app:argType="boolean" />
+        <argument android:name="nomBusiness"
+            app:argType="string" />
     </fragment>
     <fragment
         android:id="@+id/manageTypesFragment"

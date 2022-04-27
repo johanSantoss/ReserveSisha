@@ -15,6 +15,7 @@ import com.google.firebase.database.ktx.getValue
 import johan.santos.reservesisha.MainActivity
 import johan.santos.reservesisha.databinding.ManageBookingFragmentBinding
 import johan.santos.reservesisha.ui.access.models.DataBooking
+import johan.santos.reservesisha.ui.access.models.DataType
 import johan.santos.reservesisha.ui.access.models.DataUsers
 import johan.santos.reservesisha.ui.usuallyUser.manageBooking.recyclerViewBooking.DataBookingAdapter
 import johan.santos.reservesisha.ui.usuallyUser.userMainFragment
@@ -29,6 +30,7 @@ class ManageBookingFragment : Fragment() {
     private lateinit var viewModel: ManageBookingViewModel
     private lateinit var binding : ManageBookingFragmentBinding
     private lateinit var database: FirebaseDatabase
+    var cif: String = ""
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -38,57 +40,96 @@ class ManageBookingFragment : Fragment() {
         binding = ManageBookingFragmentBinding.inflate(layoutInflater)
         viewModel = ViewModelProvider(this).get(ManageBookingViewModel::class.java)
 
+        cif = (activity as MainActivity).getPersonalID()
+
         // cargar la lista de reservas
         reloadListBooking()
-        // realizar un check para comprobar que no hay nigúna reserva dispponible para poder mostrar al usuario
-        checkListBooking()
-        // inicializar el recycler view
-        initRecyclerView()
-
 
         return binding.root
     }
 
-    //----------------------------------------------------------------------------------------------------------------------------
     private fun reloadListBooking(){
 
-        val auth = (activity as MainActivity).getAuth()
-        val myRef = database.getReference("AllUsers/${auth.currentUser?.uid}/userDates/reserva")
+        viewModel.cleanListReservas()
 
-        myRef.addValueEventListener(object: ValueEventListener {
+        database = FirebaseDatabase.getInstance("https://reservesisha96-default-rtdb.europe-west1.firebasedatabase.app/")
+        val path = "AllBusiness/$cif/reservas"
+        val myRef = database.getReference(path)
+
+        myRef.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 // This method is called once with the initial value and again
                 // whenever data at this location is updated.
 
-                snapshot.children.forEach { valors ->
-                        valors.getValue<DataBooking>()?.let {
-
-                            val anyBooking = DataBooking(
-                                it?.nom_business?:"",
-                                it?.nom_reserva?:"",
-                                it?.num_personas?:0,
-                                it?.fecha?:"",
-                                it?.hora?:"",
-                                it?.tipo_reserva?:"",
-                                it?.direccion?:"",
-                                it?.id_user?:"",
-                                it?.id_empresa?:"",
-                                it?.id_booking,
-                                it?.tarifa,
-                                it?.confirmada?:false
-                            )
-                            //val anyBooking = valors.
-
-                            viewModel.addValueReserva(anyBooking)
-                            initRecyclerView()
-                        }
+                snapshot.children.forEach { item ->
+                    item.getValue<DataBooking>()?.let {
+                        val anyBooking = DataBooking(
+                            it?.nom_business.toString(),
+                            it?.nom_reserva.toString(),
+                            it?.num_personas.toString(),
+                            it?.fecha.toString(),
+                            it?.hora.toString(),
+                            it?.tipo_reserva.toString(),
+                            it?.direccion.toString(),
+                            it?.id_user.toString(),
+                            it?.id_empresa.toString(),
+                            it?.id_booking.toString(),
+                            it?.tarifa.toString(),
+                            it?.confirmada.toString()
+                        )
+                        viewModel.addValueReserva(anyBooking)
+                    }
                 }
+                initRecyclerView()
             }
+
             override fun onCancelled(error: DatabaseError) {
                 TODO("Not yet implemented")
             }
         })
     }
+
+
+    //----------------------------------------------------------------------------------------------------------------------------
+//    private fun reloadListBooking(){
+//
+//        val auth = (activity as MainActivity).getAuth()
+//        val myRef = database.getReference("AllUsers/${auth.currentUser?.uid}/userDates/reserva")
+//
+//        myRef.addValueEventListener(object: ValueEventListener {
+//            override fun onDataChange(snapshot: DataSnapshot) {
+//                // This method is called once with the initial value and again
+//                // whenever data at this location is updated.
+//
+//                snapshot.children.forEach { valors ->
+//                        valors.getValue<DataBooking>()?.let {
+//
+//                            val anyBooking = DataBooking(
+//                                it?.nom_business?:"",
+//                                it?.nom_reserva?:"",
+//                                it?.num_personas?:0,
+//                                it?.fecha?:"",
+//                                it?.hora?:"",
+//                                it?.tipo_reserva?:"",
+//                                it?.direccion?:"",
+//                                it?.id_user?:"",
+//                                it?.id_empresa?:"",
+//                                it?.id_booking,
+//                                it?.tarifa,
+//                                it?.confirmada?:false
+//                            )
+//                            //val anyBooking = valors.
+//
+//                            viewModel.addValueReserva(anyBooking)
+//                            initRecyclerView()
+//                        }
+//                }
+//            }
+//            override fun onCancelled(error: DatabaseError) {
+//                TODO("Not yet implemented")
+//            }
+//        })
+//    }
 
     private fun initRecyclerView(){
         val manager = LinearLayoutManager(activity)
@@ -111,7 +152,7 @@ class ManageBookingFragment : Fragment() {
             val anyBooking = DataBooking(
                 "Don't have any business!",
                 "Any",
-                0,
+                "",
                 "Any",
                 "Any",
                 "Any",
@@ -119,8 +160,8 @@ class ManageBookingFragment : Fragment() {
                 "Any",
                 "Any",
                 "Any",
-                0,
-                false
+                "",
+                "false"
             )
             viewModel.addValueReserva(anyBooking)
         }

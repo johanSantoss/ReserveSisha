@@ -6,15 +6,24 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ArrayAdapter
+import androidx.navigation.fragment.navArgs
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.database.DatabaseReference
-import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.*
+import com.google.firebase.database.ktx.getValue
 import johan.santos.reservesisha.MainActivity
 import johan.santos.reservesisha.R
 import johan.santos.reservesisha.databinding.ConfigBookingFragmentBinding
 import johan.santos.reservesisha.databinding.ConfigUserFragmentBinding
+import johan.santos.reservesisha.ui.access.models.DataBooking
+import johan.santos.reservesisha.ui.access.models.DataRates
+import johan.santos.reservesisha.ui.access.models.DataType
+import johan.santos.reservesisha.ui.access.models.TimePickerFragment
 import johan.santos.reservesisha.ui.access.registre.DatePickerFragment
+import johan.santos.reservesisha.ui.businessUser.manageTypes.configType.ConfigTypeFragmentArgs
 import johan.santos.reservesisha.ui.usuallyUser.config.ConfigUserViewModel
+import java.text.SimpleDateFormat
+import java.util.*
 
 class ConfigBookingFragment : Fragment() {
 
@@ -26,8 +35,11 @@ class ConfigBookingFragment : Fragment() {
     private lateinit var viewModel: ConfigBookingViewModel
     private lateinit var binding : ConfigBookingFragmentBinding
     private lateinit var auth: FirebaseAuth
+    private lateinit var database: FirebaseDatabase
     private lateinit var database2 : DatabaseReference
+    private lateinit var spinnerItems : ArrayAdapter<String>
     private lateinit var datePicker: DatePickerFragment
+    val args    : ConfigBookingFragmentArgs by navArgs()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -38,11 +50,17 @@ class ConfigBookingFragment : Fragment() {
         viewModel = ViewModelProvider(this).get(ConfigBookingViewModel::class.java)
         auth = (activity as MainActivity).getAuth()
 
+        loadSpinerBooking()
+
+        binding.etName.setText(args.nomBusiness)
+
         if (viewModel.estadoReserva.value == 1 ) {
             restaurarDatos()
         } else {
+            if (!args.newBooking){
             //cargar los datos del usuario
-            loadUser()
+                loadUser()
+            }
         }
 
         binding.btnUpdate.setOnClickListener {
@@ -56,7 +74,50 @@ class ConfigBookingFragment : Fragment() {
             showDatePickerDialog()
         }
 
+        binding.etHoraReserva.setOnClickListener {
+            showTimePickerDialog()
+
+        }
+
         return binding.root
+    }
+
+    private fun loadSpinerBooking() {
+        spinnerItems = ArrayAdapter<String>((activity as MainActivity), android.R.layout.simple_spinner_item)
+
+        database = FirebaseDatabase.getInstance("https://reservesisha96-default-rtdb.europe-west1.firebasedatabase.app/")
+        val path = "AllBusiness/${args.idBooking}/types"
+        val myRef = database.getReference(path)
+
+        myRef.addValueEventListener(object: ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                // This method is called once with the initial value and again
+                // whenever data at this location is updated.
+
+                snapshot.children.forEach { item ->
+                        item.getValue<DataRates>()?.let {
+
+                            spinnerItems.add(it.name)
+                        }
+                }
+            }
+            override fun onCancelled(error: DatabaseError) {
+                TODO("Not yet implemented")
+            }
+        })
+
+        binding.spinnerBooking.adapter = spinnerItems
+    }
+
+    private fun showTimePickerDialog() {
+        var timePicker: TimePickerFragment
+
+        timePicker = TimePickerFragment {
+            binding.etHoraReserva.setText(it)
+        }
+
+        timePicker.show(childFragmentManager, "time")
+
     }
 
     private fun showDatePickerDialog() {
@@ -71,11 +132,9 @@ class ConfigBookingFragment : Fragment() {
     private fun loadUser() {
 
         database2 = FirebaseDatabase.getInstance().getReference("AllUsers/${auth.currentUser!!.uid}/userDates/reserva")
-        database2.child("idempresa").get().addOnSuccessListener {
+        database2.child(args.idBooking).get().addOnSuccessListener {
 
             if (it.exists()){
-
-                binding.etName.setText(it.child("nom_business").value.toString())
                 binding.etNomReserva.setText(it.child("nom_reserva").value.toString())
                 binding.etNumPersonas.setText(it.child("num_personas").value.toString())
                 binding.etDataReserva.setText(it.child("fecha").value.toString())
@@ -91,30 +150,94 @@ class ConfigBookingFragment : Fragment() {
     }
 
     private fun updateUser(){
+        val c: Calendar = Calendar.getInstance()
+        val sdf = SimpleDateFormat("yyyyMMddHHmmss")
+        val strDate: String = sdf.format(c.getTime())
+        val idBooking = args.idBooking + strDate
 
         val user = mapOf<String,String>(
-            "nom_business"                to viewModel.nomEmpresa.value!!,
             "nom_reserva"                       to viewModel.nomReserva.value!!,
             "num_personas"                   to viewModel.nPersonas.value!!,
             "fecha"                      to viewModel.dataReserva.value!!,
             "hora"                      to viewModel.horaReserva.value!!,
             "tipo_reserva"            to viewModel.tipoReserva.value!!,
-            "direccion"                    to viewModel.direccio.value!!,
-            "id_user"    to viewModel.idUser.value!!,
-            "id_empresa"    to viewModel.idEmpresa.value!!,
-            "confirmada"    to viewModel.confirmada.value!!.toString()
         )
         database2 = FirebaseDatabase.getInstance().getReference("AllUsers/${auth.currentUser!!.uid}/userDates/reservas")
 
-        database2.child("idempresa").updateChildren(user).addOnSuccessListener {
+        if(args.newBooking){
+            //id_booking = nombre usuario mas la fecha de la reserva
+            var booking = DataBooking(
+                args.nomBusiness,
+                viewModel.nomReserva.value.toString(),
+                viewModel.nPersonas.value.toString(),
+                viewModel.dataReserva.value.toString(),
+                viewModel.horaReserva.value.toString(),
+                viewModel.tipoReserva.value.toString(),
+                getDireccion(),
+                auth.currentUser!!.uid,
+                args.idBooking,
+                idBooking,
+                getTarifa(),
+                "false"
 
-            (activity as MainActivity).toastView("Successfuly Updated")
+            )
 
-        }.addOnFailureListener{
+            database2.child(args.idBooking).setValue(booking)
 
-            (activity as MainActivity).toastView("Failed Updated")
+            (activity as MainActivity).toastView("Successfuly Add")
 
+        }else{
+            database2.child(args.idBooking).updateChildren(user).addOnSuccessListener {
+
+                (activity as MainActivity).toastView("Successfuly Updated")
+
+            }.addOnFailureListener{
+
+                (activity as MainActivity).toastView("Failed")
+
+            }
         }
+
+    }
+
+    private fun getTarifa(): String {
+        var tarifa = ""
+
+        database2 = FirebaseDatabase.getInstance().getReference("AllBusiness/${args.idBooking}/rates")
+        database2.child(viewModel.tipoReserva.value.toString()).get().addOnSuccessListener {
+
+            if (it.exists()){
+
+                tarifa = it.child("price").value.toString()
+
+            }else{
+                (activity as MainActivity).toastView("User Doesn't Exist")
+            }
+        }.addOnFailureListener{
+            (activity as MainActivity).toastView("Failed")
+        }
+
+        return tarifa
+    }
+
+    private fun getDireccion(): String {
+        var direccion = ""
+
+        database2 = FirebaseDatabase.getInstance().getReference("AllBusiness/${args.idBooking}")
+        database2.child("businessDates").get().addOnSuccessListener {
+
+            if (it.exists()){
+
+                 direccion = it.child("direccion").value.toString()
+
+            }else{
+                (activity as MainActivity).toastView("User Doesn't Exist")
+            }
+        }.addOnFailureListener{
+            (activity as MainActivity).toastView("Failed")
+        }
+
+        return direccion
     }
 
     private fun restaurarDatos(){

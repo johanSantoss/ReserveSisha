@@ -26,7 +26,7 @@ class DataBookingViewHolder (view : View) : RecyclerView.ViewHolder(view) {
         binding.tvDireccioResContent.text   = item.direccion
 
         binding.tvEditBooking.setOnClickListener {
-            val action = ManageBookingFragmentDirections.actionManageBookingFragmentToConfigBookingFragment()
+            val action = ManageBookingFragmentDirections.actionManageBookingFragmentToConfigBookingFragment(item.id_booking, false, item.nom_business)
             it.findNavController().navigate(action)
         }
 

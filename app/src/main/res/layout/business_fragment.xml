@@ -39,6 +39,7 @@
         android:layout_width="match_parent"
         android:layout_height="48dp"
         android:layout_gravity="center"
+        android:backgroundTint="@color/buttonColor"
         android:text="@string/reservar"
         android:textSize="12sp"
         app:layout_constraintBottom_toBottomOf="parent"

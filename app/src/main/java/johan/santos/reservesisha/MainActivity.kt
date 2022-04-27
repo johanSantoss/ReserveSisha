@@ -43,9 +43,6 @@ class MainActivity : AppCompatActivity() {
 
         binding3 = NavBarAdminBinding.inflate(layoutInflater)
 
-
-
-
     }
 
     fun getPersonalID() : String{

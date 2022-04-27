@@ -202,6 +202,7 @@ class ConfigUsersFragment : Fragment() {
 
     private fun createAccount(email: String, password: String, rol: String) {
 
+
         // [START create_user_with_email]
         (activity as MainActivity).getAuth().createUserWithEmailAndPassword(email, password)
             .addOnCompleteListener(requireActivity()) { task ->

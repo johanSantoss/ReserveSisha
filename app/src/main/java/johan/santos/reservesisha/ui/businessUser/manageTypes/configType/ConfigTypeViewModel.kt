@@ -14,9 +14,9 @@ class ConfigTypeViewModel : ViewModel() {
     }
 
     // Suplemento
-    private val _suplemento = MutableLiveData<Int?>(null)
-    val suplemento : LiveData<Int?> get() = _suplemento
-    fun setSuplemento (estado : Int){
+    private val _suplemento = MutableLiveData<String>("")
+    val suplemento : LiveData<String> get() = _suplemento
+    fun setSuplemento (estado : String){
         _suplemento.value = estado
     }
 
