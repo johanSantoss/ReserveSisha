@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
@@ -30,7 +31,7 @@ class ManageBookingFragment : Fragment() {
     private lateinit var viewModel: ManageBookingViewModel
     private lateinit var binding : ManageBookingFragmentBinding
     private lateinit var database: FirebaseDatabase
-    var cif: String = ""
+    private lateinit var auth: FirebaseAuth
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -40,7 +41,7 @@ class ManageBookingFragment : Fragment() {
         binding = ManageBookingFragmentBinding.inflate(layoutInflater)
         viewModel = ViewModelProvider(this).get(ManageBookingViewModel::class.java)
 
-        cif = (activity as MainActivity).getPersonalID()
+        auth = (activity as MainActivity).getAuth()
 
         // cargar la lista de reservas
         reloadListBooking()
@@ -53,7 +54,7 @@ class ManageBookingFragment : Fragment() {
         viewModel.cleanListReservas()
 
         database = FirebaseDatabase.getInstance("https://reservesisha96-default-rtdb.europe-west1.firebasedatabase.app/")
-        val path = "AllBusiness/$cif/reservas"
+        val path = "AllUsers/${auth.currentUser!!.uid}/userDates/reservas"
         val myRef = database.getReference(path)
 
         myRef.addValueEventListener(object : ValueEventListener {
@@ -64,18 +65,18 @@ class ManageBookingFragment : Fragment() {
                 snapshot.children.forEach { item ->
                     item.getValue<DataBooking>()?.let {
                         val anyBooking = DataBooking(
-                            it?.nom_business.toString(),
-                            it?.nom_reserva.toString(),
-                            it?.num_personas.toString(),
-                            it?.fecha.toString(),
-                            it?.hora.toString(),
-                            it?.tipo_reserva.toString(),
-                            it?.direccion.toString(),
-                            it?.id_user.toString(),
-                            it?.id_empresa.toString(),
-                            it?.id_booking.toString(),
-                            it?.tarifa.toString(),
-                            it?.confirmada.toString()
+                            it.nom_business,
+                            it.nom_reserva,
+                            it.num_personas,
+                            it.fecha,
+                            it.hora,
+                            it.tipo_reserva,
+                            it.direccion,
+                            it.id_user,
+                            it.id_empresa,
+                            it.id_booking,
+                            it.tarifa,
+                            it.confirmada
                         )
                         viewModel.addValueReserva(anyBooking)
                     }
