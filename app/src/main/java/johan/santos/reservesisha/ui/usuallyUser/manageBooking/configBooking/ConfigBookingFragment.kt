@@ -7,6 +7,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
+import androidx.navigation.findNavController
+import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.navArgs
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
@@ -22,6 +24,7 @@ import johan.santos.reservesisha.ui.access.models.TimePickerFragment
 import johan.santos.reservesisha.ui.access.registre.DatePickerFragment
 import johan.santos.reservesisha.ui.businessUser.manageTypes.configType.ConfigTypeFragmentArgs
 import johan.santos.reservesisha.ui.usuallyUser.config.ConfigUserViewModel
+import johan.santos.reservesisha.ui.usuallyUser.manageBooking.ManageBookingFragmentDirections
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -201,6 +204,9 @@ class ConfigBookingFragment : Fragment() {
 
             (activity as MainActivity).toastView("Successfuly Add")
 
+            val action = ConfigBookingFragmentDirections.actionConfigBookingFragmentToBusinessFragment(args.idBooking)
+            NavHostFragment.findNavController(this).navigate(action)
+
         }else{
             database2.child(args.idBooking).updateChildren(user).addOnSuccessListener {
 
@@ -221,6 +227,10 @@ class ConfigBookingFragment : Fragment() {
                 (activity as MainActivity).toastView("Failed")
 
             }
+
+            val action = ConfigBookingFragmentDirections.actionConfigBookingFragmentToManageBookingFragment()
+            NavHostFragment.findNavController(this).navigate(action)
+
         }
 
     }
