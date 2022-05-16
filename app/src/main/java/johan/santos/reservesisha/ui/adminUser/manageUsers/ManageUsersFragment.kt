@@ -70,7 +70,6 @@ class ManageUsersFragment : Fragment() {
     }
 
     private fun reloadListUsers(){
-        viewModel.clearLlistaUSers()
 
         val myRef = database.getReference("AllUsers/")
 
@@ -78,6 +77,7 @@ class ManageUsersFragment : Fragment() {
             override fun onDataChange(snapshot: DataSnapshot) {
                 // This method is called once with the initial value and again
                 // whenever data at this location is updated.
+                viewModel.clearLlistaUSers()
                 snapshot.children.forEach { item ->
                     /*
                     item.children.forEach { valors ->

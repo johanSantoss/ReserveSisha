@@ -51,13 +51,14 @@ class BusinessMainFragment : Fragment() {
     }
 
     private fun reloadListBooking(){
-        viewModel.clearReservas()
+
         val myRef = database.getReference("AllBusiness/$cif/reservas")
 
         myRef.addValueEventListener(object: ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 // This method is called once with the initial value and again
                 // whenever data at this location is updated.
+                viewModel.clearReservas()
                 snapshot.children.forEach { item ->
                     item.getValue<DataBooking>()?.let {
                         val anyBooking = DataBooking(

@@ -54,7 +54,6 @@ class ManageRatesFragment : Fragment() {
     }
 
     private fun reloadListRates(){
-        viewModel.cleanListRate()
 
         database = FirebaseDatabase.getInstance("https://reservesisha96-default-rtdb.europe-west1.firebasedatabase.app/")
         val path = "AllBusiness/$cif/rates/"
@@ -64,7 +63,7 @@ class ManageRatesFragment : Fragment() {
             override fun onDataChange(snapshot: DataSnapshot) {
                 // This method is called once with the initial value and again
                 // whenever data at this location is updated.
-
+                viewModel.cleanListRate()
                 snapshot.children.forEach { item ->
                     item.getValue<DataRates>()?.let {
                         val anyRate = DataRates(
@@ -99,11 +98,6 @@ class ManageRatesFragment : Fragment() {
         database = FirebaseDatabase.getInstance("https://reservesisha96-default-rtdb.europe-west1.firebasedatabase.app/")
         val myRefDadesUser = database.getReference("AllBusiness/$cif/rates/${rateSelected.name}")
         myRefDadesUser.removeValue()
-
-
-        viewModel.delValueRate(rateSelected)
-        initRecyclerView()
-
     }
 
     private fun getListRates() : List<DataRates> {

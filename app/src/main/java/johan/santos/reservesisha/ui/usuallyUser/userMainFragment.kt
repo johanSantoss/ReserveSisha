@@ -46,7 +46,6 @@ class userMainFragment : Fragment() {
     }
     //----------------------------------------------------------------------------------------------------------------------------
     private fun reloadListBusiness(){
-        viewModel.clearListBusiness()
 
         val myRef = database.getReference("AllBusiness/")
 
@@ -54,6 +53,7 @@ class userMainFragment : Fragment() {
             override fun onDataChange(snapshot: DataSnapshot) {
                 // This method is called once with the initial value and again
                 // whenever data at this location is updated.
+                viewModel.clearListBusiness()
                 snapshot.children.forEach { item ->
                     item.child("businessDates").getValue<DataBusiness>()?.let {
                         val anyBusiness = DataBusiness(

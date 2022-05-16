@@ -51,8 +51,6 @@ class ManageBookingFragment : Fragment() {
 
     private fun reloadListBooking(){
 
-        viewModel.cleanListReservas()
-
         database = FirebaseDatabase.getInstance("https://reservesisha96-default-rtdb.europe-west1.firebasedatabase.app/")
         val path = "AllUsers/${auth.currentUser!!.uid}/userDates/reservas"
         val myRef = database.getReference(path)
@@ -61,7 +59,7 @@ class ManageBookingFragment : Fragment() {
             override fun onDataChange(snapshot: DataSnapshot) {
                 // This method is called once with the initial value and again
                 // whenever data at this location is updated.
-
+                viewModel.cleanListReservas()
                 snapshot.children.forEach { item ->
                     item.getValue<DataBooking>()?.let {
                         val anyBooking = DataBooking(

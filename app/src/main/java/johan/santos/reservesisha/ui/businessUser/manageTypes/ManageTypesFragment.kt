@@ -61,8 +61,6 @@ class ManageTypesFragment : Fragment() {
     //----------------------------------------------------------------------------------------------------------------------------
     private fun reloadListTypes() {
 
-        viewModel.cleanListTypes()
-
         database = FirebaseDatabase.getInstance("https://reservesisha96-default-rtdb.europe-west1.firebasedatabase.app/")
         val path = "AllBusiness/$cif/types/"
         val myRef = database.getReference(path)
@@ -71,6 +69,7 @@ class ManageTypesFragment : Fragment() {
             override fun onDataChange(snapshot: DataSnapshot) {
                 // This method is called once with the initial value and again
                 // whenever data at this location is updated.
+                viewModel.cleanListTypes()
 
             snapshot.children.forEach { item ->
                 item.getValue<DataType>()?.let {
@@ -109,10 +108,6 @@ class ManageTypesFragment : Fragment() {
             val myRefDadesUser = database.getReference("AllBusiness/$cif/types/${typeSelected.name}")
             myRefDadesUser.removeValue()
         }
-
-        viewModel.delValueType(typeSelected)
-        initRecyclerView()
-
     }
 
     private fun getListTypes(): List<DataType> {
