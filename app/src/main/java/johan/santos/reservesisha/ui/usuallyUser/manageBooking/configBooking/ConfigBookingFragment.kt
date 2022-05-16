@@ -292,7 +292,7 @@ class ConfigBookingFragment : Fragment() {
         viewModel.setNPersonas(binding.etNumPersonas.text.toString().trim())
         viewModel.setDataReserva(binding.etDataReserva.text.toString().trim())
         viewModel.setHoraReserva(binding.etHoraReserva.text.toString().trim())
-       // viewModel.setTipoReserva(binding.spinnerBooking.selectedItem.toString())
+        viewModel.setTipoReserva(binding.spinnerBooking.selectedItem.toString())
         //tipo reserva
 
         // indica que los datos sehan guardado y por lo tanto se han de restaurar
